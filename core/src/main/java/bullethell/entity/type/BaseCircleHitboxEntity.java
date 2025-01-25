@@ -3,6 +3,7 @@ package bullethell.entity.type;
 import bullethell.entity.trait.BaseEntity;
 import bullethell.entity.trait.CircleHitboxc;
 import com.badlogic.gdx.math.Circle;
+import com.badlogic.gdx.math.Rectangle;
 
 public abstract class BaseCircleHitboxEntity extends BaseEntity implements CircleHitboxc {
     protected Circle hitbox = new Circle();
@@ -32,5 +33,10 @@ public abstract class BaseCircleHitboxEntity extends BaseEntity implements Circl
     @Override
     public Circle hitbox() {
         return hitbox;
+    }
+
+    @Override
+    public boolean intersect(Rectangle rect) {
+        return rect.contains(hitbox);
     }
 }

@@ -29,7 +29,7 @@ public class Vars {
     public static void init() {
         setState(State.menu);
         entities = new Entities();
-        arena = new Arena(0, 0, 1200, 1200);
+        arena = new Arena(40, 40, 1000, 1000);
 
         players = entities.getGroup(Player.class);
         enemyBullets = entities.getGroup(Bullet.class);

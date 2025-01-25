@@ -1,20 +1,12 @@
-
 sprites.png
-size: 64, 64
-format: RGBA8888
-filter: Nearest, Nearest
-repeat: none
+size:2048,2048
+bg_red
+bounds:2,119,1024,1024
 circle50
-  rotate: false
-  xy: 2, 5
-  size: 50, 50
-  orig: 50, 50
-  offset: 0, 0
-  index: -1
+bounds:2,2,50,50
+libgdx
+bounds:2,54,378,63
+noiseTexture
+bounds:1028,887,256,256
 pixel
-  rotate: false
-  xy: 2, 2
-  size: 1, 1
-  orig: 1, 1
-  offset: 0, 0
-  index: -1
+bounds:382,116,1,1

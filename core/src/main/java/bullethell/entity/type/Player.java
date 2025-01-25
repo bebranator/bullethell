@@ -23,7 +23,7 @@ public class Player extends BaseCircleHitboxEntity {
     }
 
     public void death(Bullet target) {
-
+        Core.app.exit();
     }
 
     public void graze(Bullet target) {
@@ -41,7 +41,7 @@ public class Player extends BaseCircleHitboxEntity {
 //        tmp.set(x, y);
 
         velocity().set(x, y);
-        Collisions.collision(Vars.enemyBullets, this, this::death);
+        Collisions.circleWCircle(Vars.enemyBullets, this, this::death);
         Collisions.graze(this, this::graze);
     }
 
@@ -55,9 +55,11 @@ public class Player extends BaseCircleHitboxEntity {
     // collide with: fairies, bullets, special map object
     @Override
     public boolean collidesWith(Solidc other) {
-        if(other instanceof CircleHitboxc e) {
-            return this.hitbox.overlaps(e.hitbox());
-        }
-        return false;
+        // collides with everyone
+//        if(other instanceof CircleHitboxc e) {
+//            return this.hitbox.overlaps(e.hitbox());
+//        }
+//        return false;
+        return true;
     }
 }

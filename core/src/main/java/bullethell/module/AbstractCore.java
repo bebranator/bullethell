@@ -14,6 +14,13 @@ public abstract class AbstractCore implements ApplicationListener {
         modules = news;
     }
 
+    public void remove(int index) {
+        IModule[] news = new IModule[modules.length - 1];
+        modules[index].dispose();
+        System.arraycopy(modules, 0, news, 0, modules.length);
+        modules = news;
+    }
+
     public abstract void setup();
 
     @Override

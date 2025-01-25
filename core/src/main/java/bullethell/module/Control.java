@@ -4,12 +4,16 @@ import bullethell.core.Core;
 import bullethell.core.Vars;
 import bullethell.entity.type.Bullet;
 import bullethell.entity.type.Player;
+import bullethell.func.Cons;
 import bullethell.game.State;
 import bullethell.utils.Time;
+import bullethell.utils.Tmp;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.Vector2;
 
 import static bullethell.core.Vars.*;
+import static com.badlogic.gdx.math.MathUtils.sin;
 
 public class Control implements IModule {
     @Override
@@ -27,17 +31,29 @@ public class Control implements IModule {
             }
         }
     }
-    void spawn() {
-        Bullet bullet = Bullet.spawn((e) -> {
-            e.lifetime = 60 * 10;
-            e.setSize(12);
-            e.color = Color.BLUE;
-            e.velocity().set(1, 0);
+    Cons<Bullet> updater = (bullet) -> {
+        float time = bullet.time();
 
-            float x = player.getX() + 40;
-            float y = player.getY() + 40;
-            e.set(x, y);
-        });
+        bullet.velocity().rotateDeg(0.12f);
+        bullet.setSize(time * 0.2f);
+//            bullet.color.lerp(1, 0, 1, 1, time / bullet.lifetime());
+    };
+    void spawn() {
+        float px = player.getX();
+        float py = player.getY();
+
+        final int amount = 1000;
+        for(int i = 0; i < amount; i++){
+            int finalI = i;
+            Bullet.spawn((e) -> {
+                Vector2 b = Tmp.v21.set(0, 1).rotateDeg(finalI * 360f / amount);
+                e.velocity().set(b);
+                e.set(b.x * 40 + px, b.y * 40 + py);
+                e.color = Color.RED;
+                e.lifetime = 300;
+                e.updater = updater;
+            });
+        }
     }
 
     // switch state to gaming

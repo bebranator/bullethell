@@ -1,5 +1,7 @@
 package bullethell.game;
 
+import com.badlogic.gdx.math.MathUtils;
+
 public class Stats {
     public static int lives = 2;
     public static int tillNextLive = 5 * 10^6;
@@ -15,5 +17,11 @@ public class Stats {
         tillNextLive = 5 * 10^6;
         continues = 3;
         power = 0.f;
+    }
+    public static void score(int score) {
+        Stats.score += score;
+        tillNextLive = Math.max(tillNextLive - score, 0);
+
+        if(tillNextLive == 0) lives++;
     }
 }

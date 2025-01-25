@@ -12,19 +12,12 @@ import com.badlogic.gdx.tools.texturepacker.TexturePacker;
 /** Launches the headless application. Can be converted into a utilities project or a server application. */
 public class HeadlessLauncher {
     public static void main(String[] args) {
-        createApplication();
+//        createApplication();
 //        runPacker();
     }
 
     private static void runPacker() {
-        String inputPath = Gdx.files.internal("./assets-raw").path();
-        String outputPath;
-
-        Log.info(inputPath);
-
-//        TexturePacker.process("", "", "sprites.atlas");
     }
-
 
     private static Application createApplication() {
         // Note: you can use a custom ApplicationListener implementation for the headless project instead of Client.

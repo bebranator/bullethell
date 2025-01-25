@@ -3,6 +3,7 @@ package bullethell.core;
 import bullethell.graphics.CStage;
 import bullethell.module.*;
 import bullethell.utils.Time;
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -14,18 +15,20 @@ public final class Client extends AbstractCore {
     /** Default application size. */
     public static final int WIDTH = 1920, HEIGHT = 1080;
     public static final String TITLE = "One night at Bazarov build 126";
-
     @Override
     public void setup() {
-        Core.files = Gdx.files;
-        Core.stage = new CStage(new ExtendViewport(WIDTH, HEIGHT, new OrthographicCamera()), new SpriteBatch());
-        Core.batch = Core.stage.getBatch();
-        Core.camera = Core.stage.getCamera();
+//        Core.stage = new CStage(new ExtendViewport(WIDTH, HEIGHT, new OrthographicCamera()), new SpriteBatch());
+//        Core.batch = Core.stage.getBatch();
+//        Core.camera = Core.stage.getCamera();
         Core.input = Gdx.input;
         Core.files = Gdx.files;
         Core.graphics = Gdx.graphics;
         Core.app = Gdx.app;
         Core.assets = new Asset();
+        Core.stage = new CStage(new ExtendViewport(WIDTH, HEIGHT, new OrthographicCamera()), new SpriteBatch());
+        Core.batch = Core.stage.getBatch();
+        Core.camera = Core.stage.getCamera();
+
         Vars.init();
         Tex.init();
 

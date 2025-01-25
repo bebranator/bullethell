@@ -24,6 +24,8 @@ public class Bullet extends BaseCircleHitboxEntity implements Timec, Pool.Poolab
     public Circle grazeBox = new Circle();
     public Color color;
     public float lifetime;
+    public Cons<Bullet> updater = (e) -> {};
+    public Cons<Bullet> outOfBounds = (e) -> {};
     // collision enabler
     public boolean collision;
 
@@ -69,6 +71,8 @@ public class Bullet extends BaseCircleHitboxEntity implements Timec, Pool.Poolab
         time = 0;
         lifetime = 0;
         color = Color.WHITE;
+        updater = (e) -> {};
+        outOfBounds = (e) -> {};
         velocity().set(0, 0);
         set(0, 0);
         setSize(1);
@@ -79,13 +83,14 @@ public class Bullet extends BaseCircleHitboxEntity implements Timec, Pool.Poolab
     public void update() {
         super.update();
         updateTime();
+        updater.get(this);
     }
 
     @Override
     public void draw() {
         Draw.color(color);
         Fill.circle(getX(), getY(), getSize());
-        Draw.text(Fonts.kelly12, time() + "", getX(), getY());
+//        Draw.text(Fonts.kelly12, time() + "", getX(), getY());
         Draw.color();
     }
 
@@ -100,10 +105,12 @@ public class Bullet extends BaseCircleHitboxEntity implements Timec, Pool.Poolab
         bulletCounter--;
     }
 
+    // method for checking is we really should check for collisions with this object
     @Override
     public boolean collidesWith(Solidc other) {
-        // todo: collisions
-        return false;
+        // we should check collision with player entity
+        // on others fuck me
+        return other instanceof Player;
     }
 
     public static Bullet spawn(Cons<Bullet> cons) {

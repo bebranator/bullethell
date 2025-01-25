@@ -8,13 +8,14 @@ import com.badlogic.gdx.math.Rectangle;
 // todo: if player gets out of bounds: kill or push towards arena?
 public class Arena {
     public Rectangle world;
+    public Rectangle viewport;
 
     public Arena(float x, float y, float w, float h) {
         world = new Rectangle(x, y, w, h);
+        viewport = new Rectangle(x, y, w, h);
     }
 
     public void updatePlayer() {
-
     }
 
     public boolean outOfBounds(Arenac ent) {

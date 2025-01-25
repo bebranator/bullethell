@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.utils.Align;
 
 import static bullethell.core.Core.*;
@@ -52,6 +53,14 @@ public class Draw {
     }
     public static void color() {
         batch.setColor(Color.WHITE);
+    }
+
+    public static void proj(Matrix4 matrix) {
+        batch.setProjectionMatrix(matrix);
+    }
+
+    public static void proj() {
+        batch.setProjectionMatrix(camera.combined);
     }
 
     public static void fill() {
