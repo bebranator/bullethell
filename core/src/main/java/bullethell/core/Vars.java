@@ -7,6 +7,7 @@ import bullethell.entity.type.Bullet;
 import bullethell.entity.type.Player;
 import bullethell.game.Ev;
 import bullethell.game.State;
+import bullethell.game.dialog.DialogueManager;
 import bullethell.module.Asset;
 import bullethell.module.Control;
 import bullethell.module.Renderer;
@@ -26,10 +27,14 @@ public class Vars {
     // why we do other group for player lmao
     public static Player player;
 
+    public static DialogueManager dialogue;
+
     public static void init() {
         setState(State.menu);
         entities = new Entities();
         arena = new Arena(40, 40, 1000, 1000);
+
+        dialogue = new DialogueManager();
 
         players = entities.getGroup(Player.class);
         enemyBullets = entities.getGroup(Bullet.class);

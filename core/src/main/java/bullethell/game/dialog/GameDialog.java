@@ -1,6 +1,7 @@
 package bullethell.game.dialog;
 
 import bullethell.func.Cons;
+import com.badlogic.gdx.utils.Array;
 
 /*
 example of dialog:
@@ -23,6 +24,11 @@ static GameDialog dial_stage_4 = GameDialog.begin(builder -> {
 });
  */
 public class GameDialog {
+    private Array<GameDialogEntry> entries;
+    public GameDialog(Array<GameDialogEntry> entries) {
+        this.entries = entries;
+    }
+
     public static GameDialog begin(Cons<GameDialogBuilder> builderCons) {
         return new GameDialogBuilder().get(builderCons).build();
     }

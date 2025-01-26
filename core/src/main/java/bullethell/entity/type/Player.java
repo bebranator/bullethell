@@ -2,6 +2,7 @@ package bullethell.entity.type;
 
 import bullethell.core.Core;
 import bullethell.core.Vars;
+import bullethell.entity.Arena;
 import bullethell.entity.Collisions;
 import bullethell.entity.EntityGroup;
 import bullethell.entity.trait.CircleHitboxc;
@@ -9,6 +10,7 @@ import bullethell.entity.trait.Solidc;
 import bullethell.graphics.Draw;
 import bullethell.graphics.Fill;
 import bullethell.module.Fonts;
+import bullethell.utils.Tmp;
 
 import static bullethell.module.Bindings.*;
 
@@ -29,18 +31,28 @@ public class Player extends BaseCircleHitboxEntity {
     public void graze(Bullet target) {
 
     }
+    Arena arena = Vars.arena;
 
     @Override
     public void update() {
         super.update();
 
-        // todo: collision detection
+        // horizontal is faster. this is intended
         float x = axis(moveLeft, moveRight) * 3;
         float y = axis(moveDown, moveUp) * 3;
 
-//        tmp.set(x, y);
+        //todo: collision with arena
+        Tmp.v21.set(getX(), getY()).add(x, y);
+        if(!arena.viewport.contains(Tmp.v21)) {
+            // todo: figure out in which direction
+            // restrict movement
 
+        }
         velocity().set(x, y);
+
+        // check if we about to hit arena bounds
+
+
         Collisions.circleWCircle(Vars.enemyBullets, this, this::death);
         Collisions.graze(this, this::graze);
     }

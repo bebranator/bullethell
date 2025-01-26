@@ -6,6 +6,7 @@ import bullethell.entity.type.Bullet;
 import bullethell.entity.type.Player;
 import bullethell.func.Cons;
 import bullethell.game.State;
+import bullethell.game.dialog.GameDialog;
 import bullethell.utils.Time;
 import bullethell.utils.Tmp;
 import com.badlogic.gdx.Input;
@@ -13,7 +14,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 
 import static bullethell.core.Vars.*;
-import static com.badlogic.gdx.math.MathUtils.sin;
 
 public class Control implements IModule {
     @Override
@@ -61,5 +61,9 @@ public class Control implements IModule {
         player.set(100, 100);
 
         Vars.setState(State.inGame);
+    }
+
+    public void startDialogue(GameDialog dialogue) {
+
     }
 }

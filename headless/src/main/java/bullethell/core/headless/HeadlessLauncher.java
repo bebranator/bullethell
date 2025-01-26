@@ -1,13 +1,9 @@
 package bullethell.core.headless;
 
-import bullethell.core.Core;
-import bullethell.core.Log;
 import com.badlogic.gdx.Application;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.headless.HeadlessApplication;
 import com.badlogic.gdx.backends.headless.HeadlessApplicationConfiguration;
 import bullethell.core.Client;
-import com.badlogic.gdx.tools.texturepacker.TexturePacker;
 
 /** Launches the headless application. Can be converted into a utilities project or a server application. */
 public class HeadlessLauncher {

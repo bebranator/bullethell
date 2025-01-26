@@ -1,14 +1,15 @@
 package bullethell.core;
 
 import bullethell.graphics.CStage;
+import bullethell.log.DefaultLoggerProvider;
+import bullethell.log.Log;
 import bullethell.module.*;
-import bullethell.utils.Time;
-import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.tools.texturepacker.TexturePacker;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
+
+import java.util.logging.Logger;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public final class Client extends AbstractCore {
@@ -33,6 +34,8 @@ public final class Client extends AbstractCore {
         Tex.init();
 
         Core.input.setInputProcessor(Core.stage);
+
+        Log.setLogger(new DefaultLoggerProvider());
 
 //        Vars.assets = new Asset();
 //        Vars.assets.load();

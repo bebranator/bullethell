@@ -1,4 +1,4 @@
-package bullethell.game;
+package bullethell.game.spell;
 
 /*
 Contains information about how stuff should behave

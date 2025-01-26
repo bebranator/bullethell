@@ -1,6 +1,5 @@
 apply plugin: 'application'
 
-
 java.sourceCompatibility = 17
 java.targetCompatibility = 17
 if (JavaVersion.current().isJava9Compatible()) {

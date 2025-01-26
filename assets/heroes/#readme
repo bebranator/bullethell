@@ -1,0 +1,9 @@
+files starting with "#" should be ignored.
+
+every not ignored file should have .json extension, or no parsing
+first entry must be "hero_name"
+
+KEYS:
+
+"hero.X.name" - Internal name and in case no name is present in bundle
+"hero.X.description" - In case no description is present in bundle

@@ -4,4 +4,5 @@
 include 'lwjgl3', 'core', 'headless'
 include 'test'
 include 'tests'
+include 'tests'
 
