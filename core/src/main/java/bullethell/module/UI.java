@@ -7,6 +7,7 @@ import bullethell.graphics.CLabel;
 import bullethell.graphics.CStage;
 import bullethell.graphics.CWidgetGroup;
 import bullethell.ui.MenuFragment;
+import bullethell.ui.UIFragment;
 import bullethell.ui.dialog.PauseDialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
@@ -16,6 +17,7 @@ public class UI implements IModule {
     public CWidgetGroup menuGroup, uiGroup, gameGroup;
 
     public MenuFragment menuFragment;
+    public UIFragment uiFragment;
 
     public PauseDialog pauseDialog;
 
@@ -41,6 +43,9 @@ public class UI implements IModule {
 
         menuFragment = new MenuFragment();
         menuFragment.build(menuGroup);
+
+        uiFragment = new UIFragment();
+        uiFragment.build(uiGroup);
 
         stage.add(menuGroup, uiGroup, gameGroup);
     }

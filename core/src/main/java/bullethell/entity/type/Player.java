@@ -11,17 +11,33 @@ import bullethell.graphics.Draw;
 import bullethell.graphics.Fill;
 import bullethell.module.Fonts;
 import bullethell.utils.Tmp;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.math.MathUtils;
 
 import static bullethell.module.Bindings.*;
+import static bullethell.core.Vars.*;
 
 public class Player extends BaseCircleHitboxEntity {
+
+    @Override
+    public void setY(float y) {
+        y = MathUtils.clamp(y, arena.world.y + getSize() * .5f, arena.world.height + getSize());
+        super.setY(y);
+    }
+
+    @Override
+    public void setX(float x) {
+        x = MathUtils.clamp(x, arena.world.x + getSize() * .5f, arena.world.width + getSize());
+        super.setX(x);
+    }
+
     @Override
     public EntityGroup targetGroup() {
         return Vars.players;
     }
 
     public Player() {
-        setSize(16);
+        setSize(6);
     }
 
     public void death(Bullet target) {
@@ -31,36 +47,37 @@ public class Player extends BaseCircleHitboxEntity {
     public void graze(Bullet target) {
 
     }
-    Arena arena = Vars.arena;
 
     @Override
     public void update() {
         super.update();
-
-        // horizontal is faster. this is intended
-        float x = axis(moveLeft, moveRight) * 3;
-        float y = axis(moveDown, moveUp) * 3;
-
-        //todo: collision with arena
-        Tmp.v21.set(getX(), getY()).add(x, y);
-        if(!arena.viewport.contains(Tmp.v21)) {
-            // todo: figure out in which direction
-            // restrict movement
-
-        }
-        velocity().set(x, y);
-
-        // check if we about to hit arena bounds
-
-
         Collisions.circleWCircle(Vars.enemyBullets, this, this::death);
         Collisions.graze(this, this::graze);
+
+        // horizontal is faster. this is intended
+        float x = axis(moveLeft, moveRight) * 6;
+        float y = axis(moveDown, moveUp) * 6;
+
+        //todo: collision with arena
+//        Tmp.c1.set(getX() + x, getY() + y, getSize());
+//
+//        if(!arena.viewport.contains(Tmp.c1)) {
+//            // todo: figure out in which direction
+//            // restrict movement
+//            velocity().set(0, 0);
+//        }else {
+            velocity().set(x, y).scl(Core.input.isKeyPressed(Input.Keys.SHIFT_LEFT) ? .33f : 1);
+//        }
+
+        // check if we about to hit arena bounds
     }
 
     @Override
     public void draw() {
         Draw.color();
+        Fill.filled();
         Fill.circle(getX(), getY(), getSize());
+        Fill.line();
         Draw.text(Fonts.kelly12, "x=" + getX() + "; y=" + getY(), getX(), getY());
     }
 

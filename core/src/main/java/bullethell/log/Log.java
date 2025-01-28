@@ -13,13 +13,18 @@ public class Log {
     public static void info(String msg) {
         logger.log("INFO", msg);
     }
+    public static void info(Object object) {
+        logger.log("INFO", object.toString());
+    }
     public static void error(String prefix, String string) {
         logger.error(prefix, string);
     }
     public static void error(String prefix, String string, Throwable threw) {
         logger.error(prefix, string, threw);
     }
-
+    public static void setup() {
+        setLogger(new DefaultLoggerProvider());
+    }
     // to call print functions
     public static void setLogger(LogProvider provider) {
         logger = provider;

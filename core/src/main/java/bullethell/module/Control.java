@@ -39,8 +39,15 @@ public class Control implements IModule {
 //            bullet.color.lerp(1, 0, 1, 1, time / bullet.lifetime());
     };
     void spawn() {
+
         float px = player.getX();
         float py = player.getY();
+//        arena.world.x = px;
+//        arena.world.width = px + 1000;
+//        arena.world.y = py;
+//        arena.viewport.x = px;
+//        arena.viewport.width = px + 1000;
+//        arena.viewport.y = py;
 
         final int amount = 1000;
         for(int i = 0; i < amount; i++){
@@ -48,7 +55,7 @@ public class Control implements IModule {
             Bullet.spawn((e) -> {
                 Vector2 b = Tmp.v21.set(0, 1).rotateDeg(finalI * 360f / amount);
                 e.velocity().set(b);
-                e.set(b.x * 40 + px, b.y * 40 + py);
+                e.set(b.x * 70 + px, b.y * 70 + py);
                 e.color = Color.RED;
                 e.lifetime = 300;
                 e.updater = updater;

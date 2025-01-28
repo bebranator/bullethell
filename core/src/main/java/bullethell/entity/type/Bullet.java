@@ -11,6 +11,7 @@ import bullethell.graphics.Fill;
 import bullethell.module.Fonts;
 import bullethell.utils.CPools;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.utils.Pool;
 
@@ -89,8 +90,9 @@ public class Bullet extends BaseCircleHitboxEntity implements Timec, Pool.Poolab
     @Override
     public void draw() {
         Draw.color(color);
+        Fill.filled();
         Fill.circle(getX(), getY(), getSize());
-//        Draw.text(Fonts.kelly12, time() + "", getX(), getY());
+        Fill.line();
         Draw.color();
     }
 

@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Matrix4;
@@ -15,8 +16,10 @@ import com.badlogic.gdx.utils.Align;
 import static bullethell.core.Core.*;
 
 public class Draw {
+    public static int textModeCalls = 0;
     public static TextureRegion white = Core.assets.findRegion("pixel"),
         circle = Core.assets.findRegion("circle50");
+    private static boolean textMode = false;
 
     private static final float[] vertices = new float[6 * 4];
 
@@ -35,6 +38,10 @@ public class Draw {
 
         nextBatch.flush();
         batch = prev;
+    }
+
+    public static void fbo(FrameBuffer buffer) {
+        fill(buffer.getColorBufferTexture(), camera.position.x, camera.position.y, camera.viewportWidth, camera.viewportHeight);
     }
 
     public static void shader(ShaderProgram program) {
@@ -89,8 +96,29 @@ public class Draw {
         batch.draw(t, x, y, width, height);
     }
 
+    // trying solution
+    public static void textMode() {
+        if(textMode) throw new IllegalStateException("Already running text modo!");
+        textMode = true;
+
+        batch.flush();
+        batch.end();
+        batch.begin();
+
+        textModeCalls++;
+    }
+
+    public static void textEnd() {
+        if(!textMode) throw new IllegalStateException("Didn't drawn any of text!");
+        textMode = false;
+
+        batch.end();
+        batch.begin();
+    }
+
     public static void text(BitmapFont font, String text, float x, float y) {
         font.draw(batch, text, x, y, 0f, Align.center, false);
+//        font.draw()
     }
 
     public static void quad(TextureRegion region, float x1, float y1, float c1, float x2, float y2, float c2, float x3, float y3, float c3, float x4, float y4, float c4){

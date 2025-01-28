@@ -1,5 +1,6 @@
 package bullethell.module;
 
+import bullethell.core.Client;
 import bullethell.core.Core;
 import bullethell.core.Vars;
 import bullethell.entity.type.Bullet;
@@ -12,7 +13,9 @@ import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g3d.Shader;
+import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
@@ -23,6 +26,7 @@ import static bullethell.core.Vars.*;
 public class Renderer implements IModule {
     ShaderProgram test;
     Texture e, noise, libgdx;
+    FrameBuffer buff;
 
     public Renderer() {
         test = new ShaderProgram(Core.files.internal("shaders/default.vert.glsl"), Core.files.internal("shaders/taiseiblackhole.frag.glsl"));
@@ -42,6 +46,7 @@ public class Renderer implements IModule {
         test.setUniformf("u_resolution", new Vector2(Core.graphics.getWidth(), Core.graphics.getHeight()));
 //        test.setUniformf("u_timemod", 1 / 240f);
         Core.graphics.getGL20().glActiveTexture(GL20.GL_TEXTURE0);
+        buff = new FrameBuffer(Pixmap.Format.RGBA8888, Client.WIDTH * 2, Client.HEIGHT * 2, true);
     }
 
 
@@ -52,18 +57,29 @@ public class Renderer implements IModule {
     public void render() {
         ScreenUtils.clear(Color.BLACK);
         Batch batch = Core.batch;
+        ShapeRenderer shapes = Fill.shapes;
         batch.begin();
+        shapes.begin(ShapeRenderer.ShapeType.Line);
+        shapes.setAutoShapeType(true);
+//        buff.begin();
 
         if(menu()) drawMenuBg();
 
         if(inGame() || paused()) {
             player.draw();
             enemyBullets.draw();
-            Draw.text(Fonts.kelly24Outline, "alive bullets: " + Bullet.bulletCounter, 600, 600);
-            Draw.text(Fonts.kelly24Outline, "pooled: " + CPools.get(Bullet.class, Bullet::new).getFree(), 600, 640);
-            Draw.text(Fonts.kelly24Outline, "memory: " + Runtime.getRuntime().freeMemory(), 600, 680);
+            Draw.color(1, 1, 1, 1f);
+            Draw.textMode();
+            Draw.text(Fonts.kelly24Outline, "alive bullets: " + Bullet.bulletCounter, 100, 100);
+            Draw.text(Fonts.kelly24Outline, "pooled: " + CPools.get(Bullet.class, Bullet::new).getFree(), 100, 140);
+            Draw.textEnd();
             Fill.rect(arena.viewport.x, arena.viewport.y, arena.viewport.width, arena.viewport.height);
+            Draw.color();
         }
+//        buff.end();
+//        Draw.fbo(buff);
+
+        shapes.end();
         batch.end();
     }
 
@@ -82,7 +98,7 @@ public class Renderer implements IModule {
         Draw.fill(e, 0, 0, Core.camera.viewportWidth, Core.camera.viewportHeight);
         Draw.shader();
 
-        Fill.circle(mouse.x, mouse.y, 64);
+        Fill.circle(mouse.x, Core.graphics.getHeight() - mouse.y - 1, 64);
         Core.graphics.getGL20().glActiveTexture(GL20.GL_TEXTURE0);
     }
 }

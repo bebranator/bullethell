@@ -10,7 +10,7 @@ public class Bindings {
 
     public static int moveUp = W, moveDown = S, moveLeft = A, moveRight = D;
 
-    public static float axis(int k1, int k2) {
+    public static int axis(int k1, int k2) {
         boolean a = Core.input.isKeyPressed(k1);
         boolean b = Core.input.isKeyPressed(k2);
 
