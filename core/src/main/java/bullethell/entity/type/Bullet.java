@@ -93,6 +93,7 @@ public class Bullet extends BaseCircleHitboxEntity implements Timec, Pool.Poolab
         Fill.filled();
         Fill.circle(getX(), getY(), getSize());
         Fill.line();
+//        Fill.circleTex(getX(), getY(), getSize());
         Draw.color();
     }
 

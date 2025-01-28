@@ -7,22 +7,22 @@ public class DefaultLoggerProvider implements Log.LogProvider {
     static Logger log = Logger.getLogger("app");
 
     @Override
-    public void log(String prefix, String string) {
+    public void log(String string) {
         log.log(Level.INFO, string);
     }
 
     @Override
-    public void log(String prefix, String string, Object... objects) {
+    public void log(String string, Object... objects) {
         log.log(Level.INFO, string, objects);
     }
 
     @Override
-    public void error(String prefix, String string) {
+    public void error(String string) {
         log.log(Level.SEVERE, string);
     }
 
     @Override
-    public void error(String prefix, String string, Throwable threw) {
+    public void error(String string, Throwable threw) {
         log.log(Level.SEVERE, string, threw);
     }
 }

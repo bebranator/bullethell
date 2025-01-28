@@ -26,7 +26,6 @@ import static bullethell.core.Vars.*;
 public class Renderer implements IModule {
     ShaderProgram test;
     Texture e, noise, libgdx;
-    FrameBuffer buff;
 
     public Renderer() {
         test = new ShaderProgram(Core.files.internal("shaders/default.vert.glsl"), Core.files.internal("shaders/taiseiblackhole.frag.glsl"));
@@ -43,25 +42,24 @@ public class Renderer implements IModule {
         test.setUniformi("u_texture", 0);
         test.setUniformi("u_texture0", 1);
         test.setUniformi("u_blend_mask", 2);
-        test.setUniformf("u_resolution", new Vector2(Core.graphics.getWidth(), Core.graphics.getHeight()));
+        test.setUniformf("u_resolution", new Vector2(Client.WIDTH, Client.HEIGHT));
 //        test.setUniformf("u_timemod", 1 / 240f);
         Core.graphics.getGL20().glActiveTexture(GL20.GL_TEXTURE0);
-        buff = new FrameBuffer(Pixmap.Format.RGBA8888, Client.WIDTH * 2, Client.HEIGHT * 2, true);
     }
-
 
     final Vector2 mouse = new Vector2(0, 0);
     final Vector2 bg_translation = new Vector2();
     // do test shaders
     @Override
     public void render() {
-        ScreenUtils.clear(Color.BLACK);
+        Core.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
         Batch batch = Core.batch;
         ShapeRenderer shapes = Fill.shapes;
+        shapes.setProjectionMatrix(Core.camera.combined);
         batch.begin();
         shapes.begin(ShapeRenderer.ShapeType.Line);
         shapes.setAutoShapeType(true);
-//        buff.begin();
 
         if(menu()) drawMenuBg();
 
@@ -76,9 +74,6 @@ public class Renderer implements IModule {
             Fill.rect(arena.viewport.x, arena.viewport.y, arena.viewport.width, arena.viewport.height);
             Draw.color();
         }
-//        buff.end();
-//        Draw.fbo(buff);
-
         shapes.end();
         batch.end();
     }
@@ -98,7 +93,6 @@ public class Renderer implements IModule {
         Draw.fill(e, 0, 0, Core.camera.viewportWidth, Core.camera.viewportHeight);
         Draw.shader();
 
-        Fill.circle(mouse.x, Core.graphics.getHeight() - mouse.y - 1, 64);
         Core.graphics.getGL20().glActiveTexture(GL20.GL_TEXTURE0);
     }
 }

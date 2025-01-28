@@ -11,6 +11,10 @@ public class Fill {
     public static void circle(float x, float y, float radius) {
         shapes.circle(x, y, radius);
     }
+
+    public static void circleTex(float x, float y, float radius) {
+        Draw.fill(Draw.circle, x - radius / 2, y - radius / 2, radius * 2, radius * 2);
+    }
     /*
       public static void fillEllipse(Batch batch, float x, float y, float width, float height) {
         drawScaled(batch, circle50, x - width / 2.0F, y - height / 2.0F, width / 50.0F, height / 50.0F);

@@ -15,9 +15,6 @@ public class Arena {
         viewport = new Rectangle(x, y, w, h);
     }
 
-    public void updatePlayer() {
-    }
-
     public boolean outOfBounds(Arenac ent) {
         // if not solid: just check coordinates
 

@@ -12,6 +12,7 @@ import bullethell.module.Asset;
 import bullethell.module.Control;
 import bullethell.module.Renderer;
 import bullethell.module.UI;
+import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
 
 public class Vars {
     private static State state;
@@ -32,7 +33,7 @@ public class Vars {
     public static void init() {
         setState(State.menu);
         entities = new Entities();
-        arena = new Arena(40, 40, 1000, 1000);
+        arena = new Arena(40, 40, Client.WIDTH / 1.5f - 80, Client.HEIGHT - 80f);
 
         dialogue = new DialogueManager();
 

@@ -21,13 +21,13 @@ public class Player extends BaseCircleHitboxEntity {
 
     @Override
     public void setY(float y) {
-        y = MathUtils.clamp(y, arena.world.y + getSize() * .5f, arena.world.height + getSize());
+        y = MathUtils.clamp(y, arena.world.y + getSize(), arena.world.y + arena.world.height - getSize());
         super.setY(y);
     }
 
     @Override
     public void setX(float x) {
-        x = MathUtils.clamp(x, arena.world.x + getSize() * .5f, arena.world.width + getSize());
+        x = MathUtils.clamp(x, arena.world.x + getSize(), arena.world.x + arena.world.width - getSize());
         super.setX(x);
     }
 
@@ -78,7 +78,9 @@ public class Player extends BaseCircleHitboxEntity {
         Fill.filled();
         Fill.circle(getX(), getY(), getSize());
         Fill.line();
+        Draw.textMode();
         Draw.text(Fonts.kelly12, "x=" + getX() + "; y=" + getY(), getX(), getY());
+        Draw.textEnd();
     }
 
     // collide with: fairies, bullets, special map object

@@ -4,23 +4,20 @@ package bullethell.log;
 public class Log {
     private static LogProvider logger;
 
-    public static void log(String prefix, String msg, Object... objects) {
-        logger.log(prefix, msg, objects);
-    }
-    public static void info(String prefix, String msg) {
-        logger.log(prefix, msg);
+    public static void log(String msg, Object... objects) {
+        logger.log(msg, objects);
     }
     public static void info(String msg) {
-        logger.log("INFO", msg);
+        logger.log(msg);
     }
     public static void info(Object object) {
-        logger.log("INFO", object.toString());
+        logger.log(object.toString());
     }
     public static void error(String prefix, String string) {
-        logger.error(prefix, string);
+        logger.error(string);
     }
     public static void error(String prefix, String string, Throwable threw) {
-        logger.error(prefix, string, threw);
+        logger.error(string, threw);
     }
     public static void setup() {
         setLogger(new DefaultLoggerProvider());
@@ -31,10 +28,10 @@ public class Log {
     }
 
     interface LogProvider {
-        void log(String prefix, String string);
-        void log(String prefix, String string, Object... objects);
+        void log(String string);
+        void log(String string, Object... objects);
 
-        void error(String prefix, String string);
-        void error(String prefix, String string, Throwable threw);
+        void error(String string);
+        void error(String string, Throwable threw);
     }
 }

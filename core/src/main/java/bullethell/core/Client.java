@@ -4,9 +4,11 @@ import bullethell.graphics.CStage;
 import bullethell.log.DefaultLoggerProvider;
 import bullethell.log.Log;
 import bullethell.module.*;
+import bullethell.utils.Time;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import static bullethell.core.Core.*;
@@ -14,7 +16,7 @@ import static bullethell.core.Core.*;
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public final class Client extends AbstractCore {
     /** Default application size. */
-    public static final int WIDTH = 800, HEIGHT = 600;
+    public static final int WIDTH = 1200, HEIGHT = 900;
     public static final String TITLE = "One night at Bazarov build 146";
     @Override
     public void setup() {
@@ -22,14 +24,16 @@ public final class Client extends AbstractCore {
 //        Core.batch = Core.stage.getBatch();
 //        Core.camera = Core.stage.getCamera();
         Log.setup();
+        gl20 = Gdx.gl20;
         input = Gdx.input;
         files = Gdx.files;
         graphics = Gdx.graphics;
         app = Gdx.app;
         assets = new Asset();
         batch = new SpriteBatch();
-        camera = new OrthographicCamera();
+        camera = new OrthographicCamera(WIDTH, HEIGHT);
         stage = new CStage(new FitViewport(WIDTH, HEIGHT, camera), batch);
+        camera.position.set(WIDTH * .5f, HEIGHT * .5f, 0);
 
         Vars.init();
         Tex.init();
@@ -43,6 +47,11 @@ public final class Client extends AbstractCore {
         add(Vars.renderer = new Renderer());
         add(Vars.ui = new UI());
         add(Vars.control = new Control());
+    }
+
+    @Override
+    public void render() {
+        super.render();
     }
 
     @Override
