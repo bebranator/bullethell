@@ -4,6 +4,7 @@ import bullethell.entity.Arena;
 import bullethell.entity.Entities;
 import bullethell.entity.EntityGroup;
 import bullethell.entity.type.Bullet;
+import bullethell.entity.type.Laser;
 import bullethell.entity.type.Player;
 import bullethell.entity.type.PlayerBullet;
 import bullethell.game.Ev;
@@ -27,6 +28,7 @@ public class Vars {
     public static EntityGroup<Bullet> enemyBullets;
     public static EntityGroup<PlayerBullet> playerBullets;
     public static EntityGroup<Player> playerGroup;
+    public static EntityGroup<Laser> lasers;
     // why we do other group for player lmao
     public static Player player;
 
@@ -44,6 +46,7 @@ public class Vars {
         enemyBullets = entities.getGroup(Bullet.class);
         playerBullets = entities.getGroup(PlayerBullet.class);
         playerGroup = entities.getGroup(Player.class);
+        lasers = entities.getGroup(Laser.class);
         player = new Player();
         player.add();
     }

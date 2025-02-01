@@ -100,14 +100,6 @@ public class Bullet extends BaseCircleHitboxEntity implements Timec, Pool.Poolab
         bulletCounter--;
     }
 
-    // method for checking is we really should check for collisions with this object
-    @Override
-    public boolean collidesWith(Solidc other) {
-        // we should check collision with player entity
-        // on others fuck me
-        return other instanceof Player;
-    }
-
     public static Bullet spawn(Cons<Bullet> cons) {
         Bullet bullet = CPools.obtain(Bullet.class, Bullet::new);
 

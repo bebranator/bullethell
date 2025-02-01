@@ -5,11 +5,9 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.utils.Align;
 
@@ -83,6 +81,18 @@ public class Draw {
     }
     public static void fill(Texture region, float x, float y, float w, float h) {
         batch.draw(region, x, y, w, h);
+    }
+
+    /*
+    draw (TextureRegion region, float x, float y, float originX, float originY, float width,
+        float height, float scaleX, float scaleY, float rotation)
+     */
+    public static void fill(TextureRegion region, float x, float y, float w, float h, float rotationRadian) {
+        batch.draw(region, x, y, 0, 0, w, h, 1, 1, rotationRadian);
+    }
+
+    public static void fill(float x, float y, float w, float h, float rotationRadian) {
+        batch.draw(white, x, y, 0, 0, w, h, 1, 1, rotationRadian);
     }
 
     // todo: fix circle draw

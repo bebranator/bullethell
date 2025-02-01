@@ -2,12 +2,9 @@ package bullethell.entity;
 
 import bullethell.core.Vars;
 import bullethell.entity.trait.CircleHitboxc;
-import bullethell.entity.trait.Solidc;
-import bullethell.entity.type.Bullet;
-import bullethell.entity.type.Player;
+import bullethell.entity.type.Laser;
 import bullethell.func.Cons;
 import com.badlogic.gdx.math.Circle;
-import com.badlogic.gdx.math.Intersector;
 
 public class Collisions {
     static Circle tmp;
@@ -21,5 +18,13 @@ public class Collisions {
                 break;
             }
         };
+    }
+
+    // do collision with laser
+    // were some problems with name "LaserEntity"
+    public static void playerLaser(CircleHitboxc player, Cons<Laser> collision) {
+        Vars.lasers.forEach(e -> {
+            if(e.hitbox.circleCollision(player.hitbox())) collision.get(e);
+        });
     }
 }

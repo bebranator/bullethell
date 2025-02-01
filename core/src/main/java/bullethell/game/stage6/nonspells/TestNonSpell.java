@@ -2,6 +2,7 @@ package bullethell.game.stage6.nonspells;
 
 import bullethell.content.Bullets;
 import bullethell.entity.type.Bullet;
+import bullethell.entity.type.Laser;
 import bullethell.func.Cons;
 import bullethell.game.Attack;
 import bullethell.log.Log;
@@ -15,7 +16,7 @@ public class TestNonSpell extends Attack {
     private Interval bulletSpawn = new Interval(1);
 
     public TestNonSpell() {
-        this.lifetime = 600;
+        this.lifetime = 100;
     }
 
     Cons<Bullet> updater = (bullet) -> {
@@ -43,7 +44,7 @@ public class TestNonSpell extends Attack {
 
     final int amount = 18;
     public void spawnBullet(float b) {
-        float rand_angle = random() * 24;
+        float rand_angle = random() * 360;
         // launch 8 small bullets
         for(int i = 0; i < amount; i++) {
             int finalI = i;
@@ -52,9 +53,16 @@ public class TestNonSpell extends Attack {
                 y.setSize(2);
                 y.drawSize = 12;
                 y.velocity().set(cosDeg(finalI * 360f/amount + rand_angle) * 4, sinDeg(finalI * 360f/amount + rand_angle) * 4);
-                y.lifetime = 300;
+                y.lifetime = 600;
                 y.type = Bullets.testBullet;
             });
         }
+    }
+
+    @Override
+    public void end() {
+        Laser laser = Laser.spawn(e -> {
+            e.rotate(16);
+        });
     }
 }

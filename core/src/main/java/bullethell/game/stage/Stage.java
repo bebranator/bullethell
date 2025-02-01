@@ -12,15 +12,24 @@ public class Stage {
         index = 0;
     }
 
+    // returns null if no attacks
+    public Attack current() {
+        if(index + 1 > waves.size) return null;
+
+        return waves.get(index);
+    }
+
     protected void waves(Attack... ar) {
         this.waves.addAll(ar);
     }
 
     public void update() {
         // todo: do things with blank stages
-        if(waves.isEmpty() || index >= waves.size) return;
+//        if(waves.isEmpty() || index >= waves.size) return;
 
-        Attack current = waves.get(index);
+        Attack current = current();
+
+        if(current == null) return;
         current.superUpdate();
 
         if(current.isEnd()) {
@@ -31,6 +40,9 @@ public class Stage {
 
     // draw stage background
     public void draw() {
+        Attack current = current();
 
+        if(current == null) return;
+        current.draw();
     }
 }

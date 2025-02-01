@@ -66,15 +66,17 @@ public class Renderer implements IModule {
         // todo: draw background
         //  draw spell background, some effects
         if(inGame() || paused()) {
-            game.level.draw();
 
             player.draw();
+            lasers.draw();
             enemyBullets.draw();
             playerBullets.draw();
             Draw.color(1, 1, 1, 1f);
             Fill.line();
             Fill.rect(arena.viewport.x, arena.viewport.y, arena.viewport.width, arena.viewport.height);
             Draw.color();
+
+            game.level.draw();
         }
         shapes.end();
         batch.end();

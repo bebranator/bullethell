@@ -49,7 +49,7 @@ public class Player extends BaseCircleHitboxEntity {
     }
 
     Sound death = Core.audio.newSound(Core.files.internal("sound/se_pldead00.wav"));
-    public void death(Bullet target) {
+    public void death(Bullet ignored) {
         death.play();
         invuln = true;
         set(arena.world.width / 2 + arena.world.x, arena.world.height / 8 + arena.world.y);
@@ -61,11 +61,19 @@ public class Player extends BaseCircleHitboxEntity {
         }, 3f);
     }
 
+    // bad lmao
+    public void deathLaser(Laser ignored) {
+//        this.death(null);
+    }
+
     @Override
     public void update() {
         super.update();
 
-        if(!invuln) Collisions.circleWCircle(Vars.enemyBullets, this, this::death);
+        if(!invuln) {
+            Collisions.circleWCircle(Vars.enemyBullets, this, this::death);
+            Collisions.playerLaser(this, this::deathLaser);
+        }
         // horizontal is faster. this is intended
         float x = axis(moveLeft, moveRight) * 6;
         float y = axis(moveDown, moveUp) * 6;
@@ -104,16 +112,5 @@ public class Player extends BaseCircleHitboxEntity {
 //        Draw.textMode();
 //        Draw.text(Fonts.kelly12, "x=" + getX() + "; y=" + getY(), getX(), getY());
 //        Draw.textEnd();
-    }
-
-    // collide with: fairies, bullets, special map object
-    @Override
-    public boolean collidesWith(Solidc other) {
-        // collides with everyone
-//        if(other instanceof CircleHitboxc e) {
-//            return this.hitbox.overlaps(e.hitbox());
-//        }
-//        return false;
-        return true;
     }
 }

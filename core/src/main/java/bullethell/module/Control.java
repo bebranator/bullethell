@@ -35,6 +35,7 @@ public class Control implements IModule {
     public void updateGame() {
         enemyBullets.update();
         playerBullets.update();
+        lasers.update();
         player.update();
 
         if(game.level == null) {

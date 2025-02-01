@@ -17,9 +17,7 @@ public class Attack {
     protected void update() {
     }
 
-    // damn how do i implement wait
-    public void waitFor(float time) {
-    }
+    public void draw() {}
 
     // check if we should stop current attack
     public boolean isEnd() {
