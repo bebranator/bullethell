@@ -2,16 +2,15 @@ package bullethell.ui;
 
 import bullethell.core.Core;
 import bullethell.core.Vars;
-import bullethell.graphics.CButtonsBox;
-import bullethell.graphics.CTable;
-import bullethell.graphics.CWidgetGroup;
+import bullethell.graphics.g2d.CButtonsBox;
+import bullethell.graphics.g2d.CTable;
+import bullethell.graphics.g2d.CWidgetGroup;
 import bullethell.graphics.Shortcuts;
 import bullethell.module.Bindings;
 import bullethell.module.Tex;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 
-import bullethell.graphics.CButtonsBox.Option;
+import bullethell.graphics.g2d.CButtonsBox.Option;
 
 // todo: menu stuff
 public class MenuFragment implements Fragment {

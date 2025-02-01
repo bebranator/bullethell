@@ -19,9 +19,9 @@ public class Arena {
         // if not solid: just check coordinates
 
         if(ent instanceof CircleHitboxc circle) {
-            return world.contains(circle.hitbox());
+            return !world.contains(circle.hitbox());
         }
-        return world.contains(ent.getX(), ent.getY());
+        return !world.contains(ent.getX(), ent.getY());
     }
 
     public void updateGroup(EntityGroup<? extends Arenac> entity) {

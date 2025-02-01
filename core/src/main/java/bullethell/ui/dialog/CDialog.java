@@ -1,15 +1,12 @@
 package bullethell.ui.dialog;
 
 import bullethell.core.Core;
-import bullethell.core.Vars;
 import bullethell.func.Cons;
 import bullethell.game.State;
+import bullethell.graphics.g2d.CTable;
 import bullethell.module.Styles;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Action;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -53,15 +50,8 @@ public class CDialog extends Dialog {
         });
     }
 
-    public void addEscListener(Runnable run) {
-        addListener(new InputListener() {
-            @Override
-            public boolean keyDown(InputEvent event, int keycode) {
-                if(Input.Keys.ESCAPE == keycode)
-                    run.run();
-                return false;
-            }
-        });
+    public CDialog(String title) {
+        this(title, Styles.defWindow);
     }
 
     public void initTitle() {
@@ -72,7 +62,7 @@ public class CDialog extends Dialog {
 
         Table title = getTitleTable();
         title.row();
-        Image img = new Image(Core.assets.findRegion("pixel"));
+        Image img = new Image(Core.atlas.findRegion("pixel"));
         img.setColor(Color.LIGHT_GRAY);
         title.add(img).growX().height(3f).pad(4f);
 
@@ -101,5 +91,9 @@ public class CDialog extends Dialog {
     }
     public void hidden(Runnable listener) {
         hiddenListeners.add(listener);
+    }
+
+    public CTable table(Cons<CTable> tbl) {
+        return Core.stage.table(tbl);
     }
 }

@@ -1,16 +1,11 @@
 package bullethell.graphics;
 
-import bullethell.core.Core;
-import bullethell.func.Cons;
 import bullethell.func.Supp;
-import bullethell.module.Styles;
+import bullethell.graphics.g2d.CImage;
+import bullethell.graphics.g2d.CLabel;
 import bullethell.module.Tex;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Action;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;

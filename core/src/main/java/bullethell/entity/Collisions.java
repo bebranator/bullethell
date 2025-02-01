@@ -22,12 +22,4 @@ public class Collisions {
             }
         };
     }
-
-    static Circle h;
-    public static <T extends Solidc> void graze(Player target, Cons<Bullet> graze) {
-        Vars.enemyBullets.forEach(e -> {
-            h = e.grazeBox;
-            if(target.hitbox().overlaps(h)) graze.get(e);
-        });
-    }
 }

@@ -1,5 +1,7 @@
 package bullethell.entity.trait;
 
+import com.badlogic.gdx.math.Vector2;
+
 public interface Movec {
     void setX(float x);
     void setY(float y);
@@ -16,4 +18,6 @@ public interface Movec {
         setX(x);
         setY(y);
     }
+
+    Vector2 position();
 }

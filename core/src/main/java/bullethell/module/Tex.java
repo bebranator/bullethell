@@ -9,7 +9,7 @@ public class Tex {
     public static Drawable black6, white;
 
     public static void init() {
-        TextureRegionDrawable white = new TextureRegionDrawable(Core.assets.findRegion("pixel"));
+        TextureRegionDrawable white = new TextureRegionDrawable(Core.atlas.findRegion("pixel"));
         Tex.white = white;
 
         black6 = tint(white, 0, 0, 0, 0.6f);

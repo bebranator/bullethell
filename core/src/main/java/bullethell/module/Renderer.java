@@ -32,7 +32,7 @@ public class Renderer implements IModule {
 //        e = new Texture(Core.files.internal("bg_red.png"));
         libgdx = new Texture(Core.files.internal("libgdx.png"));
         noise = new Texture(Core.files.internal("noiseTexture.png"));
-        e = Textures.cut(Core.assets.findRegion("bg_red"));
+        e = Textures.cut(Core.atlas.findRegion("bg_red"));
 //        e.bind(0);
         e.bind(1);
         libgdx.bind(0);
@@ -63,14 +63,16 @@ public class Renderer implements IModule {
 
         if(menu()) drawMenuBg();
 
+        // todo: draw background
+        //  draw spell background, some effects
         if(inGame() || paused()) {
+            game.level.draw();
+
             player.draw();
             enemyBullets.draw();
+            playerBullets.draw();
             Draw.color(1, 1, 1, 1f);
-            Draw.textMode();
-            Draw.text(Fonts.kelly24Outline, "alive bullets: " + Bullet.bulletCounter, 100, 100);
-            Draw.text(Fonts.kelly24Outline, "pooled: " + CPools.get(Bullet.class, Bullet::new).getFree(), 100, 140);
-            Draw.textEnd();
+            Fill.line();
             Fill.rect(arena.viewport.x, arena.viewport.y, arena.viewport.width, arena.viewport.height);
             Draw.color();
         }

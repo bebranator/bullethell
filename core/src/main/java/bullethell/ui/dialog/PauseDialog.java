@@ -1,46 +1,37 @@
 package bullethell.ui.dialog;
 
-import bullethell.module.Bindings;
-import bullethell.module.Styles;
-import bullethell.utils.KeyListener;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import bullethell.graphics.Draw;
+import bullethell.graphics.Fill;
+import bullethell.graphics.g2d.CTable;
+import bullethell.log.Log;
+
+import static bullethell.core.Vars.arena;
 
 public class PauseDialog extends CDialog {
-    // todo: options and some conditions
-    private int index = 0;
 
     public PauseDialog() {
-        super("PAUSE", Styles.defWindow);
+        super("pause");
 
         shouldPause = true;
-        addListener(new KeyListener(this::inputDown, this::inputUp));
         shown(this::rebuild);
+        tbl = table(e -> {
+//            e.center().bottom();
+            e.setBounds(0, 0, 800, 200);
+        });
+        tbl.setFillParent(false);
+//        tbl.fill((x, y, w, h) -> {
+//
+//            Draw.color(1, 1, 1, .2f);
+//            Draw.fill(x, y, w, h);
+//        });
     }
 
+    CTable tbl;
     void rebuild() {
         container.clearChildren();
     }
 
-    void accept() {
-
-    }
-    void down() {
-
-    }
-    void up() {
-
-    }
-
-    // put down key
-    boolean inputDown(InputEvent event, int key) {
-        if(key == Bindings.down) down();
-        if(key == Bindings.up) up();
-        if(key == Bindings.accept) accept();
-
-        return false;
-    }
-
-    boolean inputUp(InputEvent event, int key) {
-        return false;
+    @Override
+    public void initTitle() {
     }
 }

@@ -5,13 +5,12 @@ import bullethell.entity.Entities;
 import bullethell.entity.EntityGroup;
 import bullethell.entity.type.Bullet;
 import bullethell.entity.type.Player;
+import bullethell.entity.type.PlayerBullet;
 import bullethell.game.Ev;
+import bullethell.game.GameState;
 import bullethell.game.State;
 import bullethell.game.dialog.DialogueManager;
-import bullethell.module.Asset;
-import bullethell.module.Control;
-import bullethell.module.Renderer;
-import bullethell.module.UI;
+import bullethell.module.*;
 import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
 
 public class Vars {
@@ -19,12 +18,15 @@ public class Vars {
     public static UI ui;
     public static Renderer renderer;
     public static Control control;
+    public static SoundControl sounds;
 
     public static Entities entities;
     public static Arena arena;
+    public static GameState game;
 
     public static EntityGroup<Bullet> enemyBullets;
-    public static EntityGroup<Player> players;
+    public static EntityGroup<PlayerBullet> playerBullets;
+    public static EntityGroup<Player> playerGroup;
     // why we do other group for player lmao
     public static Player player;
 
@@ -34,11 +36,14 @@ public class Vars {
         setState(State.menu);
         entities = new Entities();
         arena = new Arena(40, 40, Client.WIDTH / 1.5f - 80, Client.HEIGHT - 80f);
+        game = new GameState();
+        sounds = new SoundControl();
 
         dialogue = new DialogueManager();
 
-        players = entities.getGroup(Player.class);
         enemyBullets = entities.getGroup(Bullet.class);
+        playerBullets = entities.getGroup(PlayerBullet.class);
+        playerGroup = entities.getGroup(Player.class);
         player = new Player();
         player.add();
     }

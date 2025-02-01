@@ -1,14 +1,19 @@
 package bullethell.entity.type;
 
+import bullethell.content.Bullets;
 import bullethell.core.Core;
 import bullethell.core.Vars;
+import bullethell.entity.Collisions;
 import bullethell.entity.EntityGroup;
+import bullethell.entity.movement.Move;
+import bullethell.entity.trait.Arenac;
 import bullethell.entity.trait.Solidc;
 import bullethell.entity.trait.Timec;
 import bullethell.func.Cons;
 import bullethell.graphics.Draw;
 import bullethell.graphics.Fill;
 import bullethell.module.Fonts;
+import bullethell.type.BulletType;
 import bullethell.utils.CPools;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -17,35 +22,20 @@ import com.badlogic.gdx.utils.Pool;
 
 import java.lang.module.Configuration;
 
-public class Bullet extends BaseCircleHitboxEntity implements Timec, Pool.Poolable {
+public class Bullet extends BaseCircleHitboxEntity implements Timec, Pool.Poolable, Arenac {
     public static int bulletCounter = 0;
 
-    private float time;
+    private float time = 0;
+    public float lifetime, drawSize;
+    public Move move = Move.obtain();
 
-    public Circle grazeBox = new Circle();
-    public Color color;
-    public float lifetime;
+    public Color color = Color.WHITE;
     public Cons<Bullet> updater = (e) -> {};
     public Cons<Bullet> outOfBounds = (e) -> {};
-    // collision enabler
-    public boolean collision;
+    public BulletType type;
 
     public Bullet() {
         setSize(4);
-        color = Color.WHITE;
-        grazeBox.radius = getSize() * 3.5f;
-    }
-
-    @Override
-    public void setX(float x) {
-        super.setX(x);
-        grazeBox.setX(x);
-    }
-
-    @Override
-    public void setY(float y) {
-        super.setY(y);
-        grazeBox.setY(y);
     }
 
     @Override
@@ -71,13 +61,15 @@ public class Bullet extends BaseCircleHitboxEntity implements Timec, Pool.Poolab
     public void reset() {
         time = 0;
         lifetime = 0;
+        drawSize = 1;
         color = Color.WHITE;
         updater = (e) -> {};
         outOfBounds = (e) -> {};
+        type = Bullets.testBullet;
+        move.nullMovement();
         velocity().set(0, 0);
         set(0, 0);
         setSize(1);
-        setGroup(null);
     }
 
     @Override
@@ -90,20 +82,20 @@ public class Bullet extends BaseCircleHitboxEntity implements Timec, Pool.Poolab
     @Override
     public void draw() {
         Draw.color(color);
-        Fill.filled();
-        Fill.circle(getX(), getY(), getSize());
-        Fill.line();
-//        Fill.circleTex(getX(), getY(), getSize());
+////        Fill.circleTex(getX(), getY(), getSize());
+        type.draw(this);
         Draw.color();
     }
 
     @Override
     public void added(EntityGroup group) {
+        type.spawned(this);
         bulletCounter++;
     }
 
     @Override
     public void removed(EntityGroup group) {
+        type.death(this);
         CPools.free(this);
         bulletCounter--;
     }
@@ -122,5 +114,24 @@ public class Bullet extends BaseCircleHitboxEntity implements Timec, Pool.Poolab
         cons.get(bullet);
         bullet.add();
         return bullet;
+    }
+
+    public static PlayerBullet playerBullet(Cons<PlayerBullet> spawn, float x, float y) {
+        // set player bullet flag
+        PlayerBullet bullet = CPools.obtain(PlayerBullet.class, PlayerBullet::new);
+        spawn.get(bullet);
+        bullet.set(x, y);
+        bullet.add();
+        return bullet;
+    }
+
+    @Override
+    public void hitBounds() {
+
+    }
+
+    @Override
+    public void outOfBounds() {
+
     }
 }

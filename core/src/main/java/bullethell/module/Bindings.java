@@ -8,7 +8,7 @@ import static com.badlogic.gdx.Input.Keys.*;
 public class Bindings {
     public static int up = UP, down = DOWN, accept = ENTER;
 
-    public static int moveUp = W, moveDown = S, moveLeft = A, moveRight = D;
+    public static int moveUp = UP, moveDown = DOWN, moveLeft = LEFT, moveRight = RIGHT;
 
     public static int axis(int k1, int k2) {
         boolean a = Core.input.isKeyPressed(k1);

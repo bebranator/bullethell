@@ -6,7 +6,18 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import space.earlygrey.shapedrawer.ShapeDrawer;
 
 public class Fill {
-    public static final ShapeRenderer shapes = new ShapeRenderer();
+    public static ShapeRenderer shapes;
+    public static void init() {
+        shapes = new ShapeRenderer();
+    }
+
+    public static void begin() {
+        shapes.begin();
+        shapes.setAutoShapeType(true);
+    }
+    public static void end() {
+        shapes.end();
+    }
 
     public static void circle(float x, float y, float radius) {
         shapes.circle(x, y, radius);

@@ -5,10 +5,11 @@ import com.badlogic.gdx.math.Vector2;
 
 // implements some methods on entityc
 public abstract class BaseEntity implements Entityc, Velocityc, Rotationc {
-    private float x = 0, y = 0, drag = 0;
+    private Vector2 position = new Vector2();
     private Vector2 velocity = new Vector2(), rotation = new Vector2();
 
     private EntityGroup group;
+    private float drag = 0f;
 
     @Override
     public Vector2 rotation() {
@@ -17,27 +18,32 @@ public abstract class BaseEntity implements Entityc, Velocityc, Rotationc {
 
     @Override
     public float getY() {
-        return y;
+        return position.y;
     }
 
     @Override
     public float getX() {
-        return x;
+        return position.x;
     }
 
     @Override
     public void setY(float y) {
-        this.y = y;
+        this.position.y = y;
     }
 
     @Override
     public void setX(float x) {
-        this.x = x;
+        this.position.x = x;
     }
 
     @Override
     public Vector2 velocity() {
         return velocity;
+    }
+
+    @Override
+    public Vector2 position() {
+        return position;
     }
 
     @Override

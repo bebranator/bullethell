@@ -1,6 +1,6 @@
 package bullethell.ui;
 
-import bullethell.graphics.CWidgetGroup;
+import bullethell.graphics.g2d.CWidgetGroup;
 
 public class GameFragment implements Fragment {
     // todo: score count, lives, power

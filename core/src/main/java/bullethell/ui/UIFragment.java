@@ -1,7 +1,7 @@
 package bullethell.ui;
 
-import bullethell.graphics.CTable;
-import bullethell.graphics.CWidgetGroup;
+import bullethell.graphics.g2d.CTable;
+import bullethell.graphics.g2d.CWidgetGroup;
 import com.badlogic.gdx.utils.Align;
 
 // todo: show boss health, spell card visuals

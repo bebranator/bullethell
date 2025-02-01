@@ -2,16 +2,13 @@ package bullethell.module;
 
 import bullethell.core.Core;
 import bullethell.core.Vars;
-import bullethell.game.State;
-import bullethell.graphics.CLabel;
-import bullethell.graphics.CStage;
-import bullethell.graphics.CWidgetGroup;
+import bullethell.graphics.g2d.CLabel;
+import bullethell.graphics.g2d.CStage;
+import bullethell.graphics.g2d.CWidgetGroup;
 import bullethell.ui.MenuFragment;
 import bullethell.ui.UIFragment;
+import bullethell.ui.dialog.DialogueDialog;
 import bullethell.ui.dialog.PauseDialog;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
-import com.github.czyzby.kiwi.util.gdx.scene2d.Actors;
 
 public class UI implements IModule {
     public CWidgetGroup menuGroup, uiGroup, gameGroup;
@@ -20,6 +17,7 @@ public class UI implements IModule {
     public UIFragment uiFragment;
 
     public PauseDialog pauseDialog;
+    public DialogueDialog dialogueDialog;
 
     @Override
     public void create() {
@@ -36,6 +34,7 @@ public class UI implements IModule {
         gameGroup = new CWidgetGroup();
 
         pauseDialog = new PauseDialog();
+        dialogueDialog = new DialogueDialog();
 
         menuGroup.visible(Vars::menu);
         uiGroup.visible(Vars::inGame);

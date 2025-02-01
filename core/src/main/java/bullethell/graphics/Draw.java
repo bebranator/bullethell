@@ -17,8 +17,8 @@ import static bullethell.core.Core.*;
 
 public class Draw {
     public static int textModeCalls = 0;
-    public static TextureRegion white = Core.assets.findRegion("pixel"),
-        circle = Core.assets.findRegion("circle50");
+    public static TextureRegion white = Core.atlas.findRegion("pixel"),
+        circle = Core.atlas.findRegion("circle50");
     private static boolean textMode = false;
 
     private static final float[] vertices = new float[6 * 4];
@@ -72,6 +72,10 @@ public class Draw {
 
     public static void fill() {
         fill(white, 0, 0, Core.camera.viewportWidth, Core.camera.viewportHeight);
+    }
+
+    public static void fill(float x, float y, float w, float h) {
+        batch.draw(white, x, y, w, h);
     }
 
     public static void fill(TextureRegion region, float x, float y, float w, float h) {
@@ -160,5 +164,13 @@ public class Draw {
 
     public static void vert(Texture texture, float[] vertices, int offset, int length){
         Core.batch.draw(texture, vertices, offset, length);
+    }
+
+    public static void begin() {
+        batch.begin();
+    }
+
+    public static void end() {
+        batch.end();
     }
 }

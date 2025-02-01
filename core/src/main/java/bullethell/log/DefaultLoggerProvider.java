@@ -13,7 +13,7 @@ public class DefaultLoggerProvider implements Log.LogProvider {
 
     @Override
     public void log(String string, Object... objects) {
-        log.log(Level.INFO, string, objects);
+        log.log(Level.INFO, String.format(string, objects));
     }
 
     @Override

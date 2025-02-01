@@ -1,76 +1,57 @@
 package bullethell.module;
 
+import bullethell.content.Bullets;
 import bullethell.core.Core;
 import bullethell.core.Vars;
 import bullethell.entity.type.Bullet;
 import bullethell.entity.type.Player;
 import bullethell.func.Cons;
+import bullethell.game.Attack;
 import bullethell.game.State;
 import bullethell.game.dialog.GameDialog;
+import bullethell.game.stage6.nonspells.TestNonSpell;
+import bullethell.log.Log;
 import bullethell.utils.Time;
 import bullethell.utils.Tmp;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 
+import static bullethell.core.Core.*;
 import static bullethell.core.Vars.*;
 
 public class Control implements IModule {
     @Override
     public void render() {
-        Input input = Core.input;
         Time.update();
 
         if(inGame()) {
             if(!paused()) {
-                enemyBullets.update();
-                player.update();
-                if(input.isKeyJustPressed(Input.Keys.ESCAPE)) ui.pauseDialog.show();
-
-                if(input.isKeyJustPressed(Input.Keys.I)) spawn();
+                updateGame();
             }
         }
     }
-    Cons<Bullet> updater = (bullet) -> {
-        float time = bullet.time();
 
-        bullet.velocity().rotateDeg(0.12f);
-        bullet.setSize(time * 0.2f);
-//            bullet.color.lerp(1, 0, 1, 1, time / bullet.lifetime());
-    };
-    void spawn() {
+    public void updateGame() {
+        enemyBullets.update();
+        playerBullets.update();
+        player.update();
 
-        float px = player.getX();
-        float py = player.getY();
-//        arena.world.x = px;
-//        arena.world.width = px + 1000;
-//        arena.world.y = py;
-//        arena.viewport.x = px;
-//        arena.viewport.width = px + 1000;
-//        arena.viewport.y = py;
-
-        final int amount = 1000;
-        for(int i = 0; i < amount; i++){
-            int finalI = i;
-            Bullet.spawn((e) -> {
-                Vector2 b = Tmp.v21.set(0, 1).rotateDeg(finalI * 360f / amount);
-                e.velocity().set(b);
-                e.set(b.x * 70 + px, b.y * 70 + py);
-                e.color = Color.RED;
-                e.lifetime = 300;
-                e.updater = updater;
-            });
+        if(game.level == null) {
+            Log.info("Something went wrong with stage!");
+            app.exit();
         }
-    }
 
+        game.level.update();
+
+        arena.updateGroup(playerBullets);
+    }
     // switch state to gaming
     public void playGame() {
         player.set(100, 100);
 
+        sounds.playMusic(audio.newMusic(files.internal("music/solar_sect_of_mystic_wisdom.mp3")), true);
+
         Vars.setState(State.inGame);
-    }
-
-    public void startDialogue(GameDialog dialogue) {
-
     }
 }

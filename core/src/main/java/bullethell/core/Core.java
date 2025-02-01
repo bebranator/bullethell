@@ -1,14 +1,12 @@
 package bullethell.core;
 
-import bullethell.graphics.CStage;
+import bullethell.graphics.g2d.CStage;
 import bullethell.module.Asset;
-import com.badlogic.gdx.Application;
-import com.badlogic.gdx.Files;
-import com.badlogic.gdx.Graphics;
-import com.badlogic.gdx.Input;
+import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
 public class Core {
     public static Graphics graphics;
@@ -17,9 +15,10 @@ public class Core {
     public static Files files;
     public static Input input;
     public static GL20 gl20;
+    public static Audio audio;
     // cirno input
-    public static CInput cinpit;
+    public static CInput cinput;
     public static Application app;
     public static Camera camera;
-    public static Asset assets;
+    public static TextureAtlas atlas;
 }

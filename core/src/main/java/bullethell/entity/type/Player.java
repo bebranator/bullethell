@@ -1,5 +1,6 @@
 package bullethell.entity.type;
 
+import bullethell.content.Bullets;
 import bullethell.core.Core;
 import bullethell.core.Vars;
 import bullethell.entity.Arena;
@@ -10,15 +11,22 @@ import bullethell.entity.trait.Solidc;
 import bullethell.graphics.Draw;
 import bullethell.graphics.Fill;
 import bullethell.module.Fonts;
+import bullethell.type.BulletType;
+import bullethell.utils.Interval;
 import bullethell.utils.Tmp;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.utils.Timer;
 
+import static bullethell.core.Core.cinput;
 import static bullethell.module.Bindings.*;
 import static bullethell.core.Vars.*;
 
 public class Player extends BaseCircleHitboxEntity {
-
+    private Interval shotInterval = new Interval();
+    public boolean invuln = false;
     @Override
     public void setY(float y) {
         y = MathUtils.clamp(y, arena.world.y + getSize(), arena.world.y + arena.world.height - getSize());
@@ -33,43 +41,58 @@ public class Player extends BaseCircleHitboxEntity {
 
     @Override
     public EntityGroup targetGroup() {
-        return Vars.players;
+        return playerGroup;
     }
 
     public Player() {
         setSize(6);
     }
 
+    Sound death = Core.audio.newSound(Core.files.internal("sound/se_pldead00.wav"));
     public void death(Bullet target) {
-        Core.app.exit();
-    }
-
-    public void graze(Bullet target) {
-
+        death.play();
+        invuln = true;
+        set(arena.world.width / 2 + arena.world.x, arena.world.height / 8 + arena.world.y);
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                invuln = false;
+            }
+        }, 3f);
     }
 
     @Override
     public void update() {
         super.update();
-        Collisions.circleWCircle(Vars.enemyBullets, this, this::death);
-        Collisions.graze(this, this::graze);
 
+        if(!invuln) Collisions.circleWCircle(Vars.enemyBullets, this, this::death);
         // horizontal is faster. this is intended
         float x = axis(moveLeft, moveRight) * 6;
         float y = axis(moveDown, moveUp) * 6;
 
-        //todo: collision with arena
-//        Tmp.c1.set(getX() + x, getY() + y, getSize());
-//
-//        if(!arena.viewport.contains(Tmp.c1)) {
-//            // todo: figure out in which direction
-//            // restrict movement
-//            velocity().set(0, 0);
-//        }else {
-            velocity().set(x, y).scl(Core.input.isKeyPressed(Input.Keys.SHIFT_LEFT) ? .33f : 1);
-//        }
+        velocity().set(x, y).scl(Core.input.isKeyPressed(Input.Keys.SHIFT_LEFT) ? .75f : 1);
+        // shot bullets from both sides
 
-        // check if we about to hit arena bounds
+        // if we hold shot key and interval right
+
+        if(cinput.isPressed(Input.Keys.Z)) {
+            if(!shotInterval.get(2)) return;
+
+            Bullet.playerBullet((e) -> {
+                e.setSize(3);
+                e.drawSize = 3;
+                e.type = Bullets.testBullet;
+                e.lifetime = 300;
+                e.velocity().set(0, 25);
+            }, getX() + 20, getY() - 20);
+            Bullet.playerBullet((e) -> {
+                e.setSize(3);
+                e.drawSize = 3;
+                e.type = Bullets.testBullet;
+                e.velocity().set(0, 25);
+                e.lifetime = 300;
+            }, getX() - 20, getY() - 20);
+        }
     }
 
     @Override
@@ -77,10 +100,10 @@ public class Player extends BaseCircleHitboxEntity {
         Draw.color();
         Fill.filled();
         Fill.circle(getX(), getY(), getSize());
-        Fill.line();
-        Draw.textMode();
-        Draw.text(Fonts.kelly12, "x=" + getX() + "; y=" + getY(), getX(), getY());
-        Draw.textEnd();
+//        Fill.line();
+//        Draw.textMode();
+//        Draw.text(Fonts.kelly12, "x=" + getX() + "; y=" + getY(), getX(), getY());
+//        Draw.textEnd();
     }
 
     // collide with: fairies, bullets, special map object
