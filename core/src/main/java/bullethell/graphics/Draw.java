@@ -1,6 +1,7 @@
 package bullethell.graphics;
 
 import bullethell.core.Core;
+import bullethell.module.Tex;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -68,19 +69,19 @@ public class Draw {
         batch.setProjectionMatrix(camera.combined);
     }
 
-    public static void fill() {
-        fill(white, 0, 0, Core.camera.viewportWidth, Core.camera.viewportHeight);
+    public static void fill(Texture reg) {
+        batch.draw(reg, 0, 0, Core.camera.viewportWidth, Core.camera.viewportHeight);
     }
 
     public static void fill(float x, float y, float w, float h) {
-        batch.draw(white, x, y, w, h);
+        batch.draw(white, x - w * .5f, y - h * .5f, w, h);
     }
 
     public static void fill(TextureRegion region, float x, float y, float w, float h) {
-        batch.draw(region, x, y, w, h);
+        batch.draw(region, x - w / 2, y - h / 2, w * 2, h * 2);
     }
     public static void fill(Texture region, float x, float y, float w, float h) {
-        batch.draw(region, x, y, w, h);
+        batch.draw(region, x - w * .5f, y - h * .5f, w, h);
     }
 
     /*
@@ -88,11 +89,11 @@ public class Draw {
         float height, float scaleX, float scaleY, float rotation)
      */
     public static void fill(TextureRegion region, float x, float y, float w, float h, float rotationRadian) {
-        batch.draw(region, x, y, 0, 0, w, h, 1, 1, rotationRadian);
+        batch.draw(region, x - w * .5f, y - h * .5f, 0, 0, w, h, 1, 1, rotationRadian);
     }
 
     public static void fill(float x, float y, float w, float h, float rotationRadian) {
-        batch.draw(white, x, y, 0, 0, w, h, 1, 1, rotationRadian);
+        batch.draw(white, x - w * .5f, y - h * .5f, 0, 0, w, h, 1, 1, rotationRadian);
     }
 
     // todo: fix circle draw
@@ -108,6 +109,10 @@ public class Draw {
 
     public static void draw(TextureRegion t, float x, float y, float width, float height) {
         batch.draw(t, x, y, width, height);
+    }
+
+    public static void draw(float x, float y, float width, float height) {
+        batch.draw(white, x, y, width, height);
     }
 
     // trying solution
@@ -182,5 +187,9 @@ public class Draw {
 
     public static void end() {
         batch.end();
+    }
+
+    public static void flush() {
+        batch.flush();
     }
 }

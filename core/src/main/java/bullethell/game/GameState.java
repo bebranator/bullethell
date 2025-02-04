@@ -2,19 +2,27 @@ package bullethell.game;
 
 import bullethell.entity.type.BossEntity;
 import bullethell.func.Cons;
+import bullethell.game.spell.SpellCard;
 import bullethell.game.stage.Stage;
 import bullethell.game.stage6.Stage6;
 
 // current attack
 public class GameState {
-    public Stage level = new Stage6();
+    public Stage level;
     public boolean showBossDisplay; // show boss health and remaining spells
     public BossEntity bossEntity;
+    // what spell we in
+    public SpellCard spell;
 
     // reset everything and begin new level
     public void setLevel(Stage stage) {
-        level.reset();
+        if(level != null) level.reset();
         level = stage;
+    }
+
+    public void spell(SpellCard card) {
+        //todo: nullify bonus and spell state, reset timer
+        this.spell = card;
     }
 
     // sets current boss (summons entity, makes display and etc)

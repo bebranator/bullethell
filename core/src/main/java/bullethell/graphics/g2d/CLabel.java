@@ -20,6 +20,10 @@ public class CLabel extends Label {
         this(supplier, Styles.defLabel);
     }
 
+    public CLabel() {
+        this(() -> "");
+    }
+
     public void add() {
         Core.stage.add(this);
     }
@@ -41,5 +45,9 @@ public class CLabel extends Label {
     public void act(float delta) {
         super.act(delta);
         setText(supplier.get());
+    }
+
+    public void changeText(String text) {
+        supplier = () -> text;
     }
 }

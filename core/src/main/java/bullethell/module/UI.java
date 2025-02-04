@@ -64,6 +64,10 @@ public class UI implements IModule {
         Core.stage.setKeyboardFocus(null);
     }
 
+    public void spell() {
+        // summon spell card display in ui group
+    }
+
     @Override
     public void render() {
         Core.stage.act();

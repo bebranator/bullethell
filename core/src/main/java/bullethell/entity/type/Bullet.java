@@ -82,7 +82,6 @@ public class Bullet extends BaseCircleHitboxEntity implements Timec, Pool.Poolab
     @Override
     public void draw() {
         Draw.color(color);
-////        Fill.circleTex(getX(), getY(), getSize());
         type.draw(this);
         Draw.color();
     }

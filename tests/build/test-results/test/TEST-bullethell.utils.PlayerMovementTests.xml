@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="bullethell.utils.PlayerMovementTests" tests="1" skipped="0" failures="0" errors="0" timestamp="2025-01-26T07:45:22" hostname="WIN-8NNUUTUB8CA" time="0.059">
+<testsuite name="bullethell.utils.PlayerMovementTests" tests="1" skipped="0" failures="0" errors="0" timestamp="2025-02-04T06:26:04" hostname="WIN-8NNUUTUB8CA" time="0.066">
   <properties/>
-  <testcase name="setting()" classname="bullethell.utils.PlayerMovementTests" time="0.059"/>
+  <testcase name="setting()" classname="bullethell.utils.PlayerMovementTests" time="0.066"/>
   <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[янв. 26, 2025 3:45:22 PM bullethell.log.DefaultLoggerProvider log
+  <system-err><![CDATA[февр. 04, 2025 2:26:04 PM bullethell.log.DefaultLoggerProvider log
 INFO: LEFT RIGHT 
 ]]></system-err>
 </testsuite>

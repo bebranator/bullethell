@@ -88,14 +88,7 @@ public class Player extends BaseCircleHitboxEntity {
 
     @Override
     public void draw() {
-        Fill.color(invuln ? Color.RED : Color.GREEN);
-        Fill.filled();
-        Fill.circle(getX(), getY(), getSize());
-        Fill.color();
-//        Fill.line();
-//        Draw.textMode();
-//        Draw.text(Fonts.kelly12, "x=" + getX() + "; y=" + getY(), getX(), getY());
-//        Draw.textEnd();
+        Draw.fill(Core.atlas.findRegion("blue-small"), getX(), getY(), getSize(), getSize());
     }
 
     @Override

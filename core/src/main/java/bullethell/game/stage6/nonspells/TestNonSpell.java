@@ -64,7 +64,7 @@ public class TestNonSpell extends Attack {
                 y.drawSize = 12;
                 y.velocity().set(cosDeg(finalI * 360f/amount + rand_angle) * 3, sinDeg(finalI * 360f/amount + rand_angle) * 3);
                 y.lifetime = 900;
-                y.type = Bullets.testBullet;
+                y.type = Bullets.blueSmall;
             });
         }
     }

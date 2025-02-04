@@ -67,12 +67,14 @@ public class Renderer implements IModule {
         //  draw spell background, some effects
         if(inGame() || paused()) {
 
+            Draw.flush();
             enemyBullets.draw();
             playerBullets.draw();
             lasers.draw();
             healthEntities.draw();
             player.draw();
-            Draw.color(1, 1, 1, 1f);
+            Draw.flush();
+            Draw.color();
             Fill.line();
             Fill.rect(arena.viewport.x, arena.viewport.y, arena.viewport.width, arena.viewport.height);
             Draw.color();
@@ -87,7 +89,7 @@ public class Renderer implements IModule {
 //        testMatrix.setToScaling(1, 1, 1f);
         bg_translation.set(Time.globalTime * 0.0006f, 0);
 
-        Draw.color(1, 1, 1, 1);
+        Draw.color();
         Draw.shader(test);
 //        test.setUniformf("u_time", Time.globalTime);
         test.setUniformf("u_mouse", mouse);
@@ -96,9 +98,10 @@ public class Renderer implements IModule {
         // todo: fix mouse offset
         mouse.set(cinput.mouse());
 
-        Draw.fill(e, 0, 0, Core.camera.viewportWidth, Core.camera.viewportHeight);
+//        Draw.fill(e, 0, 0, Core.camera.viewportWidth, Core.camera.viewportHeight);
+        Draw.fill(e);
         Draw.shader();
 
-        Core.graphics.getGL20().glActiveTexture(GL20.GL_TEXTURE0);
+//        Core.graphics.getGL20().glActiveTexture(GL20.GL_TEXTURE0);
     }
 }
