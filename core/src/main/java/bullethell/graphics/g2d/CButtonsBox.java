@@ -79,9 +79,9 @@ public class CButtonsBox extends CTable {
         return options.get(index);
     }
 
-    public record Option(Supp<String> name, Runnable triggered) {
-        public Option(String name, Runnable trigger) {
-            this(() -> name, trigger);
+    public record Option(int index, Supp<String> name, Runnable triggered) {
+        public Option(int index, String name, Runnable trigger) {
+            this(index, () -> name, trigger);
         }
     }
 }

@@ -3,8 +3,11 @@ package bullethell.entity;
 import bullethell.core.Vars;
 import bullethell.entity.trait.CircleHitboxc;
 import bullethell.entity.type.Laser;
+import bullethell.entity.type.PlayerBullet;
 import bullethell.func.Cons;
 import com.badlogic.gdx.math.Circle;
+
+import static bullethell.core.Vars.*;
 
 public class Collisions {
     static Circle tmp;
@@ -19,11 +22,25 @@ public class Collisions {
             }
         };
     }
+    public static void player(CircleHitboxc hitbox, Runnable hit) {
+        if(player.invuln) return; // no shit while invulnerable
+
+        if(player.hitbox().contains(hitbox.hitbox())) hit.run();
+    }
+
+    public static void playerBullets(CircleHitboxc hitbox, Cons<PlayerBullet> collide) {
+        for(PlayerBullet bullet : playerBullets.entities()) {
+            if(bullet.hitbox().contains(hitbox.hitbox())) {
+                collide.get(bullet);
+                break;
+            }
+        }
+    }
 
     // do collision with laser
     // were some problems with name "LaserEntity"
     public static void playerLaser(CircleHitboxc player, Cons<Laser> collision) {
-        Vars.lasers.forEach(e -> {
+        lasers.forEach(e -> {
             if(e.hitbox.circleCollision(player.hitbox())) collision.get(e);
         });
     }

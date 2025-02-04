@@ -4,6 +4,8 @@ import bullethell.core.Vars;
 import bullethell.entity.EntityGroup;
 
 public class PlayerBullet extends Bullet {
+    public float damage;
+
     @Override
     public EntityGroup targetGroup() {
         return Vars.playerBullets;
@@ -12,5 +14,9 @@ public class PlayerBullet extends Bullet {
     @Override
     public void outOfBounds() {
         remove();
+    }
+
+    public float getDamage() {
+        return damage;
     }
 }

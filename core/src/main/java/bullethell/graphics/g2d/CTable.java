@@ -53,4 +53,13 @@ public class CTable extends Table {
         };
         add(act);
     }
+    public void update(Runnable updater) {
+        Actor upd = new Actor() {
+            @Override
+            public void act(float delta) {
+                updater.run();
+            }
+        };
+        add(upd);
+    }
 }

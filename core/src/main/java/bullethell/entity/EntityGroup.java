@@ -27,6 +27,12 @@ public class EntityGroup<T extends Entityc> {
             }
         }
     }
+
+    public void clean() {
+        current.forEach(e -> e.removed(this));
+        current.clear();
+    }
+
     public boolean empty() {
         return current.isEmpty();
     }

@@ -5,6 +5,7 @@ import bullethell.core.Vars;
 import bullethell.graphics.g2d.CLabel;
 import bullethell.graphics.g2d.CStage;
 import bullethell.graphics.g2d.CWidgetGroup;
+import bullethell.ui.GameFragment;
 import bullethell.ui.MenuFragment;
 import bullethell.ui.UIFragment;
 import bullethell.ui.dialog.DialogueDialog;
@@ -15,6 +16,7 @@ public class UI implements IModule {
 
     public MenuFragment menuFragment;
     public UIFragment uiFragment;
+    public GameFragment gameFragment;
 
     public PauseDialog pauseDialog;
     public DialogueDialog dialogueDialog;
@@ -32,6 +34,9 @@ public class UI implements IModule {
         menuGroup = new CWidgetGroup();
         uiGroup = new CWidgetGroup();
         gameGroup = new CWidgetGroup();
+        menuGroup.setFillParent(true);
+        uiGroup.setFillParent(true);
+        gameGroup.setFillParent(true);
 
         pauseDialog = new PauseDialog();
         dialogueDialog = new DialogueDialog();
@@ -46,7 +51,17 @@ public class UI implements IModule {
         uiFragment = new UIFragment();
         uiFragment.build(uiGroup);
 
+        gameFragment = new GameFragment();
+        gameFragment.build(gameGroup);
+
         stage.add(menuGroup, uiGroup, gameGroup);
+    }
+
+    public void menu() {
+        Core.stage.setKeyboardFocus(menuGroup);
+    }
+    public void game() {
+        Core.stage.setKeyboardFocus(null);
     }
 
     @Override

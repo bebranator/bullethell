@@ -8,6 +8,6 @@ import bullethell.module.Fonts;
 
 public class Stage6 extends Stage {
     public Stage6() {
-        waves(new TestNonSpell(), new SecondNonSpell());
+        waves(new TestNonSpell());
     }
 }

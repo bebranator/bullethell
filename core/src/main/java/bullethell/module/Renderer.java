@@ -21,6 +21,7 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ScreenUtils;
 
+import static bullethell.core.Core.*;
 import static bullethell.core.Vars.*;
 
 public class Renderer implements IModule {
@@ -29,14 +30,13 @@ public class Renderer implements IModule {
 
     public Renderer() {
         test = new ShaderProgram(Core.files.internal("shaders/default.vert.glsl"), Core.files.internal("shaders/taiseiblackhole.frag.glsl"));
-//        e = new Texture(Core.files.internal("bg_red.png"));
+        e = new Texture(Core.files.internal("bg_red.png"));
         libgdx = new Texture(Core.files.internal("libgdx.png"));
         noise = new Texture(Core.files.internal("noiseTexture.png"));
-        e = Textures.cut(Core.atlas.findRegion("bg_red"));
-//        e.bind(0);
-        e.bind(1);
         libgdx.bind(0);
+        e.bind(1);
         noise.bind(2);
+
         test.bind();
         test.setUniformMatrix("u_projTrans", Core.camera.view);
         test.setUniformi("u_texture", 0);
@@ -67,16 +67,17 @@ public class Renderer implements IModule {
         //  draw spell background, some effects
         if(inGame() || paused()) {
 
-            player.draw();
-            lasers.draw();
             enemyBullets.draw();
             playerBullets.draw();
+            lasers.draw();
+            healthEntities.draw();
+            player.draw();
             Draw.color(1, 1, 1, 1f);
             Fill.line();
             Fill.rect(arena.viewport.x, arena.viewport.y, arena.viewport.width, arena.viewport.height);
             Draw.color();
 
-            game.level.draw();
+            game.levelDraw();
         }
         shapes.end();
         batch.end();
@@ -92,7 +93,8 @@ public class Renderer implements IModule {
         test.setUniformf("u_mouse", mouse);
         test.setUniformf("u_bg_trans", bg_translation);
 
-        mouse.set(Core.input.getX(), Core.input.getY());
+        // todo: fix mouse offset
+        mouse.set(cinput.mouse());
 
         Draw.fill(e, 0, 0, Core.camera.viewportWidth, Core.camera.viewportHeight);
         Draw.shader();

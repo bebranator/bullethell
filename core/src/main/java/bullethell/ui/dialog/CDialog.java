@@ -17,7 +17,7 @@ import com.badlogic.gdx.utils.Array;
 
 import static bullethell.core.Vars.*;
 
-// todo: pause game when activated, rebuilds
+// todo: option to remove title table
 public class CDialog extends Dialog {
     protected Table container = getContentTable();
     public Array<Runnable> shownListeners, hiddenListeners;
@@ -29,24 +29,26 @@ public class CDialog extends Dialog {
         super(title, windowStyle);
         shownListeners = new Array<>();
         hiddenListeners = new Array<>();
-        setFillParent(true);
+//        setFillParent(true);
         initTitle();
 
         hidden(() -> {
             if(shouldPause && !menu()){
                 if(!wasPaused){
-                    setState(State.inGame);
+//                    setState(State.inGame);
+                    control.gameResume();
                 }
             }
-            ui.menuFragment.blockInputs = false;
+//            ui.blockInputs(false);
         });
 
         shown(() -> {
             if(shouldPause && !menu()){
                 wasPaused = paused();
-                setState(State.pause);
+//                setState(State.pause);
+                control.gamePause();
             }
-            ui.menuFragment.blockInputs = true;
+//            ui.blockInputs(true);
         });
     }
 
@@ -94,6 +96,11 @@ public class CDialog extends Dialog {
     }
 
     public CTable table(Cons<CTable> tbl) {
-        return Core.stage.table(tbl);
+        CTable table = new CTable();
+
+        table.setFillParent(true);
+        tbl.get(table);
+        container.add(table);
+        return table;
     }
 }

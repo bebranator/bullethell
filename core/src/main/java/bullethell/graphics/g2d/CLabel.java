@@ -4,6 +4,7 @@ import bullethell.core.Core;
 import bullethell.func.Supp;
 import bullethell.module.Styles;
 import bullethell.utils.Tmp;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -29,6 +30,11 @@ public class CLabel extends Label {
         Vector2 position = Tmp.v21.set((stage.getWidth() - getWidth()) / 2, (stage.getHeight() - getHeight()) / 2);
 
         setPosition(position.x, position.y);
+    }
+
+    @Override
+    public void draw(Batch batch, float parentAlpha) {
+        super.draw(batch, parentAlpha);
     }
 
     @Override

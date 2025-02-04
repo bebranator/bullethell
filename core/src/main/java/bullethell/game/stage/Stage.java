@@ -11,6 +11,12 @@ public class Stage {
         waves = new Array<>();
         index = 0;
     }
+    public void reset() {
+        index = 0;
+        for(Attack atk : waves) {
+            atk.time = 0;
+        }
+    }
 
     // returns null if no attacks
     public Attack current() {

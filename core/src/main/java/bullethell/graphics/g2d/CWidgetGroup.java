@@ -1,5 +1,6 @@
 package bullethell.graphics.g2d;
 
+import bullethell.core.Core;
 import bullethell.func.Pred0;
 import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
 
@@ -14,5 +15,8 @@ public class CWidgetGroup extends WidgetGroup {
 
     public void visible(Pred0 visibility) {
         this.visibility = visibility;
+    }
+    public void add() {
+        Core.stage.add(this);
     }
 }

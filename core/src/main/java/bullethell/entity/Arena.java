@@ -2,6 +2,7 @@ package bullethell.entity;
 
 import bullethell.entity.trait.Arenac;
 import bullethell.entity.trait.CircleHitboxc;
+import bullethell.entity.type.Laser;
 import com.badlogic.gdx.math.Rectangle;
 
 // todo: world stuff (block moving, resize arena)
@@ -21,6 +22,7 @@ public class Arena {
         if(ent instanceof CircleHitboxc circle) {
             return !world.contains(circle.hitbox());
         }
+
         return !world.contains(ent.getX(), ent.getY());
     }
 

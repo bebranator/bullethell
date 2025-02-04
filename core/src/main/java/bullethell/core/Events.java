@@ -38,7 +38,6 @@ public class Events {
     /** Fires a non-enum event by class. */
     public static <T> void fire(T type){
         fire(type.getClass(), type);
-        Core.app.log("EVENTS", "Fired event: " + type.getClass());
     }
 
     public static <T> void fire(Class<?> ctype, T type){

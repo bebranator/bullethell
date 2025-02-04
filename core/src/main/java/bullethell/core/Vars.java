@@ -3,14 +3,12 @@ package bullethell.core;
 import bullethell.entity.Arena;
 import bullethell.entity.Entities;
 import bullethell.entity.EntityGroup;
-import bullethell.entity.type.Bullet;
-import bullethell.entity.type.Laser;
-import bullethell.entity.type.Player;
-import bullethell.entity.type.PlayerBullet;
+import bullethell.entity.type.*;
 import bullethell.game.Ev;
 import bullethell.game.GameState;
 import bullethell.game.State;
 import bullethell.game.dialog.DialogueManager;
+import bullethell.log.Log;
 import bullethell.module.*;
 import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
 
@@ -27,8 +25,11 @@ public class Vars {
 
     public static EntityGroup<Bullet> enemyBullets;
     public static EntityGroup<PlayerBullet> playerBullets;
+    // i want to merge them
     public static EntityGroup<Player> playerGroup;
+    public static EntityGroup<BossEntity> bossGroup;
     public static EntityGroup<Laser> lasers;
+    public static EntityGroup<HealthEntity> healthEntities; // they take damage and collide with player and player's bullets
     // why we do other group for player lmao
     public static Player player;
 
@@ -46,6 +47,7 @@ public class Vars {
         enemyBullets = entities.getGroup(Bullet.class);
         playerBullets = entities.getGroup(PlayerBullet.class);
         playerGroup = entities.getGroup(Player.class);
+        healthEntities = entities.getGroup(HealthEntity.class);
         lasers = entities.getGroup(Laser.class);
         player = new Player();
         player.add();

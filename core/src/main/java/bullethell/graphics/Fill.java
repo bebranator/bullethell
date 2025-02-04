@@ -9,6 +9,7 @@ import space.earlygrey.shapedrawer.ShapeDrawer;
 
 public class Fill {
     public static ShapeRenderer shapes;
+    public static Color tmp = new Color();
     public static void init() {
         shapes = new ShapeRenderer();
     }
@@ -16,6 +17,18 @@ public class Fill {
     public static void begin() {
         shapes.begin();
         shapes.setAutoShapeType(true);
+    }
+    public static void alpha(float value) {
+        tmp.set(shapes.getColor());
+
+        tmp.a = value;
+        shapes.setColor(tmp);
+    }
+    public static void alpha() {
+        tmp.set(shapes.getColor());
+
+        tmp.a = 1;
+        shapes.setColor(tmp);
     }
     public static void end() {
         shapes.end();

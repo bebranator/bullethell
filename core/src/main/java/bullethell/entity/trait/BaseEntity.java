@@ -9,7 +9,8 @@ public abstract class BaseEntity implements Entityc, Velocityc, Rotationc {
     private Vector2 velocity = new Vector2(), rotation = new Vector2();
 
     private EntityGroup group;
-    private float drag = 0f;
+    protected float drag = 0f;
+    protected float drawSize;
 
     @Override
     public Vector2 rotation() {
@@ -67,5 +68,10 @@ public abstract class BaseEntity implements Entityc, Velocityc, Rotationc {
     @Override
     public void setGroup(EntityGroup group) {
         this.group = group;
+    }
+
+    @Override
+    public float drawSize() {
+        return drawSize;
     }
 }

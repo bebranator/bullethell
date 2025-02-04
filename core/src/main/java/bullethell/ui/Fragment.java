@@ -9,6 +9,10 @@ public interface Fragment {
     void build(CWidgetGroup target);
 
     default CTable table(Cons<CTable> tbl) {
-        return Core.stage.table(tbl);
+        CTable table = new CTable();
+        table.setFillParent(true);
+
+        tbl.get(table);
+        return table;
     }
 }
