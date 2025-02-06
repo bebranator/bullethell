@@ -2,6 +2,7 @@ package bullethell.module;
 
 import bullethell.core.Vars;
 import bullethell.game.State;
+import bullethell.game.spell.SpellCard;
 import bullethell.game.stage.Stage;
 import bullethell.game.stage6.Stage6;
 import bullethell.graphics.Shortcuts;
@@ -57,6 +58,11 @@ public class Control implements IModule {
         reset();
         game.setLevel(stage);
     }
+
+    public void card(SpellCard card) {
+        game.spell(card);
+    }
+
     // clean every entity
     public void reset() {
         playerBullets.clean();

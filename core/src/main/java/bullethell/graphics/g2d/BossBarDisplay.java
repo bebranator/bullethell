@@ -18,8 +18,6 @@ public class BossBarDisplay extends Actor {
     public void draw(Batch batch, float parentAlpha) {
         float w = getWidth() * tempProgress;
 
-        Draw.color(Color.BLUE);
-        Draw.draw(getX(), getY(), getWidth(), getHeight());
         Draw.color(getColor());
         Draw.draw(getX(), getY(), w, getHeight());
     }
@@ -28,7 +26,7 @@ public class BossBarDisplay extends Actor {
     public void act(float delta) {
         super.act(delta);
         // change a little till become progress
-        tempProgress = MathUtils.clamp(tempProgress + maxStep * Math.signum(progress - tempProgress), 0, 1);
+        tempProgress = MathUtils.clamp(tempProgress + maxStep * Math.signum(progress - tempProgress), 1 - progress, 1);
     }
 
     public void setProgress(float newValue) {

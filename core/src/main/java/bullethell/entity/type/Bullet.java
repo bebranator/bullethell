@@ -102,8 +102,20 @@ public class Bullet extends BaseCircleHitboxEntity implements Timec, Pool.Poolab
     public static Bullet spawn(Cons<Bullet> cons) {
         Bullet bullet = CPools.obtain(Bullet.class, Bullet::new);
 
+        bullet.lifetime = 600;
         cons.get(bullet);
         bullet.add();
+        return bullet;
+    }
+
+    public static Bullet spawn(Cons<Bullet> cons, BulletType type, float x, float y) {
+        Bullet bullet = CPools.obtain(Bullet.class, Bullet::new);
+        bullet.lifetime = 600;
+        cons.get(bullet);
+        bullet.type = type;
+        bullet.set(x, y);
+        bullet.add();
+
         return bullet;
     }
 

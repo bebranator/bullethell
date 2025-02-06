@@ -8,10 +8,6 @@ public class StringInterpolator {
     private String target;
     private float maxTime, time = 0;
 
-    public StringInterpolator() {
-
-    }
-
     public void update() {
         time = Math.min(time + Time.delta, maxTime);
     }
@@ -26,11 +22,7 @@ public class StringInterpolator {
 
     // [0; 1]
     public void setProgress(float progress) {
-//        time = progress * maxTime;
-//        Log.info("e" + time);
-//        Log.info("e" + maxTime);
-
-        time = MathUtils.clamp(maxTime * progress, 0, maxTime);
+        time = maxTime * progress;
     }
 
     public String get() {

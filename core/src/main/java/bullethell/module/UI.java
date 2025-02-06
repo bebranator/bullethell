@@ -5,6 +5,7 @@ import bullethell.core.Vars;
 import bullethell.graphics.g2d.CLabel;
 import bullethell.graphics.g2d.CStage;
 import bullethell.graphics.g2d.CWidgetGroup;
+import bullethell.type.BossType;
 import bullethell.ui.GameFragment;
 import bullethell.ui.MenuFragment;
 import bullethell.ui.UIFragment;
@@ -42,7 +43,7 @@ public class UI implements IModule {
         dialogueDialog = new DialogueDialog();
 
         menuGroup.visible(Vars::menu);
-        uiGroup.visible(Vars::inGame);
+        uiGroup.visible(() -> Vars.inGame() || Vars.paused());
         gameGroup.visible(Vars::inGame);
 
         menuFragment = new MenuFragment();
@@ -64,8 +65,23 @@ public class UI implements IModule {
         Core.stage.setKeyboardFocus(null);
     }
 
-    public void spell() {
+    public void spell(BossType boss) {
         // summon spell card display in ui group
+        showSpellUi();
+    }
+
+    public void showBossDisplay() {
+    }
+
+    public void hideBossDisplay() {
+
+    }
+
+    public void hideSpellUi() {
+
+    }
+    public void showSpellUi() {
+
     }
 
     @Override

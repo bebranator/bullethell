@@ -19,6 +19,7 @@ public class Move {
     }
 
     public Vector2 velocity = new Vector2();
+
     public float acceleration = 1; // to multiply current velocity
 
     // stop move right at that position

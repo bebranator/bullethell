@@ -38,7 +38,7 @@ public class Vars {
     public static void init() {
         setState(State.menu);
         entities = new Entities();
-        arena = new Arena(40, 40, Client.WIDTH / 1.5f - 80, Client.HEIGHT - 80f);
+        arena = new Arena(40, 40, Client.WIDTH / 1.375f - 80, Client.HEIGHT - 80f);
         game = new GameState();
         sounds = new SoundControl();
 

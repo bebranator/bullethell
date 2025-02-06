@@ -18,6 +18,7 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Matrix4;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ScreenUtils;
 
@@ -67,13 +68,19 @@ public class Renderer implements IModule {
         //  draw spell background, some effects
         if(inGame() || paused()) {
 
+//            Rectangle w = arena.world;
             Draw.flush();
+//            Fill.rect(w.x, w.y, w.width + w.x, w.height + w.y);
+//            Draw.pushScissors(arena.world.x, arena.world.y, arena.world.width + arena.world.x, arena.world.height + arena.world.y);
+//            Draw.pushScissors(arena., 0, 400, 400);
+
             enemyBullets.draw();
             playerBullets.draw();
             lasers.draw();
             healthEntities.draw();
             player.draw();
             Draw.flush();
+//            Draw.popScissors();
             Draw.color();
             Fill.line();
             Fill.rect(arena.viewport.x, arena.viewport.y, arena.viewport.width, arena.viewport.height);

@@ -3,6 +3,7 @@ package bullethell.graphics;
 import bullethell.core.Core;
 import bullethell.module.Tex;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -10,6 +11,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Matrix4;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.scenes.scene2d.utils.ScissorStack;
 import com.badlogic.gdx.utils.Align;
 
 import static bullethell.core.Core.*;
@@ -138,6 +141,22 @@ public class Draw {
     public static void text(BitmapFont font, String text, float x, float y) {
         font.draw(batch, text, x, y, 0f, Align.center, false);
 //        font.draw()
+    }
+
+    static final Rectangle scissors = new Rectangle(), bounds = new Rectangle();
+
+
+    public static void pushScissors(float x, float y, float w, float h) {
+        float rat = (float) graphics.getWidth() / graphics.getHeight();
+//        ScissorStack.calculateScissors(camera, batch.getProjectionMatrix(), bounds.set(x, y, w, h), scissors);
+//        if(!ScissorStack.pushScissors(scissors)) app.exit();
+        gl20.glScissor((int) (x * rat), (int) (y * rat), (int) (w * rat), (int) (h * rat));
+        gl20.glEnable(GL20.GL_SCISSOR_TEST);
+    }
+
+    public static void popScissors() {
+//        ScissorStack.popScissors();
+        gl20.glDisable(GL20.GL_SCISSOR_TEST);
     }
 
     public static void quad(TextureRegion region, float x1, float y1, float c1, float x2, float y2, float c2, float x3, float y3, float c3, float x4, float y4, float c4){

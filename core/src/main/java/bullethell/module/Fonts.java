@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 
 public class Fonts {
-    public static BitmapFont kelly24, kelly12, kelly24Outline;
+    public static BitmapFont kelly24, kelly12, kelly24Outline, kelly16;
     public static final String characters = FreeTypeFontGenerator.DEFAULT_CHARS.concat(
         "éöóêåíãøùçõúôûâàïğîëäæıÿ÷ñìèòüáşÉÖÓÊÅÍÃØÙÇÕÚÔÛÂÀÏĞÎËÄÆß×ÑÌÈÒÜÁŞ" // ïîí
     );
@@ -29,8 +29,16 @@ public class Fonts {
         var param12 = param24();
         param12.size = 12;
 
+        var param16 = param24();
+        param16.size = 16;
+
         kelly12 = kellygen.generateFont(param12);
         kelly12.getData().markupEnabled = true;
+
+        kelly16 = kellygen.generateFont(param16);
+        kelly16.getData().markupEnabled = true;
+
+        kellygen.dispose();
     }
     static FreeTypeFontGenerator.FreeTypeFontParameter param24() {
         return new FreeTypeFontGenerator.FreeTypeFontParameter() {{

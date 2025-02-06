@@ -5,7 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 
 public class Styles {
-    public static Label.LabelStyle kellyLabel24, kellyLabel24Outline, kellyLabel12;
+    public static Label.LabelStyle kellyLabel24, kellyLabel24Outline, kellyLabel12, kellyLabel16;
 
     public static Label.LabelStyle defLabel;
     public static Window.WindowStyle defWindow;
@@ -21,6 +21,10 @@ public class Styles {
         }};
         kellyLabel12 = new Label.LabelStyle() {{
             font = Fonts.kelly12;
+            fontColor = Color.WHITE;
+        }};
+        kellyLabel16 = new Label.LabelStyle() {{
+            font = Fonts.kelly16;
             fontColor = Color.WHITE;
         }};
 
