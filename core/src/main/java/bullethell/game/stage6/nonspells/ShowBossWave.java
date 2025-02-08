@@ -9,10 +9,10 @@ import bullethell.type.BossType;
 public class ShowBossWave extends Attack {
     // todo: dialogues
     public ShowBossWave(BossType type) {
-        Vars.game.boss(e -> {
-            e.type(type);
-            e.setSize(type.hitboxSize);
-        });
+//        Vars.game.boss(e -> {
+//            e.type(type);
+//            e.setSize(type.hitboxSize);
+//        });
         lifetime = 10 * 60;
     }
 }

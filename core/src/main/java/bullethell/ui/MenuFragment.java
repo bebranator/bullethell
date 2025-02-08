@@ -4,6 +4,7 @@ import bullethell.core.Client;
 import bullethell.core.Core;
 import bullethell.core.Vars;
 import bullethell.graphics.Draw;
+import bullethell.graphics.action.LabelFontScale;
 import bullethell.graphics.g2d.CButtonsBox;
 import bullethell.graphics.g2d.CLabel;
 import bullethell.graphics.g2d.CTable;
@@ -58,7 +59,8 @@ public class MenuFragment implements Fragment {
                 parallel(
                     color(relative == 0 ? Color.GOLDENROD : Color.LIGHT_GRAY),
                     moveTo(100 - tanh * 50, y, .1f),
-                    run(() -> label.setFontScale(MathUtils.clamp(scl, .9f, 1.6f)))
+//                    run(() -> label.setFontScale(MathUtils.clamp(scl, .9f, 1.6f))),
+                    LabelFontScale.labelFontScale(.1f, MathUtils.clamp(scl, .9f, 1.6f))
                 )
             );
         }
@@ -96,7 +98,7 @@ public class MenuFragment implements Fragment {
             labelGroup.addActor(label);
 //            target.addActor(label);
         }
-        labelGroup.debugAll();
+//        labelGroup.debugAll();
         target.addActor(labelGroup);
         updateLabels();
         in();

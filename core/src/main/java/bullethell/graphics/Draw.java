@@ -63,6 +63,14 @@ public class Draw {
     public static void color() {
         batch.setColor(Color.WHITE);
     }
+    public static void alpha(float alpha) {
+        Color e = batch.getColor();
+        batch.setColor(e.r, e.g, e.b, alpha);
+    }
+    public static void alpha() {
+        Color e = batch.getColor();
+        batch.setColor(e.r, e.g, e.b, 1f);
+    }
 
     public static void proj(Matrix4 matrix) {
         batch.setProjectionMatrix(matrix);
@@ -81,7 +89,7 @@ public class Draw {
     }
 
     public static void fill(TextureRegion region, float x, float y, float w, float h) {
-        batch.draw(region, x - w / 2, y - h / 2, w * 2, h * 2);
+        batch.draw(region, x - w, y - h, w * 2, h * 2);
     }
     public static void fill(Texture region, float x, float y, float w, float h) {
         batch.draw(region, x - w * .5f, y - h * .5f, w, h);
@@ -112,6 +120,12 @@ public class Draw {
 
     public static void draw(TextureRegion t, float x, float y, float width, float height) {
         batch.draw(t, x, y, width, height);
+    }
+    public static void draw(Texture tex, float x, float y, float w, float h) {
+        batch.draw(tex, x, y, w, h);
+    }
+    public static void draw(Texture tex, float x, float y, float w, float h, boolean flipX, boolean flipY) {
+        batch.draw(tex, x, y, w, h, 0, 0, (int)w, (int)h, flipX, flipY);
     }
 
     public static void draw(float x, float y, float width, float height) {

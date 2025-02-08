@@ -1,6 +1,8 @@
 package bullethell.module;
 
 import bullethell.core.Vars;
+import bullethell.game.GameStats;
+import bullethell.game.GameTime;
 import bullethell.game.State;
 import bullethell.game.spell.SpellCard;
 import bullethell.game.stage.Stage;
@@ -21,6 +23,7 @@ public class Control implements IModule {
         if(inGame()) {
             if(!paused()) {
                 updateGame();
+                GameTime.update();
             }
         }
     }
@@ -42,6 +45,7 @@ public class Control implements IModule {
         game.levelUpdate();
 
         arena.updateGroup(playerBullets);
+        GameStats.update();
     }
     // exit the stage
     // todo: show loading screen
@@ -52,6 +56,7 @@ public class Control implements IModule {
         Vars.setState(State.menu);
         ui.menuFragment.showLabels();
         ui.menu();
+        GameTime.reset();
     }
 
     public void playStage(Stage stage) {
@@ -60,7 +65,7 @@ public class Control implements IModule {
     }
 
     public void card(SpellCard card) {
-        game.spell(card);
+//        game.spell(card);
     }
 
     // clean every entity
@@ -92,5 +97,8 @@ public class Control implements IModule {
         ui.game();
 
         Shortcuts.arenaNotification("BGM - Solar sect of mystic wisdom");
+    }
+    public void loading(float time, float fadeIn, float fadeOut) {
+
     }
 }

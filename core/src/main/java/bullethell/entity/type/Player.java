@@ -1,22 +1,16 @@
 package bullethell.entity.type;
 
 import bullethell.content.Bullets;
+import bullethell.content.Sounds;
 import bullethell.core.Core;
+import bullethell.core.Events;
 import bullethell.core.Vars;
-import bullethell.entity.Arena;
 import bullethell.entity.Collisions;
 import bullethell.entity.EntityGroup;
-import bullethell.entity.trait.CircleHitboxc;
-import bullethell.entity.trait.Solidc;
+import bullethell.game.Ev;
 import bullethell.graphics.Draw;
-import bullethell.graphics.Fill;
-import bullethell.module.Fonts;
-import bullethell.type.BulletType;
 import bullethell.utils.Interval;
-import bullethell.utils.Tmp;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Timer;
 
@@ -27,14 +21,13 @@ import static bullethell.core.Vars.*;
 public class Player extends BaseCircleHitboxEntity {
     private Interval shotInterval = new Interval();
     public boolean invuln = false;
-    Sound death = Core.audio.newSound(Core.files.internal("sound/se_pldead00.wav"));
 
     public Player() {
         setSize(6);
     }
 
     public void kill() {
-        death.play();
+        sounds.playSound(Sounds.death, .5f);
         invuln = true;
         defaultLocation();
         Timer.schedule(new Timer.Task() {
@@ -43,6 +36,7 @@ public class Player extends BaseCircleHitboxEntity {
                 invuln = false;
             }
         }, 3f);
+        Events.fire(Ev.PlayerDeathEvent.class);
     }
     public void defaultLocation() {
         set(arena.world.width / 2 + arena.world.x, arena.world.height / 8 + arena.world.y);
@@ -56,14 +50,10 @@ public class Player extends BaseCircleHitboxEntity {
             Collisions.circleWCircle(Vars.enemyBullets, this, (a) -> kill());
             Collisions.playerLaser(this, (a) -> kill());
         }
-        // horizontal is faster. this is intended
-        float x = axis(moveLeft, moveRight) * 6;
-        float y = axis(moveDown, moveUp) * 6;
+        float x = axis(moveLeft, moveRight);
+        float y = axis(moveDown, moveUp);
 
-        velocity().set(x, y).scl(Core.input.isKeyPressed(Input.Keys.SHIFT_LEFT) ? .5f : 1);
-        // shot bullets from both sides
-
-        // if we hold shot key and interval right
+        velocity().set(x, y);
 
         if(cinput.isPressed(Input.Keys.Z)) {
             if(!shotInterval.get(2)) return;
@@ -72,15 +62,17 @@ public class Player extends BaseCircleHitboxEntity {
                 e.setSize(3);
                 e.drawSize = 3;
                 e.type = Bullets.testBullet;
+                e.velocity().set(0, 1);
+                e.speed = 25;
                 e.lifetime = 300;
-                e.velocity().set(0, 25);
             }, getX() + 20, getY() - 20);
 
             Bullet.playerBullet((e) -> {
                 e.setSize(3);
                 e.drawSize = 3;
                 e.type = Bullets.testBullet;
-                e.velocity().set(0, 25);
+                e.velocity().set(0, 1);
+                e.speed = 25;
                 e.lifetime = 300;
             }, getX() - 20, getY() - 20);
         }
@@ -88,6 +80,7 @@ public class Player extends BaseCircleHitboxEntity {
 
     @Override
     public void draw() {
+        Draw.color();
         Draw.fill(Core.atlas.findRegion("blue-small"), getX(), getY(), getSize(), getSize());
     }
 
@@ -106,5 +99,13 @@ public class Player extends BaseCircleHitboxEntity {
     @Override
     public EntityGroup targetGroup() {
         return playerGroup;
+    }
+    public boolean focused() {
+        return cinput.isPressed(Input.Keys.SHIFT_LEFT);
+    }
+
+    @Override
+    public float speed() {
+        return focused() ? 3 : 6;
     }
 }

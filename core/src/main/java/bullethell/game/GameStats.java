@@ -1,5 +1,7 @@
 package bullethell.game;
 
+import com.badlogic.gdx.math.MathUtils;
+
 public class GameStats {
     public static final int scoreForLife = 100000;
     public static int lives = 2;
@@ -8,6 +10,7 @@ public class GameStats {
     public static float power = 0.f;
 
     public static int score, graze, value;
+    public static int displayScore;
 
     public static void reset() {
         score = 0;
@@ -17,14 +20,19 @@ public class GameStats {
         tillNextLive = scoreForLife * lives * lives;
         continues = 5;
         power = 1.f;
+        displayScore = score;
     }
     public static void depositScore(int scoreValue) {
-        GameStats.score += score;
-        tillNextLive = Math.max(tillNextLive - score, 0);
+        score += scoreValue;
+        tillNextLive = Math.max(tillNextLive - scoreValue, 0);
 
         if(tillNextLive == 0) {
             lives++;
             tillNextLive = (int) (scoreForLife * lives * lives / 1.5f);
         }
+    }
+
+    public static void update() {
+        displayScore = Math.min(displayScore + 10000, score);
     }
 }

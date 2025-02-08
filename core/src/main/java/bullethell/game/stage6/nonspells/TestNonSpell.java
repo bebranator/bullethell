@@ -18,7 +18,7 @@ public class TestNonSpell extends Attack {
     private Interval bulletSpawn = new Interval(1);
 
     public TestNonSpell() {
-        this.lifetime = 100;
+        this.lifetime = 5 * 60;
     }
 
     Cons<Bullet> updater = (bullet) -> {
@@ -29,11 +29,6 @@ public class TestNonSpell extends Attack {
     };
 
     Sound boom = Core.audio.newSound(Core.files.internal("sound/se_enep02.wav"));
-
-    @Override
-    public boolean isEnd() {
-        return false;
-    }
 
     @Override
     protected void update() {
@@ -47,7 +42,8 @@ public class TestNonSpell extends Attack {
             e.type = Bullets.transparent;
             e.updater = updater;
             e.set(arena.world.x + randPoint, 800);
-            e.velocity().set(0, -4);
+            e.velocity().set(0, -1);
+            e.speed = 4;
         });
         spawnBullet(arena.world.x + randPoint);
     }
@@ -62,7 +58,8 @@ public class TestNonSpell extends Attack {
                 y.set(b, 800);
                 y.setSize(2);
                 y.drawSize = 12;
-                y.velocity().set(cosDeg(finalI * 360f/amount + rand_angle) * 3, sinDeg(finalI * 360f/amount + rand_angle) * 3);
+                y.velocity().set(cosDeg(finalI * 360f/amount + rand_angle), sinDeg(finalI * 360f/amount + rand_angle));
+                y.speed = 4;
                 y.lifetime = 900;
                 y.type = Bullets.blueSmall;
             });

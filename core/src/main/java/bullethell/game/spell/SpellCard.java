@@ -11,9 +11,10 @@ Contains information about how stuff should behave
 (spawn bullets, applying effects, spawning items etc.)
  */
 public class SpellCard extends Attack {
-    public static final int SC_NO_TIMEOUT_BONUS = 0x1 << 1; // no bonus on timeout
-    public static final int SC_NO_BONUS_BURN = 0x1 << 2; // no bonus will burn
-    public static final int SC_NO_POWER_DROPS = 0x1 << 3; // boss will not drop any power while in spell state
+    public static final int SC_NO_TIMEOUT_BONUS = 1 << 1; // no bonus on timeout
+    public static final int SC_NO_BONUS_BURN = 1 << 2; // no bonus will burn
+    public static final int SC_NO_POWER_DROPS = 1 << 3; // boss will not drop any power while in spell state
+    public static final int SC_NO_DEATH_BONUS_LOSS = 1 << 4;
 
     public final String name;
     public final int tags;

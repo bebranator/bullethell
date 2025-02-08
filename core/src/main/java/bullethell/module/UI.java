@@ -83,6 +83,12 @@ public class UI implements IModule {
     public void showSpellUi() {
 
     }
+    public void spellBonus(int bonus) {
+
+    }
+    public void failedBonus() {
+
+    }
 
     @Override
     public void render() {

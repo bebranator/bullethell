@@ -5,6 +5,7 @@ import bullethell.graphics.action.LabelWriteAction;
 import bullethell.graphics.g2d.CImage;
 import bullethell.graphics.g2d.CLabel;
 import bullethell.graphics.g2d.CWidgetGroup;
+import bullethell.graphics.g2d.SpellScoreDisplay;
 import bullethell.module.Styles;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -18,6 +19,7 @@ public class UIFragment implements Fragment {
     private CImage spellPortrait;
 
     private Label spellName;
+    private SpellScoreDisplay spellScore;
     @Override
     public void build(CWidgetGroup target) {
         spellPortraitGroup = new CWidgetGroup();
@@ -25,21 +27,14 @@ public class UIFragment implements Fragment {
         spellName = new Label("", Styles.defLabel);
         spellName.setX(0, Align.center);
         spellName.setY(0, Align.center);
-        spellName.debug();
 
-        spellPortraitGroup.setFillParent(false);
+        spellScore = new SpellScoreDisplay();
+        spellScore.setX(Core.stage.getWidth() / 2);
+        spellScore.setY(Core.stage.getHeight() / 2);
+
+        spellPortraitGroup.setFillParent(true);
         spellPortraitGroup.addActor(spellName);
-
-        target.addActor(table(e -> {
-            e.update(() -> {
-                if(Core.cinput.isJustPressed(Input.Keys.T)) {
-                    hideSpell();
-                }
-                if(Core.cinput.isJustPressed(Input.Keys.G)) {
-                    showSpell();
-                }
-            });
-        }));
+        spellPortraitGroup.addActor(spellScore);
 
         target.addActor(spellPortraitGroup);
     }

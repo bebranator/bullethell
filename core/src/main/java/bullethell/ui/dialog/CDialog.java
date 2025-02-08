@@ -8,6 +8,7 @@ import bullethell.module.Styles;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -70,6 +71,10 @@ public class CDialog extends Dialog {
 
 //        title.image(Core.atlas.drawable("white"), Color.lightGray)
 //            .growX().height(3f).pad(4f);
+    }
+    public void hideTitle() {
+        getTitleTable().setVisible(false);
+        getTitleTable().setTouchable(Touchable.disabled);
     }
 
     @Override

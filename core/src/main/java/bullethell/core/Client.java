@@ -1,6 +1,7 @@
 package bullethell.core;
 
 import bullethell.content.Bullets;
+import bullethell.content.Sounds;
 import bullethell.graphics.Fill;
 import bullethell.graphics.g2d.CStage;
 import bullethell.log.Log;
@@ -60,6 +61,7 @@ public final class Client extends AbstractCore {
 //        // must have
         Vars.init();
         Tex.init();
+        Sounds.init();
 
         // content
         Bullets.init();

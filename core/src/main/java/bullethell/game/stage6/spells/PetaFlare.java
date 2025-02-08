@@ -14,7 +14,8 @@ public class PetaFlare extends SpellCard {
     private Interval shotInterval = new Interval(1);
 
     public PetaFlare() {
-        super("peta_flare", 5000000, SC_NO_TIMEOUT_BONUS);
+        super("peta_flare", 5000000, SC_NO_BONUS_BURN);
+        lifetime = 5 * 60; // we live for 75 seconds then timeout
     }
 
     final float initialSize = 160;
@@ -41,7 +42,8 @@ public class PetaFlare extends SpellCard {
     public void shotBullets(float x, float y, int amount) {
         Bullet.spawn((e) -> {
             e.updater = updater;
-            e.velocity().set(0, -12);
+            e.velocity().set(0, -1);
+            e.speed = 12;
         }, Bullets.transparent, x, y);
 
         for(int i = 0; i < amount; i++) {
@@ -49,7 +51,8 @@ public class PetaFlare extends SpellCard {
             Bullet.spawn((e) -> {
                 e.setSize(2);
                 e.drawSize = 12;
-                e.velocity().set(1, 0).rotateDeg(360 * tmpI / 27f);
+                e.speed = 4;
+                e.velocity().set(1, 0).rotateDeg(360 * tmpI / 16f);
             }, Bullets.blueSmall, x, y);
         }
     }

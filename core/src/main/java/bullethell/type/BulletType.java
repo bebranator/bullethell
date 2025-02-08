@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class BulletType {
     public final String name;
+    public float speed = 1f;
 
     public TextureRegion sprite;
 
@@ -18,6 +19,7 @@ public class BulletType {
     }
 
     public void draw(Bullet bullet) {
+        Draw.alpha();
         Draw.fill(sprite, bullet.getX(), bullet.getY(), bullet.drawSize, bullet.drawSize);
     }
 

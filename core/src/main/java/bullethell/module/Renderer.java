@@ -3,24 +3,19 @@ package bullethell.module;
 import bullethell.core.Client;
 import bullethell.core.Core;
 import bullethell.core.Vars;
-import bullethell.entity.type.Bullet;
 import bullethell.graphics.Draw;
 import bullethell.graphics.Fill;
-import bullethell.utils.CPools;
-import bullethell.utils.Textures;
 import bullethell.utils.Time;
+import bullethell.utils.Tmp;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g3d.Shader;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Matrix4;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import static bullethell.core.Core.*;
 import static bullethell.core.Vars.*;
@@ -28,6 +23,8 @@ import static bullethell.core.Vars.*;
 public class Renderer implements IModule {
     ShaderProgram test;
     Texture e, noise, libgdx;
+
+    private FrameBuffer gameBuffer;
 
     public Renderer() {
         test = new ShaderProgram(Core.files.internal("shaders/default.vert.glsl"), Core.files.internal("shaders/taiseiblackhole.frag.glsl"));
@@ -46,6 +43,8 @@ public class Renderer implements IModule {
         test.setUniformf("u_resolution", new Vector2(Client.WIDTH, Client.HEIGHT));
 //        test.setUniformf("u_timemod", 1 / 240f);
         Core.graphics.getGL20().glActiveTexture(GL20.GL_TEXTURE0);
+
+        gameBuffer = new FrameBuffer(Pixmap.Format.RGBA8888, (int)arena.viewport.width, (int)arena.viewport.height, true);
     }
 
     final Vector2 mouse = new Vector2(0, 0);
@@ -53,7 +52,8 @@ public class Renderer implements IModule {
     // do test shaders
     @Override
     public void render() {
-        Core.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        gl20.glClearColor(0, 0, 0, 1);
 
         Batch batch = Core.batch;
         ShapeRenderer shapes = Fill.shapes;
@@ -68,19 +68,27 @@ public class Renderer implements IModule {
         //  draw spell background, some effects
         if(inGame() || paused()) {
 
-//            Rectangle w = arena.world;
-            Draw.flush();
-//            Fill.rect(w.x, w.y, w.width + w.x, w.height + w.y);
-//            Draw.pushScissors(arena.world.x, arena.world.y, arena.world.width + arena.world.x, arena.world.height + arena.world.y);
-//            Draw.pushScissors(arena., 0, 400, 400);
-
+//            Draw.flush();
+//            Draw.end();
+//            Draw.begin();
+//            gameBuffer.begin();
+//            gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
+//            gl20.glClearColor(0, 0, 0, 1);
             enemyBullets.draw();
             playerBullets.draw();
             lasers.draw();
             healthEntities.draw();
             player.draw();
-            Draw.flush();
+
+//            Draw.flush();
+//            FitViewport port = (FitViewport) stage.getViewport();
+//            gameBuffer.end(port.getScreenX(), port.getScreenY(), port.getScreenWidth(), port.getScreenHeight());
 //            Draw.popScissors();
+//            Tmp.v21.set(arena.viewport.width, arena.viewport.height);
+//            port.project(Tmp.v21);
+//            Draw.draw(gameBuffer.getColorBufferTexture(), arena.viewport.x
+//                , arena.viewport.y, Tmp.v21.x, Tmp.v21.y, false, true);
+            Draw.flush();
             Draw.color();
             Fill.line();
             Fill.rect(arena.viewport.x, arena.viewport.y, arena.viewport.width, arena.viewport.height);

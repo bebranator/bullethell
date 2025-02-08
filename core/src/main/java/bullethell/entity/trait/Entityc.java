@@ -22,6 +22,7 @@ public interface Entityc extends Movec, Drawc {
 
         target.add(this);
     }
+    float birthTime();
 
     // not null
     EntityGroup targetGroup();

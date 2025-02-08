@@ -46,4 +46,9 @@ public class BossEntity extends BaseCircleHitboxEntity {
         ent.add();
         return ent;
     }
+
+    @Override
+    public float speed() {
+        return 0;
+    }
 }

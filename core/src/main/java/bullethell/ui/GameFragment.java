@@ -1,6 +1,9 @@
 package bullethell.ui;
 
 import bullethell.core.Core;
+import bullethell.core.Events;
+import bullethell.core.Vars;
+import bullethell.game.Ev;
 import bullethell.game.GameStats;
 import bullethell.graphics.g2d.*;
 import bullethell.utils.Time;
@@ -16,35 +19,23 @@ public class GameFragment implements Fragment {
 
     @Override
     public void build(CWidgetGroup target) {
-        CTable scoreDisplay = table(e -> {
-            e.center();
-            e.image(Core.atlas.findRegion("poweritem")).size(32f).left();
-            e.label(() -> "POWER " + GameStats.power).left();
-            BossBarDisplay display = new BossBarDisplay();
-            display.setOrigin(Align.center | Align.left);
-            display.setBounds(0, 0, 200, 30);
-            display.setColor(Color.FIREBRICK);
-            display.setProgress(.6f);
-            e.row();
-            e.add(display);
-            e.row();
-            TimerDisplay timer = new TimerDisplay();
-            timer.displayTime(true);
-
-            e.update(() -> {
-                if(Core.cinput.isJustPressed(Input.Keys.E)) {
-                    display.setProgress(1f);
-                }
-                if(Core.cinput.isJustPressed(Input.Keys.O)) {
-                    display.setProgress(0.5f);
-                }
-                timer.setTime(Time.time * 30);
-            });
-            e.add(timer);
+        TimerDisplay timer = new TimerDisplay();
+        timer.displayTime(true);
+        Events.on(Ev.SpellCardEndEvent.class, e -> {
+            timer.displayTime(false);
         });
 
+        timer.timeUpdater(() -> {
+            if(Vars.game.bossSpell == null) return 0;
+            return (Vars.game.bossSpell.lifetime - Vars.game.bossSpell.time) / 60f;
+        });
+
+        ScoreDisplay score = new ScoreDisplay();
+        score.setAlignment(Align.left | Align.bottom);
+
         displayLabels.setFillParent(true);
-        displayLabels.addActor(scoreDisplay);
+        displayLabels.addActor(score);
+        displayLabels.addActor(timer);
         displayLabels.setPosition(400, 0, Align.bottom | Align.center);
 
         target.addActor(displayLabels);
