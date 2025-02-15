@@ -21,9 +21,11 @@ public class Bullet extends BaseCircleHitboxEntity implements Timec, Pool.Poolab
     public Cons<Bullet> updater = (e) -> {};
     public Cons<Bullet> outOfBounds = (e) -> {};
     public BulletType type;
+    public boolean enabled;
 
     public Bullet() {
         setSize(4);
+        enabled = true;
     }
 
     @Override
@@ -63,6 +65,7 @@ public class Bullet extends BaseCircleHitboxEntity implements Timec, Pool.Poolab
 
     @Override
     public void update() {
+        if(!enabled) return;
         super.update();
         updateTime();
         updater.get(this);
@@ -71,6 +74,7 @@ public class Bullet extends BaseCircleHitboxEntity implements Timec, Pool.Poolab
 
     @Override
     public void draw() {
+        if(!enabled) return;
         type.draw(this);
     }
 

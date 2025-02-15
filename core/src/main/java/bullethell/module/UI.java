@@ -1,5 +1,6 @@
 package bullethell.module;
 
+import bullethell.content.Sounds;
 import bullethell.core.Core;
 import bullethell.core.Vars;
 import bullethell.graphics.g2d.CLabel;
@@ -10,7 +11,9 @@ import bullethell.ui.GameFragment;
 import bullethell.ui.MenuFragment;
 import bullethell.ui.UIFragment;
 import bullethell.ui.dialog.DialogueDialog;
+import bullethell.ui.dialog.LoadingDialog;
 import bullethell.ui.dialog.PauseDialog;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class UI implements IModule {
     public CWidgetGroup menuGroup, uiGroup, gameGroup;
@@ -19,6 +22,7 @@ public class UI implements IModule {
     public UIFragment uiFragment;
     public GameFragment gameFragment;
 
+    public LoadingDialog loadingDialog;
     public PauseDialog pauseDialog;
     public DialogueDialog dialogueDialog;
 
@@ -30,7 +34,9 @@ public class UI implements IModule {
 
         stage.table((e) -> {
             e.top().right();
-            e.add(new CLabel(() -> "[RED]" + Core.graphics.getFramesPerSecond() + " fps", Styles.kellyLabel24));
+            e.label(() -> "fps: " + Core.graphics.getFramesPerSecond(), Styles.kellyLabel16);
+            e.row();
+            e.label(() -> "render calls: " + ((SpriteBatch)Core.batch).renderCalls, Styles.kellyLabel16);
         });
         menuGroup = new CWidgetGroup();
         uiGroup = new CWidgetGroup();
@@ -41,28 +47,38 @@ public class UI implements IModule {
 
         pauseDialog = new PauseDialog();
         dialogueDialog = new DialogueDialog();
+        loadingDialog = new LoadingDialog();
 
-        menuGroup.visible(Vars::menu);
-        uiGroup.visible(() -> Vars.inGame() || Vars.paused());
-        gameGroup.visible(Vars::inGame);
+//        menuGroup.visible(Vars::menu);
+//        uiGroup.visible(() -> Vars.inGame() || Vars.paused());
+//        gameGroup.visible(Vars::inGame);
+        // todo: manual hide
+
+        stage.add(menuGroup, uiGroup, gameGroup);
 
         menuFragment = new MenuFragment();
         menuFragment.build(menuGroup);
 
-        uiFragment = new UIFragment();
-        uiFragment.build(uiGroup);
-
-        gameFragment = new GameFragment();
-        gameFragment.build(gameGroup);
-
-        stage.add(menuGroup, uiGroup, gameGroup);
+//        uiFragment = new UIFragment();
+//        uiFragment.build(uiGroup);
+//
+//        gameFragment = new GameFragment();
+//        gameFragment.build(gameGroup);
+//        uiGroup.setVisible(false);
     }
 
     public void menu() {
-        Core.stage.setKeyboardFocus(menuGroup);
+//        Core.stage.setKeyboardFocus(menuGroup);
+        menuFragment.setMenu(menuFragment.mainMenu);
+        menuGroup.setVisible(true);
+        uiGroup.setVisible(false);
+        gameGroup.setVisible(false);
     }
     public void game() {
         Core.stage.setKeyboardFocus(null);
+        menuGroup.setVisible(false);
+        uiGroup.setVisible(true);
+        gameGroup.setVisible(true);
     }
 
     public void spell(BossType boss) {
@@ -81,13 +97,20 @@ public class UI implements IModule {
 
     }
     public void showSpellUi() {
-
+        // do sound
+        Vars.sounds.playSound(Sounds.spell, .5f);
     }
+
     public void spellBonus(int bonus) {
-
+        if(bonus == 0) {
+            // failed bonus
+            uiFragment.failedSpell();
+        }else {
+            uiFragment.spellBonus();
+        }
     }
-    public void failedBonus() {
 
+    public void loading(float time, Runnable run) {
     }
 
     @Override

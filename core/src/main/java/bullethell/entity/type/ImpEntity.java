@@ -11,6 +11,6 @@ public class ImpEntity extends HealthEntity {
 
     @Override
     public float speed() {
-        return 0;
+        return 1;
     }
 }

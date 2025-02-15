@@ -8,7 +8,8 @@ varying vec2 v_texCoords;
 varying vec4 v_color;
 
 //uniform float u_time;
-uniform vec2 u_bg_trans, u_mouse, u_resolution;
+uniform vec2 u_bg_trans,
+u_resolution;
 uniform sampler2D u_texture, u_texture0, u_blend_mask;
 
 const float bmin = 3.0 * sqrt(3.0) / 2.0;
@@ -37,7 +38,7 @@ mat2 rot(float a) {
 }
 
 void main(void) {
-    vec2 center = u_mouse.xy;
+    vec2 center = vec2(u_resolution.x / 2, u_resolution.y / 2);
     vec2 d = (v_texCoords * u_resolution) - center;
     d.y *= inv_aspect_ratio;
 
@@ -66,7 +67,7 @@ void main(void) {
 
 //    n.x = mod(u_bg_trans.x, 12);
 //    n.y += u_time / 60.;
-    n.x = mod(n.x, 0.92);
+    n.x = mod(n.x, 0.7);
 //    n.y = mod(u_bg_trans.y, 2);
 
     vec4 tex1c = texture(u_texture, n.xy+vec2(0.5,0));

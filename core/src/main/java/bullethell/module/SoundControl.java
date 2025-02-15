@@ -1,5 +1,6 @@
 package bullethell.module;
 
+import bullethell.content.Sounds;
 import bullethell.core.Events;
 import bullethell.game.Ev;
 import bullethell.game.State;
@@ -46,5 +47,11 @@ public class SoundControl {
     }
     public void playSound(Sound sound, float vol) {
         sound.play(vol);
+    }
+    public void ok() {
+        Sounds.ok.play(.5f);
+    }
+    public void option() {
+        Sounds.select.play(.5f);
     }
 }

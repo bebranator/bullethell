@@ -1,6 +1,7 @@
 package bullethell.entity.type;
 
 import bullethell.content.Bullets;
+import bullethell.content.PlayerTypes;
 import bullethell.content.Sounds;
 import bullethell.core.Core;
 import bullethell.core.Events;
@@ -8,7 +9,10 @@ import bullethell.core.Vars;
 import bullethell.entity.Collisions;
 import bullethell.entity.EntityGroup;
 import bullethell.game.Ev;
+import bullethell.game.GameStats;
 import bullethell.graphics.Draw;
+import bullethell.type.Hero;
+import bullethell.type.PlayerType;
 import bullethell.utils.Interval;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.MathUtils;
@@ -22,8 +26,14 @@ public class Player extends BaseCircleHitboxEntity {
     private Interval shotInterval = new Interval();
     public boolean invuln = false;
 
+    public int axisX;
+    public int movement;
+
+    public PlayerType type;
+
     public Player() {
         setSize(6);
+        type(PlayerTypes.seija);
     }
 
     public void kill() {
@@ -36,7 +46,8 @@ public class Player extends BaseCircleHitboxEntity {
                 invuln = false;
             }
         }, 3f);
-        Events.fire(Ev.PlayerDeathEvent.class);
+        Events.fire(new Ev.PlayerDeathEvent());
+        GameStats.deaths++;
     }
     public void defaultLocation() {
         set(arena.world.width / 2 + arena.world.x, arena.world.height / 8 + arena.world.y);
@@ -46,12 +57,17 @@ public class Player extends BaseCircleHitboxEntity {
     public void update() {
         super.update();
 
-        if(!invuln) {
-            Collisions.circleWCircle(Vars.enemyBullets, this, (a) -> kill());
-            Collisions.playerLaser(this, (a) -> kill());
-        }
-        float x = axis(moveLeft, moveRight);
-        float y = axis(moveDown, moveUp);
+//        if(!invuln) {
+//            Collisions.circleWCircle(Vars.enemyBullets, this, (a) -> kill());
+//            Collisions.playerLaser(this, (a) -> kill());
+//        }
+        int x = axis(moveLeft, moveRight);
+        int y = axis(moveDown, moveUp);
+
+        if(axisX != x) type.changeAxisX(x);
+
+        axisX = x;
+
 
         velocity().set(x, y);
 
@@ -80,8 +96,9 @@ public class Player extends BaseCircleHitboxEntity {
 
     @Override
     public void draw() {
-        Draw.color();
-        Draw.fill(Core.atlas.findRegion("blue-small"), getX(), getY(), getSize(), getSize());
+//        Draw.color();
+//        Draw.fill(Core.atlas.findRegion("blue-small"), getX(), getY(), getSize(), getSize());
+        type.draw(this);
     }
 
     @Override
@@ -107,5 +124,13 @@ public class Player extends BaseCircleHitboxEntity {
     @Override
     public float speed() {
         return focused() ? 3 : 6;
+    }
+
+    public void type(PlayerType type) {
+        this.type = type;
+    }
+
+    public PlayerType type() {
+        return type;
     }
 }

@@ -4,11 +4,15 @@ import bullethell.core.Core;
 import com.badlogic.gdx.audio.Sound;
 
 public class Sounds {
-    public static Sound death, boom01;
+    public static Sound death, boom02, ok, boon, select, spell;
 
     public static void init() {
-        death = sound("se_pldead00");
-        boom01 = sound("se_enep02");
+        death = sound("pldeath");
+        boom02 = sound("boom02");
+        ok = sound("ok");
+        boon = sound("boon");
+        select = sound("select");
+        spell = sound("spell");
     }
 
     static Sound sound(String name) {

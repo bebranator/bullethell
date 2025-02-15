@@ -7,10 +7,12 @@ import bullethell.game.State;
 import bullethell.game.spell.SpellCard;
 import bullethell.game.stage.Stage;
 import bullethell.game.stage6.Stage6;
+import bullethell.game.stagebad.StageBadApple;
 import bullethell.graphics.Shortcuts;
 import bullethell.log.Log;
 import bullethell.utils.Time;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.utils.Timer;
 
 import static bullethell.core.Core.*;
 import static bullethell.core.Vars.*;
@@ -54,7 +56,7 @@ public class Control implements IModule {
 
         player.defaultLocation();
         Vars.setState(State.menu);
-        ui.menuFragment.showLabels();
+//        ui.menuFragment.showLabels();
         ui.menu();
         GameTime.reset();
     }
@@ -84,21 +86,20 @@ public class Control implements IModule {
         Vars.setState(State.inGame);
     }
 
-    Stage stage6 = new Stage6();
+    Stage stage6 = new StageBadApple();
     // switch state to gaming
     public void game() {
+        ui.menuFragment.setMenu(null);
+        GameStats.reset();
         playStage(stage6);
         player.defaultLocation();
 
-        sounds.playMusic(audio.newMusic(files.internal("music/solar_sect_of_mystic_wisdom.mp3")), true);
+        sounds.playMusic(audio.newMusic(files.internal("music/bad_apple_extract.mp3")), false);
 
         Vars.setState(State.inGame);
-        ui.menuFragment.hideLabels();
+//        ui.menuFragment.hideLabels();
         ui.game();
 
-        Shortcuts.arenaNotification("BGM - Solar sect of mystic wisdom");
-    }
-    public void loading(float time, float fadeIn, float fadeOut) {
-
+        Shortcuts.arenaNotification("BGM - Bad Apple!!!");
     }
 }

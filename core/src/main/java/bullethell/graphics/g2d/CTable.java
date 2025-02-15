@@ -62,4 +62,8 @@ public class CTable extends Table {
         };
         add(upd);
     }
+    public CTable fillParent(boolean fill) {
+        this.setFillParent(fill);
+        return this;
+    }
 }

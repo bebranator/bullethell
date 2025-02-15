@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
+// todo: draw rotated
 public class CLabel extends Label {
     public Supp<String> supplier;
 
@@ -19,7 +20,6 @@ public class CLabel extends Label {
     public CLabel(Supp<String> supplier) {
         this(supplier, Styles.defLabel);
     }
-
     public CLabel() {
         this(() -> "");
     }
@@ -40,10 +40,14 @@ public class CLabel extends Label {
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
     }
+    public void nullSupplier() {
+        this.supplier = null;
+    }
 
     @Override
     public void act(float delta) {
         super.act(delta);
+        if(supplier == null) return;
         setText(supplier.get());
     }
 

@@ -1,13 +1,16 @@
 package bullethell.ui;
 
 import bullethell.core.Core;
+import bullethell.core.Vars;
+import bullethell.graphics.action.LabelFontScale;
 import bullethell.graphics.action.LabelWriteAction;
 import bullethell.graphics.g2d.CImage;
-import bullethell.graphics.g2d.CLabel;
 import bullethell.graphics.g2d.CWidgetGroup;
 import bullethell.graphics.g2d.SpellScoreDisplay;
 import bullethell.module.Styles;
-import com.badlogic.gdx.Input;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Align;
 
@@ -19,7 +22,8 @@ public class UIFragment implements Fragment {
     private CImage spellPortrait;
 
     private Label spellName;
-    private SpellScoreDisplay spellScore;
+    private Label spellScore;
+    private SpellScoreDisplay spellScoreDisplay;
     @Override
     public void build(CWidgetGroup target) {
         spellPortraitGroup = new CWidgetGroup();
@@ -28,13 +32,21 @@ public class UIFragment implements Fragment {
         spellName.setX(0, Align.center);
         spellName.setY(0, Align.center);
 
-        spellScore = new SpellScoreDisplay();
-        spellScore.setX(Core.stage.getWidth() / 2);
-        spellScore.setY(Core.stage.getHeight() / 2);
+        Rectangle viewport = Vars.arena.viewport;
+        float x = viewport.x + viewport.width / 2;
+        float y = viewport.y + viewport.height * 3f/4f;
+
+        spellScore = new Label("", Styles.defLabel);
+        spellScore.setPosition(x, y);
+        spellScore.setAlignment(Align.center | Align.bottom);
+        spellScore.setFontScaleY(0.0001f);
+
+        spellScoreDisplay = new SpellScoreDisplay();
+        spellScoreDisplay.setX(Core.stage.getWidth() / 2);
+        spellScoreDisplay.setY(Core.stage.getHeight() / 2);
 
         spellPortraitGroup.setFillParent(true);
-        spellPortraitGroup.addActor(spellName);
-        spellPortraitGroup.addActor(spellScore);
+        spellPortraitGroup.add(spellName, spellScoreDisplay, spellScore);
 
         target.addActor(spellPortraitGroup);
     }
@@ -45,5 +57,31 @@ public class UIFragment implements Fragment {
 
     public void showSpell() {
         spellName.addAction(new LabelWriteAction(1, "SPELL CARD"));
+    }
+
+    public void failedSpell() {
+        spellScore.setText("bonus failed...");
+        spellScore.addAction(sequence(
+            parallel(show(), LabelFontScale.labelFontScale(.4f, 1, 1f)),
+            delay(8f,
+                sequence(
+                    LabelFontScale.labelFontScale(.4f, 1, 0.0001f),
+                    hide()
+                )
+            )
+        ));
+    }
+
+    public void spellBonus() {
+        spellScore.setText("SPELL BONUS: " + Vars.game.spellState.bonus);
+        spellScore.addAction(sequence(
+            parallel(show(), LabelFontScale.labelFontScale(.4f, 1, 1f)),
+            delay(4f,
+                sequence(
+                    LabelFontScale.labelFontScale(.4f, 1, 0.0001f),
+                    hide()
+                )
+            )
+        ));
     }
 }

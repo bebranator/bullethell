@@ -1,6 +1,6 @@
 package bullethell.game.dialog;
 
-import bullethell.content.Chars;
+import bullethell.content.Heroes;
 import bullethell.func.Cons;
 import bullethell.type.Hero;
 import com.badlogic.gdx.utils.Array;
@@ -30,7 +30,7 @@ public class GameDialogBuilder {
         dialogEntries.add(entry);
 
         temp.time = 1f;
-        temp.hero = Chars.bazarov;
+        temp.hero = Heroes.bazarov;
         temp.text = "";
         temp.finished = () -> {};
     }

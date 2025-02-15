@@ -1,5 +1,6 @@
 package bullethell.game;
 
+import bullethell.core.Core;
 import bullethell.core.Events;
 import bullethell.core.Vars;
 import bullethell.entity.type.BossEntity;
@@ -13,6 +14,7 @@ import bullethell.log.Log;
 import bullethell.type.BossType;
 import bullethell.utils.CPools;
 import bullethell.utils.E;
+import com.badlogic.gdx.utils.Array;
 
 // current attack
 public class GameState {
@@ -24,15 +26,14 @@ public class GameState {
 
     public Difficulty difficulty = Difficulty.lunatic;
 
-    public boolean showBossDisplay; // show boss health and remaining spells
-
     public GameState() {
         Events.on(Ev.PlayerDeathEvent.class, (e) -> {
             if(bossSpell == null) return;
+//            Core.app.exit();
 
+            spellState.died = true;
             if(!bossSpell.hasTags(SpellCard.SC_NO_DEATH_BONUS_LOSS)) {
                 spellState.bonus = 0;
-                spellState.died = true;
             }
         });
     }
@@ -40,12 +41,17 @@ public class GameState {
     public void levelUpdate() {
         if(bossSpell != null) {
             bossSpell.superUpdate();
+            int bonusBurn = bossSpell.hasTags(SpellCard.SC_NO_BONUS_BURN) ? 0 :
+                bossSpell.byDifficulty(4, 6, 6, 8, 8) * 50;
+
+            spellState.bonus -= bonusBurn;
 
             // burn spell bonus
-            if(!bossSpell.hasTags(SpellCard.SC_NO_BONUS_BURN)) {
-                // minimal spell bonus is 1500000
-                spellState.bonus = Math.max(spellState.bonus - 200, spellState.died ? 0 : 1500000);
-            }
+//            if(!bossSpell.hasTags(SpellCard.SC_NO_BONUS_BURN)) {
+//                // minimal spell bonus is 1500000
+//                spellState.bonus = Math.max(spellState.bonus - 200,
+//                spellState.died && !bossSpell.hasTags(SpellCard.SC_NO_DEATH_BONUS_LOSS) ? 0 : 1500000);
+//            }
 
             if(bossSpell.isEnd()) {
                 bossSpell.end();
@@ -68,6 +74,27 @@ public class GameState {
 //        if(playerSpell != null) playerSpell.update();
     }
 
+    public void setBoss(BossWaves waves) {
+
+    }
+
+    public void bossDeath() {
+        // end current spell
+        bossSpell.end();
+        SpellCardEndInfo info = SpellCardEndInfo.get();
+
+        info.died = spellState.died;
+        info.spellTimeLeft = bossSpell.lifetime - bossSpell.time;
+        info.spellTimeout = info.spellTimeLeft == 0;
+        info.spell = bossSpell;
+        info.spellBonus = spellState.bonus;
+
+        Events.fire(Ev.SpellCardEndEvent.class, Ev.SpellCardEndEvent.get(info, bossSpell));
+        bossSpellEnd(info);
+
+        bossSpell(null);
+    }
+
     public void levelDraw() {
         level.draw();
     }
@@ -75,7 +102,7 @@ public class GameState {
     void bossSpellEnd(SpellCardEndInfo info) {
         // no bonus for you!
         if(bossSpell.hasTags(SpellCard.SC_NO_TIMEOUT_BONUS) && info.spellTimeout) {
-            Vars.ui.failedBonus();
+            Vars.ui.spellBonus(0);
             return;
         }
         Vars.ui.spellBonus(spellState.bonus);
@@ -116,42 +143,7 @@ public class GameState {
 
         return entity;
     }
-//
-//    public void spell(SpellCard card) {
-//        //todo: nullify bonus and spell state, reset timer
-//        endSpell();
-//        spellState.reset();
-//        this.spell = card;
-//    }
-//
-//    // todo: deposit spell bonus
-//    public void endSpell() {
-//        // hide spell ui
-//        if(spell.hasTags(SpellCard.SC_NO_TIMEOUT_BONUS))
-//
-//        GameStats.depositScore(spellState.bonus);
-//
-//        Vars.ui.hideSpellUi();
-//    }
-//
-//    public void beginSpell() {
-//        // show spell display
-//        // portrait and etc
-//        Vars.ui.spell(bossEntity.type());
-//    }
-//
-//    // sets current boss (summons entity, makes display and etc)
-//    public void boss(Cons<BossEntity> cons) {
-//        bossEntity = BossEntity.spawn(cons);
-//
-//        Vars.ui.showBossDisplay();
-//    }
-//
-//    public void showDisplay(boolean value) {
-//        this.showBossDisplay = value;
-//
-//        if(showBossDisplay) Vars.ui.showBossDisplay();
-//        else Vars.ui.hideBossDisplay();
-
-//    }
+    public boolean bossSpell() {
+        return bossSpell != null;
+    }
 }

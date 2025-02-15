@@ -9,30 +9,36 @@ import bullethell.type.BossType;
 import com.badlogic.gdx.utils.Array;
 
 public class BossWaves extends Attack {
-    private Array<Attack> waves;
+    private Array<Attack> attacks;
+    public int spellAmount = 0;
+
     public BossWaves(BossType type, Attack... waves) {
-        this.waves = new Array<>(waves);
-        this.waves.ordered = true;
+        this.attacks = new Array<>(waves);
+        this.attacks.ordered = true;
 //        Vars.game.summonBoss((e) -> {
 //            e.set(200, 600);
 //        }, type);
 
         Events.on(Ev.SpellCardEndEvent.class, ev -> {
-            if(ev.card == current()) { // if current was ended spell
+            if (ev.card == current()) { // if current was ended spell
                 nextEntry();
             }
         });
+
+        for (Attack atk : attacks) {
+            if(atk instanceof SpellCard) spellAmount++;
+        }
     }
 
     public void nextEntry() {
-        if(waves.isEmpty()) return;
-        waves.removeIndex(0);
+        if(attacks.isEmpty()) return;
+        attacks.removeIndex(0);
     }
 
     public Attack current() {
-        if(waves.isEmpty()) return null;
+        if(attacks.isEmpty()) return null;
 
-        return waves.get(0);
+        return attacks.get(0);
     }
 
     // don't update time

@@ -2,9 +2,10 @@ package bullethell.game.spell;
 
 import bullethell.core.Vars;
 import bullethell.entity.type.BossEntity;
-import bullethell.entity.type.Player;
 import bullethell.game.Attack;
-import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.math.MathUtils;
+
+import static com.badlogic.gdx.math.MathUtils.*;
 
 /*
 Contains information about how stuff should behave
@@ -30,8 +31,35 @@ public class SpellCard extends Attack {
         this(name, 5000000, 0);
     }
 
-    public BossEntity boss() {
+    protected BossEntity boss() {
         return Vars.game.bossEntity;
+    }
+    protected float clamp(float value, float min, float max) {
+        return MathUtils.clamp(value, min, max);
+    }
+    protected int clamp(int val, int m, int mx) {
+        return MathUtils.clamp(val, m, mx);
+    }
+    protected float sind(float deg) {
+        return sinDeg(deg);
+    }
+    protected float cosd(float deg) {
+        return cosDeg(deg);
+    }
+    protected float tand(float deg) {
+        return tanDeg(deg);
+    }
+    protected float max(float a, float b) {
+        return Math.max(a, b);
+    }
+    protected float min(float a, float b) {
+        return Math.min(a, b);
+    }
+    protected float pi() {
+        return PI;
+    }
+    protected float pi2() {
+        return PI2;
     }
     // if bigger than 0 then its has flags
     public boolean hasTags(int mask) {

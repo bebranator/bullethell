@@ -1,6 +1,8 @@
 package bullethell.core;
 
 import bullethell.content.Bullets;
+import bullethell.content.Heroes;
+import bullethell.content.PlayerTypes;
 import bullethell.content.Sounds;
 import bullethell.graphics.Fill;
 import bullethell.graphics.g2d.CStage;
@@ -58,13 +60,16 @@ public final class Client extends AbstractCore {
 //        assets.load(new AssetDescriptor<>("sprites.atlas", TextureAtlas.class, atls));
 
 
-//        // must have
+        // content
+        PlayerTypes.init();
+        Bullets.init();
+        Heroes.init();
+
+        // must have
         Vars.init();
         Tex.init();
         Sounds.init();
 
-        // content
-        Bullets.init();
 
         // utils
         Fill.init();
