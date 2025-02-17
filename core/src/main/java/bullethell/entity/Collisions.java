@@ -2,7 +2,9 @@ package bullethell.entity;
 
 import bullethell.core.Vars;
 import bullethell.entity.trait.CircleHitboxc;
+import bullethell.entity.type.Bullet;
 import bullethell.entity.type.Laser;
+import bullethell.entity.type.Player;
 import bullethell.entity.type.PlayerBullet;
 import bullethell.func.Cons;
 import com.badlogic.gdx.math.Circle;
@@ -22,10 +24,20 @@ public class Collisions {
             }
         };
     }
-    public static void player(CircleHitboxc hitbox, Runnable hit) {
-        if(player.invuln) return; // no shit while invulnerable
 
+    public static void player(CircleHitboxc hitbox, Runnable hit) {
         if(player.hitbox().contains(hitbox.hitbox())) hit.run();
+    }
+
+    public static void player(Cons<Bullet> hit) {
+        for(Bullet bullet : enemyBullets.entities()) {
+            if(!bullet.enabled) continue;
+
+            if(player.hitbox().overlaps(bullet.hitbox())) {
+                hit.get(bullet);
+                break;
+            }
+        }
     }
 
     public static void playerBullets(CircleHitboxc hitbox, Cons<PlayerBullet> collide) {

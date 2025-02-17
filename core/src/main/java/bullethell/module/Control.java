@@ -57,6 +57,7 @@ public class Control implements IModule {
         player.defaultLocation();
         Vars.setState(State.menu);
 //        ui.menuFragment.showLabels();
+        game.setLevel(null);
         ui.menu();
         GameTime.reset();
     }
@@ -94,12 +95,12 @@ public class Control implements IModule {
         playStage(stage6);
         player.defaultLocation();
 
-        sounds.playMusic(audio.newMusic(files.internal("music/bad_apple_extract.mp3")), false);
+//        sounds.playMusic(audio.newMusic(files.internal("music/bad_apple_extract.mp3")), false);
+//        Shortcuts.arenaNotification("BGM - Bad Apple!!!");
 
         Vars.setState(State.inGame);
 //        ui.menuFragment.hideLabels();
         ui.game();
 
-        Shortcuts.arenaNotification("BGM - Bad Apple!!!");
     }
 }

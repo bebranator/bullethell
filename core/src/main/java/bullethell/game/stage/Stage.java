@@ -1,20 +1,33 @@
 package bullethell.game.stage;
 
+import bullethell.core.Vars;
 import bullethell.game.Attack;
 import com.badlogic.gdx.utils.Array;
 
 public class Stage {
     protected Array<Attack> waves;
     protected int index;
+    protected Attack previous, current;
 
     public Stage() {
         waves = new Array<>();
         index = 0;
     }
+
+    public void begin() {
+        index = -1;
+        nextAttack();
+    }
+    public void end() {
+        reset();
+    }
+
     public void reset() {
         index = 0;
         for(Attack atk : waves) {
             atk.time = 0;
+            atk.reset();
+            atk.end();
         }
     }
 
@@ -22,7 +35,7 @@ public class Stage {
     public Attack current() {
         if(index + 1 > waves.size) return null;
 
-        return waves.get(index);
+        return current = waves.get(index);
     }
 
     protected void waves(Attack... ar) {
@@ -35,13 +48,30 @@ public class Stage {
 
         Attack current = current();
 
-        if(current == null) return;
+        if(current == null) {
+            onEnd();
+            return;
+        }
+
         current.superUpdate();
 
         if(current.isEnd()) {
             current.end();
-            index++;
+            nextAttack();
         }
+    }
+    public void onEnd() {
+        Vars.ui.stageResultsDialog.show();
+    }
+
+    public void nextAttack() {
+        previous = current;
+        index++;
+        current = current();
+
+        if(previous != null && previous != current) previous.end();
+
+        if(current != null && previous != current) current.begin();
     }
 
     // draw stage background

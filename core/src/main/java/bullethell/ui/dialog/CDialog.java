@@ -3,6 +3,7 @@ package bullethell.ui.dialog;
 import bullethell.core.Core;
 import bullethell.func.Cons;
 import bullethell.game.State;
+import bullethell.graphics.g2d.CLabel;
 import bullethell.graphics.g2d.CTable;
 import bullethell.module.Styles;
 import com.badlogic.gdx.graphics.Color;
@@ -107,5 +108,11 @@ public class CDialog extends Dialog {
         tbl.get(table);
         container.add(table);
         return table;
+    }
+    public Label label() {
+        return new Label("", Styles.defLabel);
+    }
+    public CLabel clabel() {
+        return new CLabel();
     }
 }

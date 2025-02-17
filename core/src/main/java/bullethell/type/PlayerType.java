@@ -22,6 +22,7 @@ public class PlayerType {
     public float speed, focusSpeed;
     public float size, focusSize; // hit box sizes
 
+    private int axis;
     private int movement = 0;
 
     public PlayerType(final String name) {
@@ -31,11 +32,26 @@ public class PlayerType {
         focusSpeed = 3;
 
         TextureRegion idle = Core.atlas.findRegion(name + "-idle");
-        if(idle == null) {
-            for (int i = 0; i < movementSpritesAmount; i++) {
+        TextureRegion left = Core.atlas.findRegion(name + "-left");
+        TextureRegion right = Core.atlas.findRegion(name + "-right");
 
+        if(idle != null) {
+            for (TextureRegion tex : idle.split(32, 48)[0]) {
+                baseSprites.add(tex);
             }
-        }
+        } else fillArray(baseSprites);
+
+        if(left != null) {
+            for (TextureRegion tex : left.split(32, 48)[0]) {
+                movementSprites.add(tex);
+            }
+        } else fillArray(movementSprites);
+
+        if(right != null) {
+            for (TextureRegion tex : right.split(32, 48)[0]) {
+                movementSprites.add(tex);
+            }
+        } else fillArray(movementSprites);
     }
     void fillArray(Array<TextureRegion> tex) {
         tex.clear();
@@ -45,32 +61,45 @@ public class PlayerType {
     }
 
     public void reset() {
-        movement = 0;
     }
 
     public void changeAxisX(int axis) {
-        if(axis == 0) movement = 16;
-        else if (axis == -1) movement = 8;
-        else movement = 24;
+        // change movement index when changing axis
+        movement = 0;
+        this.axis = axis;
+        if(axis != 0) v = 2;
+        else v = 15;
     }
 
-    int a = 0;
+    float v = 5;
     public void draw(Player player) {
-        a = player.axisX + 1;
-
-        // just trying optimization later
-        // -1
-        if(a == 0) {
-            movement = Math.max(movement - 1, 0);
-        } else if (a == 1) { // 0
-            movement = Math.max(movement - 1, 8);
-        } else if (a == 2) { // 1
-            movement = Math.max(movement - 1, 8);
+        if(interval.get(v)) {
+            movement++;
         }
+
+        if(axis == 0) {
+            movement = movement % movementSpritesAmount;
+        }
+        else movement = Math.min(movement, movementSpritesAmount - 1);
+
         Draw.color();
+        Draw.fill(texByAxis(axis), player.getX(), player.getY(), player.drawSize(), player.drawSize());
+
         Draw.fill(Core.atlas.findRegion("blue-small"), player.getX(), player.getY(), player.getSize(), player.getSize());
-        Draw.textMode();
-        Draw.text(Fonts.kelly16, movement + "", player.getX(), player.getY());
-        Draw.textEnd();
+
+//        Draw.color();
+//        Draw.fill(Core.atlas.findRegion("blue-small"), player.getX(), player.getY(), player.getSize(), player.getSize());
+//        Draw.textMode();
+//        Draw.text(Fonts.kelly16, movement + "", player.getX(), player.getY());
+//        Draw.textEnd();
+    }
+
+    TextureRegion texByAxis(int axis) {
+        return switch (axis) {
+            case -1 -> movementSprites.get(movement);
+            case 1 -> movementSprites.get(8 + movement);
+            case 0 -> baseSprites.get(movement);
+            default -> null;
+        };
     }
 }

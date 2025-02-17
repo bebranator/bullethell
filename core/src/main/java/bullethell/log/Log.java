@@ -1,5 +1,7 @@
 package bullethell.log;
 
+import bullethell.utils.PlayerUtils;
+
 // todo: write log to files
 public class Log {
     private static LogProvider logger;
@@ -21,6 +23,9 @@ public class Log {
     }
     public static void setup() {
         setLogger(new DefaultLoggerProvider());
+    }
+    public static void setupGdx() {
+        setLogger(new GdxLoggerProvider());
     }
     // to call print functions
     public static void setLogger(LogProvider provider) {

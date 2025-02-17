@@ -8,7 +8,8 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 public class Fonts {
     public static BitmapFont kelly24, kelly12, kelly24Outline, kelly16;
     public static final String characters = FreeTypeFontGenerator.DEFAULT_CHARS.concat(
-        "יצףךוםדרשחץתפûגאןנמכהז‎ÿקסלטעüב‏ÉÖÓÊÅÍÃØÙÇÕÚÔÛÂÀÏÐÎËÄÆ‗×ÑÌÈÒÜÁÞ" // ןמם
+        "יצףךוםדרשחץתפûגאןנמכהז‎ÿקסלטעüב‏ÉÖÓÊÅÍÃØÙÇÕÚÔÛÂÀÏÐÎËÄÆÝ‗×ÑÌÈÒÜÁÞ" // ןמם
+        // lmao why Ý was missing
     );
 
     public static void load() {

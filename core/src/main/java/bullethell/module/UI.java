@@ -13,6 +13,7 @@ import bullethell.ui.UIFragment;
 import bullethell.ui.dialog.DialogueDialog;
 import bullethell.ui.dialog.LoadingDialog;
 import bullethell.ui.dialog.PauseDialog;
+import bullethell.ui.dialog.StageResultsDialog;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class UI implements IModule {
@@ -25,11 +26,10 @@ public class UI implements IModule {
     public LoadingDialog loadingDialog;
     public PauseDialog pauseDialog;
     public DialogueDialog dialogueDialog;
+    public StageResultsDialog stageResultsDialog;
 
     @Override
     public void create() {
-        Fonts.load();
-        Styles.load();
         CStage stage = Core.stage;
 
         stage.table((e) -> {
@@ -45,9 +45,10 @@ public class UI implements IModule {
         uiGroup.setFillParent(true);
         gameGroup.setFillParent(true);
 
+        loadingDialog = new LoadingDialog();
         pauseDialog = new PauseDialog();
         dialogueDialog = new DialogueDialog();
-        loadingDialog = new LoadingDialog();
+        stageResultsDialog = new StageResultsDialog();
 
 //        menuGroup.visible(Vars::menu);
 //        uiGroup.visible(() -> Vars.inGame() || Vars.paused());

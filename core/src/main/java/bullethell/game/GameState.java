@@ -129,10 +129,15 @@ public class GameState {
     }
     // reset everything and begin new level
     public void setLevel(Stage stage) {
-        if(level != null) level.reset();
+        if(level != null) {
+            level.reset();
+            level.end();
+        }
 
         bossSpell(null);
         level = stage;
+
+        if(stage != null) stage.begin();
     }
 
     public BossEntity summonBoss(Cons<BossEntity> cons, BossType type) {

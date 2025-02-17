@@ -4,70 +4,29 @@ import bullethell.content.Bullets;
 import bullethell.core.Client;
 import bullethell.core.Core;
 import bullethell.core.Vars;
-import bullethell.entity.trait.Entityc;
 import bullethell.entity.type.Bullet;
 import bullethell.game.Attack;
 import bullethell.game.GameTime;
-import bullethell.log.Log;
+import bullethell.graphics.Shortcuts;
 import com.badlogic.gdx.utils.Array;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.nio.ByteBuffer;
+import java.io.*;
+import java.net.URISyntaxException;
 
 public class BadAppleWave extends Attack {
     private Array<Bullet> bullets;
     private Array<Page> pages;
-    private final int targetFrames = 6572;
+    private final int targetFrames = 6572; // 6572
     public final int height = 48;
     public final int width = 64;
-    private final int targetSize = width * height;
     private int currentFrame;
     private float currentFrameFloat;
 
     // todo: parse bin
-    public BadAppleWave() {
+    public BadAppleWave() throws IOException, URISyntaxException {
         bullets = new Array<>();
         pages = new Array<>();
-        float r;
-        float ow = Client.WIDTH;
-        float oh = Client.HEIGHT; // original sizes (tw / th = ow / oh) !
-        float tw = width, th = height; // target sizes
-        r = ow / tw;
-
-        for(int h = 0; h < height; h++) {
-            for(int w = 0; w < width; w++) {
-                bullets.add(
-                    Bullet.spawn((e) -> {
-                        e.lifetime = -1;
-                        e.velocity().setZero();
-                        e.setSize(r / 2);
-                        e.drawSize = r / 2;
-                    }, Bullets.blueSmall, r + w * r + r / 2, (th * r) - h * r + r / 2 - r)
-                );
-            }
-        }
-        // bone
-        bullets.add(Bullet.spawn((e) -> {
-            e.lifetime = -1;
-            e.velocity().setZero();
-            e.setSize(1);
-            e.drawSize = 1;
-        }, Bullets.blueSmall, -10, -10));
-
-        Vars.arena.viewport.set(0, 0, ow, oh);
-        Vars.arena.world.set(0, 0, ow, oh);
-
-        // parse pages
-        FileInputStream stream;
-        try {
-            // it should always succeed
-            stream = new FileInputStream("assets/bad_apple.bin");
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
+        InputStream stream = Core.files.internal("bad_apple.bin").read(48 * targetFrames);
 
         for(int i = 0; i < targetFrames; i++) {
             try {
@@ -109,7 +68,7 @@ public class BadAppleWave extends Attack {
 
     public final byte[] buf = new byte[8];
 
-    public Page pageFromBin(FileInputStream binary, int position) throws IOException {
+    public Page pageFromBin(InputStream binary, int position) throws IOException {
 //        binary.skip(position * height);
         Page page = new Page();
         long buff;
@@ -143,6 +102,39 @@ public class BadAppleWave extends Attack {
 
     @Override
     public void end() {
-        bullets.forEach(Entityc::remove);
+        bullets.forEach(Bullet::remove);
+        bullets.clear();
+        currentFrame = 0;
+        currentFrameFloat = 0;
+        Vars.arena.defaults();
+    }
+
+    @Override
+    public void begin() {
+        float r;
+        float ow = Client.WIDTH;
+        float oh = Client.HEIGHT; // original sizes (tw / th = ow / oh) !
+        r = ow / width;
+
+        Vars.sounds.playMusic(Core.audio.newMusic(Core.files.internal("music/bad_apple_extract.mp3")), false);
+        Shortcuts.arenaNotification("BGM - Bad Apple!!!");
+
+        for(int h = 0; h < height; h++) {
+            for(int w = 0; w < width; w++) {
+                bullets.add(
+                    Bullet.spawn((e) -> {
+                        e.lifetime = -1;
+                        e.velocity().setZero();
+                        e.setSize(r / 2);
+                        e.drawSize = r / 2;
+                        e.enabled = false;
+                    }, Bullets.blueSmall, r + w * r + r / 2, (height * r) - h * r + r / 2 - r)
+                );
+            }
+        }
+        // bone
+
+        Vars.arena.viewport.set(0, 0, ow + 1, oh);
+        Vars.arena.world.set(0, 0, ow, oh);
     }
 }

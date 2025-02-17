@@ -21,4 +21,8 @@ public class Core {
     public static Application app;
     public static Camera camera;
     public static TextureAtlas atlas;
+
+    public static void panic(String reason) {
+
+    }
 }

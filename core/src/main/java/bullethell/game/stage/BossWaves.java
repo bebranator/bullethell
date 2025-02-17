@@ -5,12 +5,15 @@ import bullethell.core.Vars;
 import bullethell.game.Attack;
 import bullethell.game.Ev;
 import bullethell.game.spell.SpellCard;
+import bullethell.log.Log;
 import bullethell.type.BossType;
 import com.badlogic.gdx.utils.Array;
 
 public class BossWaves extends Attack {
     private Array<Attack> attacks;
+    private Attack previous = null, current = null;
     public int spellAmount = 0;
+    public int index = 0;
 
     public BossWaves(BossType type, Attack... waves) {
         this.attacks = new Array<>(waves);
@@ -24,21 +27,35 @@ public class BossWaves extends Attack {
                 nextEntry();
             }
         });
+    }
+    public void setAttack(int index) {
+        previous = current;
+        current = getEntry(index);
 
-        for (Attack atk : attacks) {
-            if(atk instanceof SpellCard) spellAmount++;
+        if(previous != current && current != null) {
+
+            current.begin();
+        }
+
+        if(previous != current && previous != null) {
+            Log.info("PREVIOUS END");
+            previous.end();
         }
     }
 
+    public Attack getEntry(int index) {
+        if(attacks.isEmpty()) return null;
+        if(index >= attacks.size) return null;
+        return attacks.get(index);
+    }
+
     public void nextEntry() {
-        if(attacks.isEmpty()) return;
-        attacks.removeIndex(0);
+        Log.info("ENTRY: " + ++index);
+        setAttack(index);
     }
 
     public Attack current() {
-        if(attacks.isEmpty()) return null;
-
-        return attacks.get(0);
+        return current;
     }
 
     // don't update time
@@ -46,12 +63,14 @@ public class BossWaves extends Attack {
     // end when no attacks left
     @Override
     public void superUpdate() {
-        if(current() == null) {
+        current = current();
+
+        if(current == null) {
             kill();
             return;
         }
+
         // if next attack is spell: do summon thing and pause till spell end
-        Attack current = current();
         if(current instanceof SpellCard spell) {
             if(Vars.game.bossSpell == spell) return;
 
@@ -60,7 +79,6 @@ public class BossWaves extends Attack {
             current.superUpdate();
 
             if(current.isEnd()) {
-                current.end();
                 nextEntry();
             }
         }
@@ -68,9 +86,9 @@ public class BossWaves extends Attack {
 
     @Override
     public void draw() {
-        if(current() == null) return;
+        if(current == null) return;
 
-        current().draw();
+        current.draw();
     }
 
     void kill() {

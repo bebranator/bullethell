@@ -4,9 +4,8 @@ import bullethell.entity.EntityGroup;
 import com.badlogic.gdx.math.Vector2;
 
 // implements some methods on entityc
-public abstract class BaseEntity implements Entityc, Velocityc {
+public abstract class BaseEntity implements Entityc{
     private final Vector2 position = new Vector2();
-    private final Vector2 velocity = new Vector2();
 
     private EntityGroup group;
     protected float drawSize;
@@ -38,11 +37,6 @@ public abstract class BaseEntity implements Entityc, Velocityc {
     }
 
     @Override
-    public Vector2 velocity() {
-        return velocity;
-    }
-
-    @Override
     public Vector2 position() {
         return position;
     }
@@ -52,7 +46,6 @@ public abstract class BaseEntity implements Entityc, Velocityc {
 
     @Override
     public void update() {
-        updateVelocity();
     }
 
     @Override

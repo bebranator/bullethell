@@ -1,7 +1,6 @@
 #version 330 core
 
 const float pi = 3.1415;
-const float R = 35.;
 const float inv_aspect_ratio = 1. / 1.;
 
 varying vec2 v_texCoords;
@@ -11,6 +10,7 @@ varying vec4 v_color;
 uniform vec2 u_bg_trans,
 u_resolution;
 uniform sampler2D u_texture, u_texture0, u_blend_mask;
+uniform float R;
 
 const float bmin = 3.0 * sqrt(3.0) / 2.0;
 

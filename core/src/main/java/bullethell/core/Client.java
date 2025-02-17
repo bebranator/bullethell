@@ -33,10 +33,7 @@ public final class Client extends AbstractCore {
     @Override
     public void setup() {
         finished = false;
-//        Core.stage = new CStage(new ExtendViewport(WIDTH, HEIGHT, new OrthographicCamera()), new SpriteBatch());
-//        Core.batch = Core.stage.getBatch();
-//        Core.camera = Core.stage.getCamera();
-        Log.setup();
+        Log.setupGdx();
         gl20 = Gdx.gl20;
         input = Gdx.input;
         files = Gdx.files;
@@ -53,19 +50,16 @@ public final class Client extends AbstractCore {
 
         assets = new AssetManager();
 
-//        AssetLoaderParameters<TextureAtlas> atls = new AssetLoaderParameters<>();
-//        atls.loadedCallback = (t, a, e) -> {
-//            atlas = t.get("sprites.atlas");
-//        };
-//        assets.load(new AssetDescriptor<>("sprites.atlas", TextureAtlas.class, atls));
-
-
         // content
         PlayerTypes.init();
         Bullets.init();
         Heroes.init();
 
         // must have
+        // assets
+        Fonts.load();
+        Styles.load();
+
         Vars.init();
         Tex.init();
         Sounds.init();
@@ -76,10 +70,6 @@ public final class Client extends AbstractCore {
 
         Core.input.setInputProcessor(new InputMultiplexer(stage, cinput));
 
-//        Vars.assets = new Asset();
-//        Vars.assets.load();
-//        Vars.renderer = new Renderer();
-//        Vars.ui = new UI();
         add(Vars.renderer = new Renderer());
         add(Vars.ui = new UI());
         add(Vars.control = new Control());
@@ -87,15 +77,8 @@ public final class Client extends AbstractCore {
 
     @Override
     public void render() {
-//        if(assets.update(1000 / 60)) {
-//            finished = true;
-//            return;
-//        }
-//
-//        if(finished) {
             super.render();
             cinput.process();
-//        }
     }
 
     @Override

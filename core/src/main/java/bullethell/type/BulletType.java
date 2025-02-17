@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class BulletType {
     public final String name;
-    public float speed = 1f;
 
     public TextureRegion sprite;
 

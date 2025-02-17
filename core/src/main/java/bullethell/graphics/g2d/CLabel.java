@@ -21,7 +21,7 @@ public class CLabel extends Label {
         this(supplier, Styles.defLabel);
     }
     public CLabel() {
-        this(() -> "");
+        this(() -> "", Styles.defLabel);
     }
 
     public void add() {
