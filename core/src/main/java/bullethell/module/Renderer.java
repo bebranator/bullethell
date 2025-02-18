@@ -8,7 +8,6 @@ import bullethell.utils.Time;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.*;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 
 import static bullethell.core.Core.*;
@@ -24,21 +23,19 @@ public class Renderer implements IModule {
         noise = new Texture(Core.files.internal("noiseTexture.png"));
 
         blackHole = new ShaderProgram(Core.files.internal("shaders/default.vert.glsl"), Core.files.internal("shaders/taiseiblackhole.frag.glsl"));
-        libgdx.bind(0);
-        e.bind(1);
-        noise.bind(2);
+
+        e.bind(2);
+        noise.bind(1);
 
         blackHole.bind();
         blackHole.setUniformMatrix("u_projTrans", Core.camera.view);
-        blackHole.setUniformi("u_texture", 0);
-        blackHole.setUniformi("u_texture0", 1);
-        blackHole.setUniformi("u_blend_mask", 2);
+        blackHole.setUniformi("u_texture0", 2);
+        blackHole.setUniformi("u_blend_mask", 1);
         blackHole.setUniformf("u_resolution", new Vector2(Client.WIDTH, Client.HEIGHT));
 //        test.setUniformf("u_timemod", 1 / 240f);
         Core.graphics.getGL20().glActiveTexture(GL20.GL_TEXTURE0);
     }
 
-    final Vector2 mouse = new Vector2(0, 0);
     final Vector2 bg_translation = new Vector2();
     // do test shaders
     @Override
@@ -57,8 +54,6 @@ public class Renderer implements IModule {
         if (menu()) drawMenuBg();
 
         if (inGame() || paused()) {
-
-            Draw.flush();
             enemyBullets.draw();
             playerBullets.draw();
             lasers.draw();
@@ -66,11 +61,12 @@ public class Renderer implements IModule {
             player.draw();
 
             Draw.flush();
+
             Draw.color();
             Fill.line();
             Fill.rect(arena.viewport.x, arena.viewport.y, arena.viewport.width, arena.viewport.height);
-            Draw.color();
 
+            Draw.color();
             game.levelDraw();
         }
         shapes.end();
@@ -82,8 +78,9 @@ public class Renderer implements IModule {
 
         Draw.color();
         Draw.shader(blackHole);
+        blackHole.setUniformf("R", 40);
         blackHole.setUniformf("u_bg_trans", bg_translation);
-        Draw.fill(e);
+        Draw.fill(Tex.tblack);
         Draw.shader();
     }
 }

@@ -7,6 +7,8 @@ import bullethell.entity.trait.Arenac;
 import bullethell.entity.trait.Timec;
 import bullethell.func.Cons;
 import bullethell.game.GameTime;
+import bullethell.movement.MovementParams;
+import bullethell.movement.Mover;
 import bullethell.type.BulletType;
 import bullethell.utils.CPools;
 import com.badlogic.gdx.utils.Pool;
@@ -15,8 +17,7 @@ public class Bullet extends BaseCircleHitboxEntity implements Timec, Pool.Poolab
     public static int bulletCounter = 0;
 
     private float time = 0;
-    public float lifetime, drawSize, speed = 1f;
-    public BulletMover mover = new BulletMover();
+    public float lifetime, drawSize;
 
     public Cons<Bullet> updater = (e) -> {};
     public Cons<Bullet> outOfBounds = (e) -> {};
@@ -52,13 +53,15 @@ public class Bullet extends BaseCircleHitboxEntity implements Timec, Pool.Poolab
         time = 0;
         lifetime = 0;
         drawSize = 1;
+        birthTime = 0f;
+
         updater = (e) -> {};
         outOfBounds = (e) -> {};
+
         type = Bullets.testBullet;
-        birthTime = 0f;
-        speed = 0;
-        mover.reset();
-        velocity().set(1, 0);
+
+        params().reset();
+
         set(0, 0);
         setSize(1);
     }
@@ -69,7 +72,7 @@ public class Bullet extends BaseCircleHitboxEntity implements Timec, Pool.Poolab
         super.update();
         updateTime();
         updater.get(this);
-        mover.update();
+        Mover.update(this, params());
     }
 
     @Override
@@ -79,16 +82,11 @@ public class Bullet extends BaseCircleHitboxEntity implements Timec, Pool.Poolab
     }
 
     @Override
-    public float speed() {
-        return speed;
-    }
-
-    @Override
     public void added(EntityGroup group) {
         birthTime = GameTime.time;
 
         type.spawned(this);
-        mover.begin(this);
+//        mover.begin(this);
         bulletCounter++;
     }
 
@@ -122,8 +120,6 @@ public class Bullet extends BaseCircleHitboxEntity implements Timec, Pool.Poolab
         Bullet bullet = CPools.obtain(Bullet.class, Bullet::new);
         bullet.lifetime = 600;
         bullet.type = type;
-        bullet.speed = type.speed;
-        bullet.velocity().set(1, 0);
         cons.get(bullet);
         bullet.set(x, y);
         bullet.add();

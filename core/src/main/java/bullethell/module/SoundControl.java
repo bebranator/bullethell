@@ -2,6 +2,7 @@ package bullethell.module;
 
 import bullethell.content.Sounds;
 import bullethell.core.Events;
+import bullethell.core.Settings;
 import bullethell.game.Ev;
 import bullethell.game.State;
 import com.badlogic.gdx.audio.Music;
@@ -25,6 +26,7 @@ public class SoundControl {
 
         currentPlaying = music;
         currentPlaying.play();
+        currentPlaying.setVolume(Settings.musicVolume(1f));
         currentPlaying.setLooping(loop);
     }
     public void resumeMusic() {
@@ -43,15 +45,15 @@ public class SoundControl {
     }
 
     public void playSound(Sound sound) {
-        sound.play();
+        sound.play(Settings.soundVolume(1));
     }
     public void playSound(Sound sound, float vol) {
-        sound.play(vol);
+        sound.play(Settings.soundVolume(vol));
     }
     public void ok() {
-        Sounds.ok.play(.5f);
+        playSound(Sounds.ok, .5f);
     }
     public void option() {
-        Sounds.select.play(.5f);
+        playSound(Sounds.select, .5f);
     }
 }

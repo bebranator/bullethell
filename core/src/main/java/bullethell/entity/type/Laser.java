@@ -130,9 +130,4 @@ public class Laser extends BaseEntity implements Solidc, Timec, Pool.Poolable {
     public void top() {
         hitbox.originY = hitbox.h;
     }
-
-    @Override
-    public float speed() {
-        return 0;
-    }
 }

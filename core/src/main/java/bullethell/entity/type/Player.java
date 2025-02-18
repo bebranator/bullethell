@@ -1,17 +1,14 @@
 package bullethell.entity.type;
 
-import bullethell.content.Bullets;
 import bullethell.content.PlayerTypes;
 import bullethell.content.Sounds;
-import bullethell.core.Core;
 import bullethell.core.Events;
-import bullethell.core.Vars;
 import bullethell.entity.Collisions;
 import bullethell.entity.EntityGroup;
 import bullethell.game.Ev;
 import bullethell.game.GameStats;
-import bullethell.graphics.Draw;
-import bullethell.type.Hero;
+import bullethell.movement.MovementParams;
+import bullethell.movement.Mover;
 import bullethell.type.PlayerType;
 import bullethell.utils.Interval;
 import com.badlogic.gdx.Input;
@@ -32,20 +29,24 @@ public class Player extends BaseCircleHitboxEntity {
     public PlayerType type;
 
     public Player() {
+        params().reset();
         setSize(6);
         type(PlayerTypes.seija);
+        drawSize = 24;
     }
 
     public void kill() {
         sounds.playSound(Sounds.death, .5f);
-        invuln = true;
         defaultLocation();
+        invuln = true;
+
         Timer.schedule(new Timer.Task() {
             @Override
             public void run() {
                 invuln = false;
             }
         }, 3f);
+
         Events.fire(new Ev.PlayerDeathEvent());
         GameStats.deaths++;
     }
@@ -57,47 +58,24 @@ public class Player extends BaseCircleHitboxEntity {
     public void update() {
         super.update();
 
-//        if(!invuln) {
+        if(!invuln) {
 //            Collisions.circleWCircle(Vars.enemyBullets, this, (a) -> kill());
-//            Collisions.playerLaser(this, (a) -> kill());
-//        }
+            Collisions.playerLaser(this, (a) -> kill());
+            Collisions.player((e) -> kill());
+        }
         int x = axis(moveLeft, moveRight);
         int y = axis(moveDown, moveUp);
 
         if(axisX != x) type.changeAxisX(x);
 
         axisX = x;
+        params().linear(x * speed(), y * speed());
 
-
-        velocity().set(x, y);
-
-        if(cinput.isPressed(Input.Keys.Z)) {
-            if(!shotInterval.get(2)) return;
-
-            Bullet.playerBullet((e) -> {
-                e.setSize(3);
-                e.drawSize = 3;
-                e.type = Bullets.testBullet;
-                e.velocity().set(0, 1);
-                e.speed = 25;
-                e.lifetime = 300;
-            }, getX() + 20, getY() - 20);
-
-            Bullet.playerBullet((e) -> {
-                e.setSize(3);
-                e.drawSize = 3;
-                e.type = Bullets.testBullet;
-                e.velocity().set(0, 1);
-                e.speed = 25;
-                e.lifetime = 300;
-            }, getX() - 20, getY() - 20);
-        }
+        Mover.update(this, params());
     }
 
     @Override
     public void draw() {
-//        Draw.color();
-//        Draw.fill(Core.atlas.findRegion("blue-small"), getX(), getY(), getSize(), getSize());
         type.draw(this);
     }
 
@@ -117,19 +95,17 @@ public class Player extends BaseCircleHitboxEntity {
     public EntityGroup targetGroup() {
         return playerGroup;
     }
+
     public boolean focused() {
         return cinput.isPressed(Input.Keys.SHIFT_LEFT);
     }
-
-    @Override
     public float speed() {
-        return focused() ? 3 : 6;
+        return focused() ? type.focusSpeed : type.speed;
     }
 
     public void type(PlayerType type) {
         this.type = type;
     }
-
     public PlayerType type() {
         return type;
     }

@@ -1,6 +1,7 @@
 package bullethell.module;
 
 import bullethell.core.Vars;
+import bullethell.game.Ev;
 import bullethell.game.GameStats;
 import bullethell.game.GameTime;
 import bullethell.game.State;
@@ -57,6 +58,7 @@ public class Control implements IModule {
         player.defaultLocation();
         Vars.setState(State.menu);
 //        ui.menuFragment.showLabels();
+        game.setLevel(null);
         ui.menu();
         GameTime.reset();
     }
@@ -86,7 +88,7 @@ public class Control implements IModule {
         Vars.setState(State.inGame);
     }
 
-    Stage stage6 = new StageBadApple();
+    Stage stage6 = new Stage6();
     // switch state to gaming
     public void game() {
         ui.menuFragment.setMenu(null);
@@ -94,12 +96,12 @@ public class Control implements IModule {
         playStage(stage6);
         player.defaultLocation();
 
-        sounds.playMusic(audio.newMusic(files.internal("music/bad_apple_extract.mp3")), false);
+//        sounds.playMusic(audio.newMusic(files.internal("music/bad_apple_extract.mp3")), false);
+//        Shortcuts.arenaNotification("BGM - Bad Apple!!!");
 
         Vars.setState(State.inGame);
 //        ui.menuFragment.hideLabels();
         ui.game();
 
-        Shortcuts.arenaNotification("BGM - Bad Apple!!!");
     }
 }

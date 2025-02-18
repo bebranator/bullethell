@@ -1,5 +1,6 @@
 package bullethell.entity.trait;
 
+import bullethell.movement.MovementParams;
 import com.badlogic.gdx.math.Vector2;
 
 public interface Movec {
@@ -20,4 +21,5 @@ public interface Movec {
     }
 
     Vector2 position();
+    MovementParams params();
 }

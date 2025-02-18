@@ -19,12 +19,7 @@ public class CPools {
     public static <T> Pool<T> get(Class<T> type, Supp<T> supplier, int max){
         Pool<T> pool = typePools.get(type);
         if(pool == null){
-            pool = new Pool<T>(4, max){
-                @Override
-                protected T newObject(){
-                    return supplier.get();
-                }
-            };
+            pool = new CPool<>(4, max, supplier);
             typePools.put(type, pool);
         }
         return pool;

@@ -17,4 +17,8 @@ public class GameTime {
         deltaModifier = 1f;
         delta = 1f;
     }
+    // task begins after some time
+    public static void schedule(Runnable runnable, float time) {
+
+    }
 }

@@ -1,14 +1,16 @@
 package bullethell.entity.trait;
 
 import bullethell.entity.EntityGroup;
+import bullethell.movement.MovementParams;
 import com.badlogic.gdx.math.Vector2;
 
 // implements some methods on entityc
-public abstract class BaseEntity implements Entityc, Velocityc {
-    private final Vector2 position = new Vector2();
-    private final Vector2 velocity = new Vector2();
-
+public abstract class BaseEntity implements Entityc{
+    protected MovementParams params = new MovementParams();
     private EntityGroup group;
+
+    private final Vector2 position = new Vector2();
+
     protected float drawSize;
     protected float birthTime;
 
@@ -38,11 +40,6 @@ public abstract class BaseEntity implements Entityc, Velocityc {
     }
 
     @Override
-    public Vector2 velocity() {
-        return velocity;
-    }
-
-    @Override
     public Vector2 position() {
         return position;
     }
@@ -51,9 +48,7 @@ public abstract class BaseEntity implements Entityc, Velocityc {
     public void draw() {}
 
     @Override
-    public void update() {
-        updateVelocity();
-    }
+    public void update() {}
 
     @Override
     public EntityGroup getGroup() {
@@ -68,5 +63,10 @@ public abstract class BaseEntity implements Entityc, Velocityc {
     @Override
     public float drawSize() {
         return drawSize;
+    }
+
+    @Override
+    public MovementParams params() {
+        return params;
     }
 }

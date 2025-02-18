@@ -20,6 +20,13 @@ public class Attack {
     }
 
     public void draw() {}
+    public void begin() {}
+    public void reset() {}
+
+    public void end() {
+//        lifetime = 0; // why tf did i
+        time = 0;
+    }
 
     // check if we should stop current attack
     public boolean isEnd() {
@@ -33,11 +40,6 @@ public class Attack {
                 runnable.run();
             }
         }, period, interval, count);
-    }
-
-    public void end() {
-        lifetime = 0;
-        time = 0;
     }
 
     public float byDifficulty(float easy, float normal, float hard, float expert, float lunatic) {

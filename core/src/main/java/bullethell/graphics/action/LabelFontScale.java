@@ -5,6 +5,15 @@ import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
 public class LabelFontScale extends LabelAction {
+    public static LabelFontScale labelFontScale(float time, Interpolation interp, float targetX, float targetY) {
+        LabelFontScale e = CPools.obtain(LabelFontScale.class, LabelFontScale::new);
+        e.targetFontX = targetX;
+        e.targetFontY = targetY;
+        e.setInterpolation(interp);
+        e.setDuration(time);
+        return e;
+    }
+
     public static LabelFontScale labelFontScale(float time, float targetX, float targetY) {
         LabelFontScale e = CPools.obtain(LabelFontScale.class, LabelFontScale::new);
         e.targetFontX = targetX;
@@ -12,6 +21,7 @@ public class LabelFontScale extends LabelAction {
         e.setDuration(time);
         return e;
     }
+
     public static LabelFontScale labelFontScale(float time, float target) {
         LabelFontScale e = CPools.obtain(LabelFontScale.class, LabelFontScale::new);
         e.targetFontX = target;
@@ -21,7 +31,12 @@ public class LabelFontScale extends LabelAction {
     }
 
     public LabelFontScale() {
-        super(1);
+        super(1, Interpolation.linear);
+    }
+    public LabelFontScale(float time, Interpolation interp, float targetX, float targetY) {
+        super(time, interp);
+        this.targetFontX = targetX;
+        this.targetFontY = targetY;
     }
 
     public LabelFontScale(float time, float targetFontX, float targetFontY) {
@@ -48,7 +63,7 @@ public class LabelFontScale extends LabelAction {
     protected void update(float v) {
         Label target = getLabel();
 
-        target.setFontScale(Interpolation.linear.apply(originalX, targetFontX, v),
-            Interpolation.linear.apply(originalY, targetFontY, v));
+        target.setFontScale(getInterpolation().apply(originalX, targetFontX, v),
+            getInterpolation().apply(originalY, targetFontY, v));
     }
 }

@@ -24,7 +24,7 @@ public class BossEntity extends BaseCircleHitboxEntity {
     public void update() {
         super.update();
 
-        if(!invulnerable) {
+        if (!invulnerable) {
             Collisions.playerBullets(this, this::takeBulletDamage);
         }
     }
@@ -68,10 +68,5 @@ public class BossEntity extends BaseCircleHitboxEntity {
 
         ent.add();
         return ent;
-    }
-
-    @Override
-    public float speed() {
-        return 0;
     }
 }
