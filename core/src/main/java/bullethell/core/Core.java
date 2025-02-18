@@ -23,6 +23,6 @@ public class Core {
     public static TextureAtlas atlas;
 
     public static void panic(String reason) {
-
+        throw new RuntimeException(reason);
     }
 }
