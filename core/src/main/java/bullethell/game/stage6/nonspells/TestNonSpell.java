@@ -45,7 +45,7 @@ public class TestNonSpell extends Attack {
             e.set(arena.world.x + randPoint, 800);
 //            e.velocity().set(0, -1);
 //            e.speed = 4;
-            e.params.linear(0, -4);
+            e.params().linear(0, -4);
         });
         spawnBullet(arena.world.x + randPoint);
     }
@@ -64,7 +64,7 @@ public class TestNonSpell extends Attack {
 //                y.speed = 4;
 //                y.mover.rotationDeg(360f/amount);
 //                y.mover.speed((bullet) -> 4);
-                y.params.velocity.set(4, 0).rotateDeg(finalI * 360f / amount);
+                y.params().velocity.set(4, 0).rotateDeg(finalI * 360f / amount);
                 y.lifetime = 900;
                 y.type = Bullets.blueSmall;
             });

@@ -22,7 +22,6 @@ import static bullethell.core.Vars.*;
 public class Player extends BaseCircleHitboxEntity {
     private Interval shotInterval = new Interval();
     public boolean invuln = false;
-    public MovementParams params = new MovementParams();
 
     public int axisX;
     public int movement;
@@ -30,6 +29,7 @@ public class Player extends BaseCircleHitboxEntity {
     public PlayerType type;
 
     public Player() {
+        params().reset();
         setSize(6);
         type(PlayerTypes.seija);
         drawSize = 24;
@@ -69,32 +69,9 @@ public class Player extends BaseCircleHitboxEntity {
         if(axisX != x) type.changeAxisX(x);
 
         axisX = x;
-        params.linear(x * 6, y * 6);
+        params().linear(x * speed(), y * speed());
 
-//        velocity().set(x, y);
-
-//        if(cinput.isPressed(Input.Keys.Z)) {
-//            if(!shotInterval.get(2)) return;
-
-//            Bullet.playerBullet((e) -> {
-//                e.setSize(3);
-//                e.drawSize = 3;
-//                e.type = Bullets.testBullet;
-//                e.velocity().set(0, 1);
-//                e.speed = 25;
-//                e.lifetime = 300;
-//            }, getX() + 20, getY() - 20);
-//
-//            Bullet.playerBullet((e) -> {
-//                e.setSize(3);
-//                e.drawSize = 3;
-//                e.type = Bullets.testBullet;
-//                e.velocity().set(0, 1);
-//                e.speed = 25;
-//                e.lifetime = 300;
-//            }, getX() - 20, getY() - 20);
-//        }
-        Mover.update(this, params);
+        Mover.update(this, params());
     }
 
     @Override
@@ -118,14 +95,17 @@ public class Player extends BaseCircleHitboxEntity {
     public EntityGroup targetGroup() {
         return playerGroup;
     }
+
     public boolean focused() {
         return cinput.isPressed(Input.Keys.SHIFT_LEFT);
+    }
+    public float speed() {
+        return focused() ? type.focusSpeed : type.speed;
     }
 
     public void type(PlayerType type) {
         this.type = type;
     }
-
     public PlayerType type() {
         return type;
     }

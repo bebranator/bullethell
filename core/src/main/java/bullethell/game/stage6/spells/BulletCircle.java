@@ -42,7 +42,7 @@ public class BulletCircle extends SpellCard {
 //                e.mover.targetRate = .6f;
 //                e.mover.rotationDeg(c * 360f / summon + angle);
 //                e.mover.speed(b -> 6 * (sind(e.time()) + 0.5f) / 2).rotation((bullet) -> sign * 1f / e.time());
-                e.params.linear(6, 0).rotateVelocity(c * 360f / summon + angle);
+                e.params().linear(6, 0).rotateVelocity(c * 360f / summon + angle);
             }, Bullets.blueSmall, x, y);
         }
     }

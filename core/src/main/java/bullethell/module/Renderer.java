@@ -36,7 +36,6 @@ public class Renderer implements IModule {
         Core.graphics.getGL20().glActiveTexture(GL20.GL_TEXTURE0);
     }
 
-    final Vector2 mouse = new Vector2(0, 0);
     final Vector2 bg_translation = new Vector2();
     // do test shaders
     @Override
@@ -55,8 +54,6 @@ public class Renderer implements IModule {
         if (menu()) drawMenuBg();
 
         if (inGame() || paused()) {
-
-            Draw.flush();
             enemyBullets.draw();
             playerBullets.draw();
             lasers.draw();
@@ -64,11 +61,12 @@ public class Renderer implements IModule {
             player.draw();
 
             Draw.flush();
+
             Draw.color();
             Fill.line();
             Fill.rect(arena.viewport.x, arena.viewport.y, arena.viewport.width, arena.viewport.height);
-            Draw.color();
 
+            Draw.color();
             game.levelDraw();
         }
         shapes.end();

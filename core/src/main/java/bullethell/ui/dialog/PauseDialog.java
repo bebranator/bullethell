@@ -18,10 +18,9 @@ public class PauseDialog extends CDialog {
         shown(this::rebuild);
         addListener(new UpDownEnterListener(this::up, this::down, this::enter));
         setFillParent(true);
-//        container.setFillParent(true);
 
         table(e -> {
-//            e.center();
+            e.center();
             e.label(() -> options[index].name).align(Align.center);
         });
     }

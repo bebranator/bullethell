@@ -52,6 +52,7 @@ public class CDialog extends Dialog {
             }
 //            ui.blockInputs(true);
         });
+        toFront();
     }
 
     public CDialog(String title) {

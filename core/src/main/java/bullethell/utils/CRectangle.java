@@ -51,7 +51,6 @@ public class CRectangle {
             (cos * y + sin * x) + oy
         );
     }
-    // FUCK IT WORKS!!!!!!!!!!!!11111
     public boolean circleCollision(Circle circle) {
         Tmp.c1.set(circle);
 

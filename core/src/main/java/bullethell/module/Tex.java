@@ -21,10 +21,10 @@ public class Tex {
         black6 = tint(white, 0, 0, 0, 0.6f);
         twhite = Textures.cut(Draw.white);
 
-        Pixmap tblack6pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
-        tblack6pixmap.setColor(Color.BLACK);
-        tblack6pixmap.drawPixel(0, 0);
-        tblack = new Texture(tblack6pixmap);
+        Pixmap tBlackPixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
+        tBlackPixmap.setColor(Color.BLACK);
+        tBlackPixmap.drawPixel(0, 0);
+        tblack = new Texture(tBlackPixmap);
     }
 
     static Drawable tint(TextureRegionDrawable src, float r, float g, float b, float a) {

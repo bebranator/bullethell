@@ -18,7 +18,6 @@ public class Bullet extends BaseCircleHitboxEntity implements Timec, Pool.Poolab
 
     private float time = 0;
     public float lifetime, drawSize;
-    public MovementParams params = new MovementParams();
 
     public Cons<Bullet> updater = (e) -> {};
     public Cons<Bullet> outOfBounds = (e) -> {};
@@ -61,7 +60,7 @@ public class Bullet extends BaseCircleHitboxEntity implements Timec, Pool.Poolab
 
         type = Bullets.testBullet;
 
-        params.reset();
+        params().reset();
 
         set(0, 0);
         setSize(1);
@@ -73,7 +72,7 @@ public class Bullet extends BaseCircleHitboxEntity implements Timec, Pool.Poolab
         super.update();
         updateTime();
         updater.get(this);
-        Mover.update(this, params);
+        Mover.update(this, params());
     }
 
     @Override

@@ -47,7 +47,7 @@ public class PetaFlare extends SpellCard {
 //            e.velocity().set(0, -1);
 //            e.speed = 12;
 //            e.mover.direction(0, -1).speed(2);
-            e.params.linear(0, -4);
+            e.params().linear(0, -4);
         }, Bullets.transparent, x, y);
 
         for(int i = 0; i < amount; i++) {
@@ -62,7 +62,7 @@ public class PetaFlare extends SpellCard {
 //                e.params.accelerated(4, 0, .2f, 0)
 //                    .rotateAcceleration(360 * tmpI / 16f + angle)
 //                    .rotateVelocity(360 * tmpI / 16f + angle);
-                e.params.asymptotic(4, 0, 6f, 0, .1f, 0).rotate(360 * tmpI / 16f + angle)
+                e.params().asymptotic(8, 0, 9f, 0, .1f, 0).rotate(360 * tmpI / 16f + angle)
                     .rotateRetention(360 * tmpI / 16f + angle);
             }, Bullets.blueSmall, x, y);
         }
