@@ -10,7 +10,7 @@ import bullethell.game.stage6.spells.PetaFlare;
 public class Stage6 extends Stage {
     public Stage6() {
         waves(
-            new BossWaves(Bosses.okuu, new BulletCircle()
+            new BossWaves(Bosses.okuu, new PetaFlare()
         ));
     }
 }

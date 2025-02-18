@@ -27,7 +27,14 @@ public class BossWaves extends Attack {
                 nextEntry();
             }
         });
+        setAttack(0);
     }
+
+    @Override
+    public void reset() {
+        setAttack(0);
+    }
+
     public void setAttack(int index) {
         previous = current;
         current = getEntry(index);
@@ -94,6 +101,7 @@ public class BossWaves extends Attack {
     void kill() {
         end = true;
     }
+
     boolean end;
 
     @Override

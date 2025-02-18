@@ -15,11 +15,11 @@ public class PetaFlare extends SpellCard {
 
     public PetaFlare() {
         super("peta_flare", 5000000, SC_NO_BONUS_BURN);
-        lifetime = 5 * 60; // we live for 75 seconds then timeout
+        lifetime = 75 * 60; // we live for 75 seconds then timeout
     }
 
     final float initialSize = 160;
-    final float decreaseCoefficient = .4f; // by time
+    final float decreaseCoefficient = .7f; // by time
     final float minimalSize = 40;
     Cons<Bullet> updater = (bullet) -> {
         bullet.setSize(Math.max(160 - bullet.time() * decreaseCoefficient, minimalSize));
@@ -30,9 +30,10 @@ public class PetaFlare extends SpellCard {
     @Override
     protected void update() {
         float shotTime = byDifficulty(40, 32, 24, 16, 16);
-        int amount = byDifficulty(10, 16, 24, 27, 27);
 
         if(!shotInterval.get(shotTime)) return;
+
+        int amount = byDifficulty(10, 16, 24, 27, 27);
 
         float x = MathUtils.random() * (width() - initialSize / 2) + ax() + initialSize / 2;
         float y = ay() + height() - initialSize / 2 + MathUtils.random() * 120;
@@ -40,19 +41,29 @@ public class PetaFlare extends SpellCard {
     }
 
     public void shotBullets(float x, float y, int amount) {
+        float angle = 0;
         Bullet.spawn((e) -> {
             e.updater = updater;
-            e.velocity().set(0, -1);
-            e.speed = 12;
+//            e.velocity().set(0, -1);
+//            e.speed = 12;
+//            e.mover.direction(0, -1).speed(2);
+            e.params.linear(0, -4);
         }, Bullets.transparent, x, y);
 
         for(int i = 0; i < amount; i++) {
             int tmpI = i;
             Bullet.spawn((e) -> {
-                e.setSize(2);
+                e.setSize(8);
                 e.drawSize = 12;
-                e.speed = 4;
-                e.velocity().set(1, 0).rotateDeg(360 * tmpI / 16f);
+//                e.speed = 4;
+//                e.velocity().set(1, 0).rotateDeg(360 * tmpI / 16f);
+//                e.mover.direction(360 * tmpI / 16f).speed(4);
+//                e.params.linear(4, 0).rotateVelocity(360 * tmpI / 16f + angle);
+//                e.params.accelerated(4, 0, .2f, 0)
+//                    .rotateAcceleration(360 * tmpI / 16f + angle)
+//                    .rotateVelocity(360 * tmpI / 16f + angle);
+                e.params.asymptotic(4, 0, 6f, 0, .1f, 0).rotate(360 * tmpI / 16f + angle)
+                    .rotateRetention(360 * tmpI / 16f + angle);
             }, Bullets.blueSmall, x, y);
         }
     }

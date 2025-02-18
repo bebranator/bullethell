@@ -67,7 +67,7 @@ public class PlayerType {
         // change movement index when changing axis
         movement = 0;
         this.axis = axis;
-        if(axis != 0) v = 2;
+        if(axis != 0) v = 7;
         else v = 15;
     }
 

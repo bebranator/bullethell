@@ -7,7 +7,8 @@ import bullethell.entity.trait.Arenac;
 import bullethell.entity.trait.Timec;
 import bullethell.func.Cons;
 import bullethell.game.GameTime;
-import bullethell.movement.Move;
+import bullethell.movement.MovementParams;
+import bullethell.movement.Mover;
 import bullethell.type.BulletType;
 import bullethell.utils.CPools;
 import com.badlogic.gdx.utils.Pool;
@@ -17,7 +18,7 @@ public class Bullet extends BaseCircleHitboxEntity implements Timec, Pool.Poolab
 
     private float time = 0;
     public float lifetime, drawSize;
-    public Move mover = Move.linear(this, 0);
+    public MovementParams params = new MovementParams();
 
     public Cons<Bullet> updater = (e) -> {};
     public Cons<Bullet> outOfBounds = (e) -> {};
@@ -53,11 +54,15 @@ public class Bullet extends BaseCircleHitboxEntity implements Timec, Pool.Poolab
         time = 0;
         lifetime = 0;
         drawSize = 1;
+        birthTime = 0f;
+
         updater = (e) -> {};
         outOfBounds = (e) -> {};
+
         type = Bullets.testBullet;
-        birthTime = 0f;
-        mover.linear(0);
+
+        params.reset();
+
         set(0, 0);
         setSize(1);
     }
@@ -68,7 +73,7 @@ public class Bullet extends BaseCircleHitboxEntity implements Timec, Pool.Poolab
         super.update();
         updateTime();
         updater.get(this);
-        mover.update();
+        Mover.update(this, params);
     }
 
     @Override

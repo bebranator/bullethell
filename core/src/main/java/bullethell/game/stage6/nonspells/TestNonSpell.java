@@ -8,6 +8,7 @@ import bullethell.func.Cons;
 import bullethell.game.Attack;
 import bullethell.log.Log;
 import bullethell.utils.Interval;
+import bullethell.utils.Tmp;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.MathUtils;
 
@@ -42,8 +43,9 @@ public class TestNonSpell extends Attack {
             e.type = Bullets.transparent;
             e.updater = updater;
             e.set(arena.world.x + randPoint, 800);
-            e.velocity().set(0, -1);
-            e.speed = 4;
+//            e.velocity().set(0, -1);
+//            e.speed = 4;
+            e.params.linear(0, -4);
         });
         spawnBullet(arena.world.x + randPoint);
     }
@@ -58,8 +60,11 @@ public class TestNonSpell extends Attack {
                 y.set(b, 800);
                 y.setSize(2);
                 y.drawSize = 12;
-                y.velocity().set(cosDeg(finalI * 360f/amount + rand_angle), sinDeg(finalI * 360f/amount + rand_angle));
-                y.speed = 4;
+//                y.velocity().set(cosDeg(finalI * 360f/amount + rand_angle), sinDeg(finalI * 360f/amount + rand_angle));
+//                y.speed = 4;
+//                y.mover.rotationDeg(360f/amount);
+//                y.mover.speed((bullet) -> 4);
+                y.params.velocity.set(4, 0).rotateDeg(finalI * 360f / amount);
                 y.lifetime = 900;
                 y.type = Bullets.blueSmall;
             });

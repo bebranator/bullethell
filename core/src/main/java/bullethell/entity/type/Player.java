@@ -1,21 +1,16 @@
 package bullethell.entity.type;
 
-import bullethell.content.Bullets;
 import bullethell.content.PlayerTypes;
 import bullethell.content.Sounds;
-import bullethell.core.Core;
 import bullethell.core.Events;
-import bullethell.core.Vars;
 import bullethell.entity.Collisions;
 import bullethell.entity.EntityGroup;
 import bullethell.game.Ev;
 import bullethell.game.GameStats;
-import bullethell.graphics.Draw;
-import bullethell.movement.Move;
-import bullethell.type.Hero;
+import bullethell.movement.MovementParams;
+import bullethell.movement.Mover;
 import bullethell.type.PlayerType;
 import bullethell.utils.Interval;
-import bullethell.utils.Tmp;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Timer;
@@ -27,7 +22,7 @@ import static bullethell.core.Vars.*;
 public class Player extends BaseCircleHitboxEntity {
     private Interval shotInterval = new Interval();
     public boolean invuln = false;
-    public Move move = Move.linear(this, 0);
+    public MovementParams params = new MovementParams();
 
     public int axisX;
     public int movement;
@@ -38,12 +33,11 @@ public class Player extends BaseCircleHitboxEntity {
         setSize(6);
         type(PlayerTypes.seija);
         drawSize = 24;
-        move.speed((player) -> focused() ? 3 : 6);
     }
 
     public void kill() {
         sounds.playSound(Sounds.death, .5f);
-//        defaultLocation();
+        defaultLocation();
         invuln = true;
 
         Timer.schedule(new Timer.Task() {
@@ -75,7 +69,7 @@ public class Player extends BaseCircleHitboxEntity {
         if(axisX != x) type.changeAxisX(x);
 
         axisX = x;
-        move.direction(Tmp.v21.set(x, y));
+        params.linear(x * 6, y * 6);
 
 //        velocity().set(x, y);
 
@@ -100,7 +94,7 @@ public class Player extends BaseCircleHitboxEntity {
 //                e.lifetime = 300;
 //            }, getX() - 20, getY() - 20);
 //        }
-        move.update();
+        Mover.update(this, params);
     }
 
     @Override

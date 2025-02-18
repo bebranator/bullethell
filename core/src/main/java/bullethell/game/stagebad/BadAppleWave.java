@@ -124,7 +124,6 @@ public class BadAppleWave extends Attack {
                 bullets.add(
                     Bullet.spawn((e) -> {
                         e.lifetime = -1;
-                        e.velocity().setZero();
                         e.setSize(r / 2);
                         e.drawSize = r / 2;
                         e.enabled = false;

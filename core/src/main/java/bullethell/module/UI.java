@@ -60,12 +60,12 @@ public class UI implements IModule {
         menuFragment = new MenuFragment();
         menuFragment.build(menuGroup);
 
-//        uiFragment = new UIFragment();
-//        uiFragment.build(uiGroup);
-//
-//        gameFragment = new GameFragment();
-//        gameFragment.build(gameGroup);
-//        uiGroup.setVisible(false);
+        uiFragment = new UIFragment();
+        uiFragment.build(uiGroup);
+
+        gameFragment = new GameFragment();
+        gameFragment.build(gameGroup);
+        uiGroup.setVisible(false);
     }
 
     public void menu() {

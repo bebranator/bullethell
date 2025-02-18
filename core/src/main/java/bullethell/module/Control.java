@@ -1,6 +1,7 @@
 package bullethell.module;
 
 import bullethell.core.Vars;
+import bullethell.game.Ev;
 import bullethell.game.GameStats;
 import bullethell.game.GameTime;
 import bullethell.game.State;
@@ -87,7 +88,7 @@ public class Control implements IModule {
         Vars.setState(State.inGame);
     }
 
-    Stage stage6 = new StageBadApple();
+    Stage stage6 = new Stage6();
     // switch state to gaming
     public void game() {
         ui.menuFragment.setMenu(null);
