@@ -1,6 +1,7 @@
 package bullethell.entity.trait;
 
 import bullethell.entity.EntityGroup;
+import bullethell.game.GameTime;
 import bullethell.movement.MovementParams;
 import com.badlogic.gdx.math.Vector2;
 
@@ -66,7 +67,25 @@ public abstract class BaseEntity implements Entityc{
     }
 
     @Override
+    public void drawSize(float value) {
+        this.drawSize = value;
+    }
+
+    @Override
     public MovementParams params() {
         return params;
+    }
+
+    @Override
+    public void add() {
+        birthTime = GameTime.time;
+        Entityc.super.add();
+    }
+
+    @Override
+    public void remove() {
+        birthTime = 0;
+        params().reset();
+        Entityc.super.remove();
     }
 }

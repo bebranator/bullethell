@@ -1,9 +1,17 @@
 package bullethell.game;
 
 import bullethell.core.Vars;
+import bullethell.entity.type.Bullet;
+import bullethell.entity.type.EnemyEntity;
 import bullethell.entity.type.Player;
+import bullethell.func.Cons;
+import bullethell.type.BulletType;
+import bullethell.type.EnemyType;
+import bullethell.utils.CPools;
 import bullethell.utils.Time;
+import bullethell.utils.Tmp;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Timer;
 
 // current attack wave
@@ -78,5 +86,44 @@ public class Attack {
 
     public Player player() {
         return Vars.player;
+    }
+    public void aimedBullet(Cons<Bullet> spawn, BulletType type, float x, float y, float speed, float attraction) {
+        /*
+        Bullet.spawn((e) -> {
+            e.setSize(8);
+            e.drawSize = 12;
+            e.params().towards(2, 0, player().getX(), player().getY(), .04f, 0f);
+        }, Bullets.blueSmall, summoner.getX(), summoner.getY());
+         */
+        Bullet.spawn((e) -> {
+//            spawn.get(e);
+            e.drawSize(8);
+            e.setSize(5);
+            e.params().towards(speed, 0, player().getX(), player().getY(), attraction, 0);
+        }, type, x, y);
+    }
+    public void aimedLinearBullet(Cons<Bullet> spawn, BulletType type, float x, float y, float speed) {
+        Vector2 dir = Tmp.v21;
+
+        dir.set(player().getX() - x, player().getY() - y).setLength(speed);
+
+        Bullet.spawn((e) -> {
+            e.params().linear(dir);
+            spawn.get(e);
+        }, type, x, y);
+    }
+    public void bullet(Cons<Bullet> spawn, BulletType type, float x, float y, float velX, float velY) {
+        Bullet.spawn((e) -> {
+            e.params().linear(velX, velY);
+            spawn.get(e);
+        }, type, x, y);
+    }
+
+    public EnemyEntity spawnEnemy(EnemyType type, Cons<EnemyEntity> cons) {
+        return EnemyEntity.spawn(type, cons);
+    }
+
+    public String debug() {
+        return "";
     }
 }

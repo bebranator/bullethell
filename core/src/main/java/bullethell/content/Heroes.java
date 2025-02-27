@@ -4,11 +4,12 @@ import bullethell.type.Hero;
 import com.badlogic.gdx.utils.Array;
 
 // class for content
-public class Heroes {
+public class Heroes extends Content {
     public static Hero bazarov, zheka, bob, evilBob;
-    public static Array<Hero> playableHeroes = new Array<>();
+    public static final Array<Hero> playableHeroes = new Array<>();
 
-    public static void init() {
+    @Override
+    public void init() {
         bazarov = new Hero("bazarov") {{
             description = "#hero.description.bazarov";
         }};

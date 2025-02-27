@@ -10,7 +10,7 @@ public class Styles {
     public static Label.LabelStyle defLabel;
     public static Window.WindowStyle defWindow;
 
-    public static void load() {
+    public static void init() {
         kellyLabel24 = new Label.LabelStyle() {{
             font = Fonts.kelly24;
             fontColor = Color.WHITE;

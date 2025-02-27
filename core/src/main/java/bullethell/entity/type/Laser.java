@@ -103,6 +103,11 @@ public class Laser extends BaseEntity implements Solidc, Timec, Pool.Poolable {
         return true;
     }
 
+    @Override
+    public boolean allowCollision() {
+        return true;
+    }
+
     public float width() {
         return hitbox.w;
     }

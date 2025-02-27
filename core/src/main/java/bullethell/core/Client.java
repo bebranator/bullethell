@@ -1,38 +1,27 @@
 package bullethell.core;
 
-import bullethell.content.Bullets;
-import bullethell.content.Heroes;
-import bullethell.content.PlayerTypes;
-import bullethell.content.Sounds;
+import bullethell.content.*;
 import bullethell.graphics.Fill;
 import bullethell.graphics.g2d.CStage;
 import bullethell.log.Log;
 import bullethell.module.*;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.assets.AssetDescriptor;
-import com.badlogic.gdx.assets.AssetLoaderParameters;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import static bullethell.core.Core.*;
-import static bullethell.graphics.Fill.*;
 
 public final class Client extends AbstractCore {
     /** Default application size. */
     public static final int WIDTH = 1200, HEIGHT = 900;
     public static final String TITLE = "The Void";
 
-    private boolean finished;
-    private AssetManager assets;
-
     @Override
     public void setup() {
-        finished = false;
         Log.setupGdx();
         gl20 = Gdx.gl20;
         input = Gdx.input;
@@ -42,23 +31,24 @@ public final class Client extends AbstractCore {
         audio = Gdx.audio;
         batch = new SpriteBatch();
         camera = new OrthographicCamera(WIDTH, HEIGHT);
-        stage = new CStage(new FitViewport(WIDTH, HEIGHT, camera), batch);
+        viewport = new FitViewport(WIDTH, HEIGHT, camera);
+        stage = new CStage(viewport, batch);
         cinput = new CInput();
         camera.position.set(WIDTH * .5f, HEIGHT * .5f, 0);
 
         atlas = new TextureAtlas("sprites.atlas");
 
-        assets = new AssetManager();
-
         // content
-        PlayerTypes.init();
-        Bullets.init();
-        Heroes.init();
+        Content.init(
+            new Bullets(),
+            new PlayerTypes(),
+            new Heroes()
+        );
 
         // must have
         // assets
-        Fonts.load();
-        Styles.load();
+        Fonts.init();
+        Styles.init();
 
         Vars.init();
         Tex.init();

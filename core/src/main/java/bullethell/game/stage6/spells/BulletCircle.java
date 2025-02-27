@@ -34,7 +34,7 @@ public class BulletCircle extends SpellCard {
             Bullet.spawn(e -> {
                 int sign = ((c % 2) == 0) ? 1 : -1;
                 e.setSize(2);
-                e.drawSize = 12;
+                e.drawSize(12);
 //                e.velocity().rotateDeg((c * 360f / summon) + angle);
 //                e.mover.speed = () -> 2;
 //                e.mover.rotationRate = () -> sign * 30f / e.time();

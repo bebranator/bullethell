@@ -1,6 +1,7 @@
 package bullethell.game.stage6.spells;
 
 import bullethell.content.Bullets;
+import bullethell.entity.EntityUpdater;
 import bullethell.entity.type.BossEntity;
 import bullethell.entity.type.Bullet;
 import bullethell.entity.type.Player;
@@ -9,6 +10,8 @@ import bullethell.game.spell.SpellCard;
 import bullethell.type.BulletType;
 import bullethell.utils.Interval;
 import com.badlogic.gdx.math.MathUtils;
+
+import static bullethell.core.Vars.sounds;
 
 public class PetaFlare extends SpellCard {
     private Interval shotInterval = new Interval(1);
@@ -21,10 +24,10 @@ public class PetaFlare extends SpellCard {
     final float initialSize = 160;
     final float decreaseCoefficient = .7f; // by time
     final float minimalSize = 40;
-    Cons<Bullet> updater = (bullet) -> {
+    EntityUpdater<Bullet> updater = (bullet) -> {
         bullet.setSize(Math.max(160 - bullet.time() * decreaseCoefficient, minimalSize));
 
-        bullet.drawSize = bullet.getSize() + 12;
+        bullet.drawSize(bullet.getSize() + 12);
     };
 
     @Override
@@ -41,6 +44,7 @@ public class PetaFlare extends SpellCard {
     }
 
     public void shotBullets(float x, float y, int amount) {
+        sounds.boom02();
         float angle = 0;
         Bullet.spawn((e) -> {
             e.updater = updater;
@@ -54,7 +58,7 @@ public class PetaFlare extends SpellCard {
             int tmpI = i;
             Bullet.spawn((e) -> {
                 e.setSize(8);
-                e.drawSize = 12;
+                e.drawSize(12);
 //                e.speed = 4;
 //                e.velocity().set(1, 0).rotateDeg(360 * tmpI / 16f);
 //                e.mover.direction(360 * tmpI / 16f).speed(4);
@@ -62,8 +66,9 @@ public class PetaFlare extends SpellCard {
 //                e.params.accelerated(4, 0, .2f, 0)
 //                    .rotateAcceleration(360 * tmpI / 16f + angle)
 //                    .rotateVelocity(360 * tmpI / 16f + angle);
-                e.params().asymptotic(8, 0, 9f, 0, .1f, 0).rotate(360 * tmpI / 16f + angle)
-                    .rotateRetention(360 * tmpI / 16f + angle);
+//                e.params().asymptotic(8, 0, 9f, 0, .1f, 0).rotate(360 * tmpI / 16f + angle)
+//                    .rotateRetention(360 * tmpI / 16f + angle);
+                e.params().towards(.3f, -.3f, player().getX(), player().getY(), .04f, -.04f);
             }, Bullets.blueSmall, x, y);
         }
     }

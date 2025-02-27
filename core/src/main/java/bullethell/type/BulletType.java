@@ -19,7 +19,7 @@ public class BulletType {
 
     public void draw(Bullet bullet) {
         Draw.alpha();
-        Draw.fill(sprite, bullet.getX(), bullet.getY(), bullet.drawSize, bullet.drawSize);
+        Draw.fill(sprite, bullet.getX(), bullet.getY(), bullet.drawSize(), bullet.drawSize());
     }
 
     public void spawned(Bullet bullet) {

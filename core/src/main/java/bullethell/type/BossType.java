@@ -6,7 +6,9 @@ import com.badlogic.gdx.graphics.Color;
 
 // defines basic stuff like hitbox size, drawsize and etc
 public class BossType {
-    public float hitboxSize = 40, drawSize = 36;
+    public float
+        hitboxSize = 40, drawSize = 36,
+        maxHealth = 4000;
 
     public final String name;
 

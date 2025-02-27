@@ -13,6 +13,7 @@ import com.badlogic.gdx.utils.Array;
 import java.io.*;
 import java.net.URISyntaxException;
 
+// todo: remove
 public class BadAppleWave extends Attack {
     private Array<Bullet> bullets;
     private Array<Page> pages;
@@ -125,15 +126,15 @@ public class BadAppleWave extends Attack {
                     Bullet.spawn((e) -> {
                         e.lifetime = -1;
                         e.setSize(r / 2);
-                        e.drawSize = r / 2;
+                        e.drawSize(r / 2);
                         e.enabled = false;
                     }, Bullets.blueSmall, r + w * r + r / 2, (height * r) - h * r + r / 2 - r)
                 );
             }
         }
-        // bone
 
-        Vars.arena.viewport.set(0, 0, ow + 1, oh);
-        Vars.arena.world.set(0, 0, ow, oh);
+//        Vars.arena.viewport.set(0, 0, ow + 1, oh);
+//        Vars.arena.world.set(0, 0, ow, oh);
+        Vars.arena.set(0, 0, ow, oh);
     }
 }

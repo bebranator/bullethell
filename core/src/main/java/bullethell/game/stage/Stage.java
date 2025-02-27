@@ -2,83 +2,108 @@ package bullethell.game.stage;
 
 import bullethell.core.Vars;
 import bullethell.game.Attack;
-import com.badlogic.gdx.utils.Array;
 
+import bullethell.struct.CArray;
+import bullethell.type.BossType;
+
+/*
+Stage() {
+    waves(
+        new Stage1GhostsRush0(),
+        new Stage1GhostsRush1(),
+        boss(
+            BossTypes.ghostGirl,
+            new NonSpell1(),
+            difficultyHigher(Difficulty.easy, new GhostSpell0()).orElse(new spell1()),
+            new NonSpell2()
+        )
+    );
+}
+ */
 public class Stage {
-    protected Array<Attack> waves;
-    protected int index;
-    protected Attack previous, current;
+    // bro why
+    // fucking big russian C
+    protected CArray<Attack> waves;
+    protected int index = 0;
+    protected Attack previous = null, current = null;
 
     public Stage() {
-        waves = new Array<>();
-        index = 0;
+        waves = new CArray<>();
+    }
+
+    public void setAttackIndex(int index) {
+        previous = current;
+        current = waves.getOrNull(index);
+
+        if(previous != null) previous.end();
+        // no more attacks
+        if(current != null) current.begin();
     }
 
     public void begin() {
-        index = -1;
-        nextAttack();
+        setAttackIndex(0);
     }
+
     public void end() {
         reset();
     }
 
+    protected void boss(BossType type, Attack... attacks) {
+//        summonBoss(type);
+        add(new BossWaves(attacks));
+    }
+
     public void reset() {
-        index = 0;
         for(Attack atk : waves) {
             atk.time = 0;
             atk.reset();
-            atk.end();
         }
+        resetAttackIndex();
     }
-
-    // returns null if no attacks
-    public Attack current() {
-        if(index + 1 > waves.size) return null;
-
-        return current = waves.get(index);
+    protected void resetAttackIndex() {
+        previous = null;
+        index = 0;
+        current = waves.getOrNull(index);
     }
 
     protected void waves(Attack... ar) {
         this.waves.addAll(ar);
     }
+    protected void add(Attack attack) {
+        waves.add(attack);
+    }
 
     public void update() {
-        // todo: do things with blank stages
-//        if(waves.isEmpty() || index >= waves.size) return;
-
-        Attack current = current();
-
         if(current == null) {
-            onEnd();
+            endStage();
             return;
         }
 
         current.superUpdate();
 
         if(current.isEnd()) {
-            current.end();
-            nextAttack();
+            setAttackIndex(++index);
         }
     }
-    public void onEnd() {
+    public void endStage() {
         Vars.ui.stageResultsDialog.show();
-    }
-
-    public void nextAttack() {
-        previous = current;
-        index++;
-        current = current();
-
-        if(previous != null && previous != current) previous.end();
-
-        if(current != null && previous != current) current.begin();
     }
 
     // draw stage background
     public void draw() {
-        Attack current = current();
-
         if(current == null) return;
         current.draw();
+    }
+
+    // end current attack
+    public void endAttack() {
+        setAttackIndex(++index);
+    }
+
+    public Attack current() {
+        return current;
+    }
+    public String debug() {
+        return "current attack: " + current() + "\nindex: " + index;
     }
 }

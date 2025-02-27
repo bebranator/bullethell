@@ -7,7 +7,9 @@ import bullethell.entity.trait.Healthc;
 import com.badlogic.gdx.math.MathUtils;
 
 public abstract class HealthEntity extends BaseCircleHitboxEntity implements Healthc {
-    public float health = 0;
+    public float health = maxHealth();
+    public float maxHealth = 600;
+    public float damageScale = 1;
 
     @Override
     public void update() {
@@ -32,7 +34,12 @@ public abstract class HealthEntity extends BaseCircleHitboxEntity implements Hea
 
     @Override
     public float maxHealth() {
-        return 600;
+        return maxHealth;
+    }
+
+    @Override
+    public void maxHealth(float value) {
+        maxHealth = value;
     }
 
     @Override
@@ -46,7 +53,12 @@ public abstract class HealthEntity extends BaseCircleHitboxEntity implements Hea
     }
 
     @Override
-    public void damaged(float value, float newHealth) {
+    public float damageScale() {
+        return damageScale;
+    }
 
+    @Override
+    public void damageScale(float value) {
+        damageScale = value;
     }
 }

@@ -3,6 +3,7 @@ package bullethell.entity.type;
 import bullethell.content.Bullets;
 import bullethell.core.Vars;
 import bullethell.entity.EntityGroup;
+import bullethell.entity.EntityUpdater;
 import bullethell.entity.trait.Arenac;
 import bullethell.entity.trait.Timec;
 import bullethell.func.Cons;
@@ -17,9 +18,9 @@ public class Bullet extends BaseCircleHitboxEntity implements Timec, Pool.Poolab
     public static int bulletCounter = 0;
 
     private float time = 0;
-    public float lifetime, drawSize;
+    public float lifetime;
 
-    public Cons<Bullet> updater = (e) -> {};
+    public EntityUpdater<Bullet> updater = (e) -> {};
     public Cons<Bullet> outOfBounds = (e) -> {};
     public BulletType type;
     public boolean enabled;
@@ -53,14 +54,11 @@ public class Bullet extends BaseCircleHitboxEntity implements Timec, Pool.Poolab
         time = 0;
         lifetime = 0;
         drawSize = 1;
-        birthTime = 0f;
 
         updater = (e) -> {};
         outOfBounds = (e) -> {};
 
         type = Bullets.testBullet;
-
-        params().reset();
 
         set(0, 0);
         setSize(1);
@@ -69,9 +67,13 @@ public class Bullet extends BaseCircleHitboxEntity implements Timec, Pool.Poolab
     @Override
     public void update() {
         if(!enabled) return;
+
         super.update();
+
         updateTime();
-        updater.get(this);
+
+        updater.update(this);
+
         Mover.update(this, params());
     }
 
@@ -83,10 +85,7 @@ public class Bullet extends BaseCircleHitboxEntity implements Timec, Pool.Poolab
 
     @Override
     public void added(EntityGroup group) {
-        birthTime = GameTime.time;
-
         type.spawned(this);
-//        mover.begin(this);
         bulletCounter++;
     }
 

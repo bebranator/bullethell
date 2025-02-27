@@ -28,6 +28,7 @@ public class MovementParams {
         attraction = new Vector2(),
         attractionPoint = new Vector2();
     public float attractionExponent = 0;
+
     public MovementParams reset() {
         velocity.setZero();
         acceleration.setZero();
@@ -39,32 +40,39 @@ public class MovementParams {
     }
 
     public MovementParams linear(float velocityX, float velocityY) {
-        this.velocity.set(velocityX, velocityY);
-        this.retention.set(1, 0);
+        velocity.set(velocityX, velocityY);
+        retention.set(1, 0);
         attraction.setZero();
         attraction.setZero();
         return this;
     }
     public MovementParams linear(Vector2 velocity) {
         this.velocity.set(velocity);
-        this.retention.set(1, 0);
+        retention.set(1, 0);
         return this;
     }
     public MovementParams rotateVelocity(float deg) {
-        this.velocity.rotateDeg(deg);
+        velocity.rotateDeg(deg);
         return this;
     }
     public MovementParams rotateAcceleration(float deg) {
-        this.acceleration.rotateDeg(deg);
+        acceleration.rotateDeg(deg);
         return this;
     }
     public MovementParams rotateRetention(float deg) {
-        this.retention.rotateDeg(deg);
+        retention.rotateDeg(deg);
+        return this;
+    }
+    public MovementParams rotateAttraction(float deg) {
+        attraction.rotateDeg(deg);
         return this;
     }
     public MovementParams rotate(float deg) {
-        this.acceleration.rotateDeg(deg);
-        this.velocity.rotateDeg(deg);
+        velocity.rotateDeg(deg);
+        acceleration.rotateDeg(deg);
+        retention.rotateDeg(deg);
+        attraction.rotateDeg(deg);
+        attraction.rotateDeg(deg);
         return this;
     }
     public MovementParams accelerated(float velX, float velY, float accelX, float accelY) {
@@ -94,6 +102,10 @@ public class MovementParams {
         attraction.set(ax, ay);
         attractionPoint.set(tx, ty);
         attractionExponent = 1;
+        return this;
+    }
+    public MovementParams attractionExponent(float exp) {
+        attractionExponent = exp;
         return this;
     }
 }

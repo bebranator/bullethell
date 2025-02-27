@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 
 // stores portraits links, name, description
+// todo: remove
 public class Hero {
     private final int resolutionX = 32, resolutionY = 48;
     public final String name;

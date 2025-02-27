@@ -25,9 +25,6 @@ public class GameFragment implements Fragment {
         TimerDisplay timer = new TimerDisplay();
         CLabel deaths = new CLabel(() -> GameStats.deaths + " смертей");
         timer.displayTime(true);
-        Events.on(Ev.SpellCardEndEvent.class, e -> {
-            timer.displayTime(false);
-        });
 
         timer.timeUpdater(() -> {
             if(Vars.game.bossSpell == null) return 0;

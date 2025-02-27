@@ -1,6 +1,7 @@
 package bullethell.entity;
 
 import bullethell.core.Client;
+import bullethell.core.Vars;
 import bullethell.entity.trait.Arenac;
 import bullethell.entity.trait.CircleHitboxc;
 import bullethell.entity.type.Laser;
@@ -23,8 +24,15 @@ public class Arena {
     }
 
     public void defaults() {
-        world.set(40, 40, Client.WIDTH / 1.375f - 80, Client.HEIGHT - 80f);
+//        world.set(40, 40, Client.WIDTH / 1.375f - 80, Client.HEIGHT - 80f);
+//        viewport.set(world);
+        set(40, 40, Client.WIDTH / 1.4f - 80, Client.HEIGHT - 80);
+    }
+    public void set(float x, float y, float w, float h) {
+        world.set(x, y, w, h);
         viewport.set(world);
+
+        if(Vars.renderer != null) Vars.renderer.resizeBuffer((int) w, (int) h);
     }
 
     public boolean outOfBounds(Arenac ent) {

@@ -5,6 +5,8 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import bullethell.core.Client;
 
+import java.util.Arrays;
+
 /** Launches the desktop (LWJGL3) application. */
 public class Lwjgl3Launcher {
     public static void main(String[] args) {
@@ -13,9 +15,19 @@ public class Lwjgl3Launcher {
             createApplication();
         }catch (Exception ex) {
             new SimpleDialog("Closed with error: " + ex.getLocalizedMessage() +
-                "\nCause: " + ex.getClass().getName()
+                "\nCause: " + ex.getClass().getName() + "\nMessage: " + stackTrace(ex.getStackTrace())
                 , "ERROR").shw();
+            ex.printStackTrace();
         }
+    }
+
+    private static String stackTrace(StackTraceElement[] trace) {
+        StringBuilder builder = new StringBuilder("");
+        for (StackTraceElement stackTraceElement : trace) {
+            builder.append(stackTraceElement).append("\n");
+        }
+
+        return builder.toString();
     }
 
     private static Lwjgl3Application createApplication() {

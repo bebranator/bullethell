@@ -1,7 +1,6 @@
 package bullethell.entity;
 
 import bullethell.core.Vars;
-import bullethell.entity.trait.Drawc;
 import bullethell.entity.trait.Entityc;
 import bullethell.entity.trait.Solidc;
 import bullethell.func.Cons;
@@ -14,21 +13,16 @@ public class EntityGroup<T extends Entityc> {
     private Class<T> entityType;
     private boolean solid;
 
-    public EntityGroup(Class<T> entityType) {
+    public EntityGroup(Class<T> entityType, boolean solid) {
         pending = new Array<>();
         removal = new Array<>();
         current = new Array<>();
         this.entityType = entityType;
 
-        for(Class<?> e : entityType.getInterfaces()) {
-            if (e == Solidc.class) {
-                solid = true;
-                break;
-            }
-        }
+        this.solid = solid;
     }
 
-    public void clean() {
+    public void clear() {
         current.forEach(e -> e.removed(this));
         current.clear();
     }
@@ -39,7 +33,6 @@ public class EntityGroup<T extends Entityc> {
 
     public void add(T entity) {
         pending.add(entity);
-        entity.setGroup(this);
     }
     public void remove(T entity) {
         removal.add(entity);

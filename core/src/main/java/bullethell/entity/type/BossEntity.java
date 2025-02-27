@@ -3,16 +3,16 @@ package bullethell.entity.type;
 import bullethell.core.Vars;
 import bullethell.entity.Collisions;
 import bullethell.entity.EntityGroup;
+import bullethell.entity.trait.Healthc;
 import bullethell.func.Cons;
 import bullethell.game.GameStats;
 import bullethell.type.BossType;
 import bullethell.utils.CPools;
 
 // actually i dont think we need to change hitbox size for boss
-public class BossEntity extends BaseCircleHitboxEntity {
+public class BossEntity extends BaseCircleHitboxEntity implements Healthc {
     private BossType type;
     public boolean invulnerable;
-    public float vulnerability = 1; // from 0 to 1
     public float health;
 
     @Override
@@ -36,7 +36,8 @@ public class BossEntity extends BaseCircleHitboxEntity {
     }
 
     public void takeBulletDamage(PlayerBullet bullet) {
-        GameStats.damage(bullet.getDamage() * vulnerability);
+        GameStats.damage(bullet.getDamage() * damageScale());
+        bullet.remove();
     }
 
     @Override
@@ -68,5 +69,40 @@ public class BossEntity extends BaseCircleHitboxEntity {
 
         ent.add();
         return ent;
+    }
+
+    @Override
+    public float maxHealth() {
+        return type.maxHealth;
+    }
+
+    @Override
+    public void maxHealth(float value) {
+
+    }
+
+    @Override
+    public float health() {
+        return health;
+    }
+
+    @Override
+    public void health(float value) {
+        this.health = value;
+    }
+
+    @Override
+    public float damageScale() {
+        return 0;
+    }
+
+    @Override
+    public void damageScale(float value) {
+
+    }
+
+    @Override
+    public void ranOutOfHealth() {
+        Vars.game.bossHealthRanOut();
     }
 }

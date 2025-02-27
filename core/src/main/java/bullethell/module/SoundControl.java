@@ -56,4 +56,7 @@ public class SoundControl {
     public void option() {
         playSound(Sounds.select, .5f);
     }
+    public void boom02() {
+        playSound(Sounds.boom02, .5f);
+    }
 }

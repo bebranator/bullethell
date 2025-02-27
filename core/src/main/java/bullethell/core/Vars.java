@@ -8,9 +8,7 @@ import bullethell.game.Ev;
 import bullethell.game.GameState;
 import bullethell.game.State;
 import bullethell.game.dialog.DialogueManager;
-import bullethell.log.Log;
 import bullethell.module.*;
-import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
 
 public class Vars {
     private static State state;
@@ -29,7 +27,7 @@ public class Vars {
     public static EntityGroup<Player> playerGroup;
     public static EntityGroup<BossEntity> bossGroup;
     public static EntityGroup<Laser> lasers;
-    public static EntityGroup<HealthEntity> healthEntities; // they take damage and collide with player and player's bullets
+    public static EntityGroup<EnemyEntity> enemies; // they take damage and collide with player and player's bullets
     // why we do other group for player lmao
     public static Player player;
 
@@ -44,11 +42,11 @@ public class Vars {
 
         dialogue = new DialogueManager();
 
-        enemyBullets = entities.getGroup(Bullet.class);
-        playerBullets = entities.getGroup(PlayerBullet.class);
-        playerGroup = entities.getGroup(Player.class);
-        healthEntities = entities.getGroup(HealthEntity.class);
-        lasers = entities.getGroup(Laser.class);
+        enemyBullets = entities.getGroup(Bullet.class, true);
+        playerBullets = entities.getGroup(PlayerBullet.class, true);
+        playerGroup = entities.getGroup(Player.class, true);
+        enemies = entities.getGroup(EnemyEntity.class, true);
+        lasers = entities.getGroup(Laser.class, true);
         player = new Player();
         player.add();
     }
@@ -72,5 +70,9 @@ public class Vars {
     }
     public static boolean paused() {
         return state.pause();
+    }
+
+    public static State state() {
+        return state;
     }
 }

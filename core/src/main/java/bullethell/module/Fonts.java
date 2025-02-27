@@ -12,7 +12,7 @@ public class Fonts {
         // lmao why Ý was missing
     );
 
-    public static void load() {
+    public static void init() {
         FreeTypeFontGenerator kellygen = new FreeTypeFontGenerator(Core.files.internal("font/KellySlab-Regular.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter param24 = param24();
         var param24Outline = param24();

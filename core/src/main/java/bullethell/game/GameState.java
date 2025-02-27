@@ -1,21 +1,16 @@
 package bullethell.game;
 
-import bullethell.core.Core;
 import bullethell.core.Events;
 import bullethell.core.Vars;
 import bullethell.entity.type.BossEntity;
 import bullethell.func.Cons;
 import bullethell.game.spell.SpellCard;
 import bullethell.game.spell.SpellCardEndInfo;
-import bullethell.game.stage.BossWaves;
 import bullethell.game.stage.Stage;
-import bullethell.game.stage6.Stage6;
-import bullethell.log.Log;
 import bullethell.type.BossType;
 import bullethell.utils.CPools;
-import bullethell.utils.E;
-import com.badlogic.gdx.utils.Array;
 
+import static bullethell.core.Vars.*;
 // current attack
 public class GameState {
     public Stage level;
@@ -46,27 +41,8 @@ public class GameState {
 
             spellState.bonus -= bonusBurn;
 
-            // burn spell bonus
-//            if(!bossSpell.hasTags(SpellCard.SC_NO_BONUS_BURN)) {
-//                // minimal spell bonus is 1500000
-//                spellState.bonus = Math.max(spellState.bonus - 200,
-//                spellState.died && !bossSpell.hasTags(SpellCard.SC_NO_DEATH_BONUS_LOSS) ? 0 : 1500000);
-//            }
-
             if(bossSpell.isEnd()) {
-                bossSpell.end();
-                SpellCardEndInfo info = SpellCardEndInfo.get();
-
-                info.died = spellState.died;
-                info.spellTimeLeft = bossSpell.lifetime - bossSpell.time;
-                info.spellTimeout = info.spellTimeLeft == 0;
-                info.spell = bossSpell;
-                info.spellBonus = spellState.bonus;
-
-                Events.fire(Ev.SpellCardEndEvent.class, Ev.SpellCardEndEvent.get(info, bossSpell));
-                bossSpellEnd(info);
-
-                bossSpell(null);
+                endSpell();
             }
         }else {
             level.update();
@@ -74,25 +50,10 @@ public class GameState {
 //        if(playerSpell != null) playerSpell.update();
     }
 
-    public void setBoss(BossWaves waves) {
-
-    }
-
     public void bossDeath() {
-        // end current spell
-        bossSpell.end();
-        SpellCardEndInfo info = SpellCardEndInfo.get();
-
-        info.died = spellState.died;
-        info.spellTimeLeft = bossSpell.lifetime - bossSpell.time;
-        info.spellTimeout = info.spellTimeLeft == 0;
-        info.spell = bossSpell;
-        info.spellBonus = spellState.bonus;
-
-        Events.fire(Ev.SpellCardEndEvent.class, Ev.SpellCardEndEvent.get(info, bossSpell));
-        bossSpellEnd(info);
-
-        bossSpell(null);
+        // end any current spells, play death animation, shake screen and etc
+        // then end the stage since no more waves are expected
+        endSpell();
     }
 
     public void levelDraw() {
@@ -122,10 +83,20 @@ public class GameState {
         spellState.bonus = (int) (bossSpell.spellBonus * difficulty.bonusModifier);
         Vars.ui.showSpellUi();
     }
+    public void endSpell() {
+        bossSpell.end();
+        SpellCardEndInfo info = SpellCardEndInfo.get();
 
-    // todo: do player spell
-    public void playerSpell(SpellCard playerSpell) {
-        this.playerSpell = playerSpell;
+        info.died = spellState.died;
+        info.spellTimeLeft = bossSpell.lifetime - bossSpell.time;
+        info.spellTimeout = info.spellTimeLeft == 0;
+        info.spell = bossSpell;
+        info.spellBonus = spellState.bonus;
+
+        Events.fire(Ev.SpellCardEndEvent.class, Ev.SpellCardEndEvent.get(info, bossSpell));
+        bossSpellEnd(info);
+
+        bossSpell(null);
     }
     // reset everything and begin new level
     public void setLevel(Stage stage) {
@@ -141,14 +112,33 @@ public class GameState {
     }
 
     public BossEntity summonBoss(Cons<BossEntity> cons, BossType type) {
+        if(bossEntity != null) return null; // already spawned boss
+
         BossEntity entity = CPools.obtain(BossEntity.class, BossEntity::new);
         entity.type(type);
         cons.get(entity);
         entity.add();
-
-        return entity;
+        return bossEntity = entity;
     }
+
+    // force to end current attack
+    public void endAttack() {
+        level.endAttack();
+    }
+
+    public void bossHealthRanOut() {
+        if(bossEntity == null) return; // something went wrong
+
+        endSpell();
+    }
+
     public boolean bossSpell() {
         return bossSpell != null;
+    }
+
+    public void clearHazards() {
+        enemyBullets.clear();
+        playerBullets.clear();
+        enemies.clear();
     }
 }

@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class Core {
     public static Graphics graphics;
@@ -16,6 +17,7 @@ public class Core {
     public static Input input;
     public static GL20 gl20;
     public static Audio audio;
+    public static Viewport viewport;
     // cirno input
     public static CInput cinput;
     public static Application app;
@@ -24,5 +26,8 @@ public class Core {
 
     public static void panic(String reason) {
         throw new RuntimeException(reason);
+    }
+    public static void panic(String reason, Throwable th) {
+        throw new RuntimeException(reason, th);
     }
 }

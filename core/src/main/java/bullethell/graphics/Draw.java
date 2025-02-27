@@ -22,6 +22,7 @@ public class Draw {
     public static TextureRegion white = Core.atlas.findRegion("pixel"),
         circle = Core.atlas.findRegion("circle50");
     private static boolean textMode = false;
+    private static Matrix4 idt = new Matrix4();
 
     private static final float[] vertices = new float[6 * 4];
 
@@ -78,6 +79,12 @@ public class Draw {
 
     public static void proj() {
         batch.setProjectionMatrix(camera.combined);
+    }
+    public static void transform(Matrix4 transform) {
+        batch.setTransformMatrix(transform);
+    }
+    public static void transform() {
+        batch.setTransformMatrix(idt);
     }
 
     public static void fill(Texture reg) {
@@ -155,6 +162,9 @@ public class Draw {
     public static void text(BitmapFont font, String text, float x, float y) {
         font.draw(batch, text, x, y, 0f, Align.center, false);
 //        font.draw()
+    }
+    public static void text(BitmapFont font, String text, float x, float y, float targetWidth, int align) {
+        font.draw(batch, text, x, y, targetWidth, align, false);
     }
 
     static final Rectangle scissors = new Rectangle(), bounds = new Rectangle();

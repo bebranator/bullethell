@@ -14,7 +14,6 @@ public class BossWaveBaseWait extends Attack {
     }
     @Override
     public void begin() {
-        Log.info("BEGIN");
         Shortcuts.stage(stageName);
     }
 }

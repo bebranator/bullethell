@@ -5,10 +5,11 @@ import bullethell.entity.type.Bullet;
 import bullethell.graphics.Fill;
 import bullethell.type.BulletType;
 
-public class Bullets {
+public class Bullets extends Content {
     public static BulletType testBullet, transparent, blueSmall;
 
-    public static void init() {
+    @Override
+    public void init() {
         testBullet = new BulletType("test") {{
             sprite = Core.atlas.findRegion("pixel");
         }};

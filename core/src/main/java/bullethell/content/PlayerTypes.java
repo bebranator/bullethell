@@ -2,10 +2,11 @@ package bullethell.content;
 
 import bullethell.type.PlayerType;
 
-public class PlayerTypes {
+public class PlayerTypes extends Content {
     public static PlayerType bazarov, seija;
 
-    public static void init() {
+    @Override
+    public void init() {
         bazarov = new PlayerType("bazarov") {{
 
         }};

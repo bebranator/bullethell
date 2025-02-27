@@ -26,13 +26,4 @@ public class CStage extends Stage {
             addActor(c);
         }
     }
-    // yes
-//    public void fill(Cons4<Float, Float, Float, Float> draw) {
-//        Actor act = new Actor() {
-//            @Override
-//            public void draw(Batch batch, float parentAlpha) {
-//                draw.get();
-//            }
-//        }
-//    }
 }

@@ -15,8 +15,8 @@ public class GameStats {
     public static int score, graze, value;
     public static int displayScore;
 
-    public static float power = 0.f;
-    public static float damage = 0, spellDamage; // damage dealt to boss while boss spell was active
+    public static float power = 1.f;
+    public static float damage = 0, spellDamage = 0; // damage dealt to boss while boss spell was active
 
     public static void reset() {
         score = 0;
@@ -65,6 +65,10 @@ public class GameStats {
         if(Vars.game.bossSpell()) {
             spellDamage += finalDamage;
         }
+    }
+
+    public static void depositPower(float value) {
+        power += value;
     }
 
     public static void update() {

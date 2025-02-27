@@ -2,6 +2,7 @@ package bullethell.game.stage6.nonspells;
 
 import bullethell.content.Bullets;
 import bullethell.core.Core;
+import bullethell.entity.EntityUpdater;
 import bullethell.entity.type.Bullet;
 import bullethell.entity.type.Laser;
 import bullethell.func.Cons;
@@ -22,19 +23,17 @@ public class TestNonSpell extends Attack {
         this.lifetime = 5 * 60;
     }
 
-    Cons<Bullet> updater = (bullet) -> {
+    EntityUpdater<Bullet> updater = (bullet) -> {
         float time = bullet.time();
 
         bullet.setSize(Math.max(190 - time * 1.2f, 5));
-        bullet.drawSize = bullet.getSize() + 12;
+        bullet.drawSize(bullet.getSize() + 12);
     };
-
-    Sound boom = Core.audio.newSound(Core.files.internal("sound/se_enep02.wav"));
 
     @Override
     protected void update() {
         if(!bulletSpawn.get(16)) return;
-        sounds.playSound(boom, .2f);
+        sounds.boom02();
         // size * 2 = 120
         float randPoint = random() * (arena.world.width - arena.world.x);
 
@@ -59,12 +58,8 @@ public class TestNonSpell extends Attack {
             Bullet.spawn(y -> {
                 y.set(b, 800);
                 y.setSize(2);
-                y.drawSize = 12;
-//                y.velocity().set(cosDeg(finalI * 360f/amount + rand_angle), sinDeg(finalI * 360f/amount + rand_angle));
-//                y.speed = 4;
-//                y.mover.rotationDeg(360f/amount);
-//                y.mover.speed((bullet) -> 4);
-                y.params().velocity.set(4, 0).rotateDeg(finalI * 360f / amount);
+                y.drawSize(12);
+//                y.params().velocity.set(4, 0).rotateDeg(finalI * 360f / amount);
                 y.lifetime = 900;
                 y.type = Bullets.blueSmall;
             });
