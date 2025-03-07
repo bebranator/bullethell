@@ -26,6 +26,7 @@ public class Core {
 
     public static void panic(String reason) {
         throw new RuntimeException(reason);
+//        Core.app.exit();
     }
     public static void panic(String reason, Throwable th) {
         throw new RuntimeException(reason, th);

@@ -27,6 +27,7 @@ public class MovementParams {
     public final Vector2
         attraction = new Vector2(),
         attractionPoint = new Vector2();
+    public final Vector2 difference = new Vector2(); // delta position
     public float attractionExponent = 0;
 
     public MovementParams reset() {
@@ -35,6 +36,7 @@ public class MovementParams {
         retention.setZero();
         attraction.setZero();
         attractionPoint.setZero();
+        difference.setZero();
         attractionExponent = 0;
         return this;
     }

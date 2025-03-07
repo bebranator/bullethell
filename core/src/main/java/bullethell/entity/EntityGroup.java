@@ -23,7 +23,9 @@ public class EntityGroup<T extends Entityc> {
     }
 
     public void clear() {
-        current.forEach(e -> e.removed(this));
+        for(Entityc entity : current) {
+            entity.removed(this);
+        }
         current.clear();
     }
 
@@ -60,7 +62,7 @@ public class EntityGroup<T extends Entityc> {
         current.forEach(Entityc::update);
     }
 
-    Rectangle viewport = Vars.arena.viewport;
+    Rectangle viewport = Vars.arena.drawViewport;
     public void draw() {
         if(solid) {
             current.forEach(e -> {

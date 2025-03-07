@@ -41,7 +41,9 @@ public class Stage {
     }
 
     public void begin() {
-        setAttackIndex(0);
+//        setAttackIndex(0);
+        resetAttackIndex();
+        current.begin();
     }
 
     public void end() {

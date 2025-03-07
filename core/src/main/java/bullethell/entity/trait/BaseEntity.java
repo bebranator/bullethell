@@ -75,17 +75,4 @@ public abstract class BaseEntity implements Entityc{
     public MovementParams params() {
         return params;
     }
-
-    @Override
-    public void add() {
-        birthTime = GameTime.time;
-        Entityc.super.add();
-    }
-
-    @Override
-    public void remove() {
-        birthTime = 0;
-        params().reset();
-        Entityc.super.remove();
-    }
 }

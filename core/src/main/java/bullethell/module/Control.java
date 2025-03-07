@@ -5,10 +5,12 @@ import bullethell.core.Vars;
 import bullethell.game.GameStats;
 import bullethell.game.GameTime;
 import bullethell.game.State;
+import bullethell.game.dialog.GameDialog;
 import bullethell.game.spell.SpellCard;
 import bullethell.game.stage.Stage;
 import bullethell.game.stage6.Stage6;
 import bullethell.game.stagebad.StageBadApple;
+import bullethell.ui.dialog.DialogueDialog;
 import bullethell.utils.Time;
 import com.badlogic.gdx.Input;
 
@@ -16,6 +18,8 @@ import static bullethell.core.Core.*;
 import static bullethell.core.Vars.*;
 
 public class Control implements IModule {
+    private GameDialog dialog;
+
     @Override
     public void render() {
         Time.update();
@@ -28,26 +32,40 @@ public class Control implements IModule {
         }
     }
 
-    public void updateGame() {
+    public void playDialog(GameDialog dialog) {
+        this.dialog = dialog;
+    }
+
+    protected void updateGame() {
+        // todo: make game dialogs work
         if(game.level == null) {
             Core.panic("Something went wrong with stage!");
         }
 
         if(cinput.isJustPressed(Input.Keys.ESCAPE)) ui.pauseDialog.show();
 
+        items.update();
         enemyBullets.update();
         playerBullets.update();
         lasers.update();
         enemies.update();
         player.update();
 
-        game.levelUpdate();
+        if(dialog == null) {
+            game.levelUpdate();
+        }else {
+            updateDialog(dialog);
+        }
 
         arena.updateGroup(playerBullets);
+
         GameStats.update();
     }
+    protected void updateDialog(GameDialog dialog) {
+
+    }
+
     // exit the stage
-    // todo: show loading screen
     public void menu() {
         sounds.stopMusic();
 
@@ -65,16 +83,13 @@ public class Control implements IModule {
         game.setLevel(stage);
     }
 
-    public void card(SpellCard card) {
-//        game.spell(card);
-    }
-
     // clean every entity
     public void reset() {
         playerBullets.clear();
         lasers.clear();
         enemies.clear();
         enemyBullets.clear();
+        items.clear();
         player.defaultLocation();
     }
 
@@ -86,11 +101,13 @@ public class Control implements IModule {
     }
 
     Stage stage6 = new StageBadApple();
+//    Stage stage6 = new Stage6();
     // switch state to gaming
     public void game() {
         ui.menuFragment.setMenu(null);
         GameStats.reset();
         playStage(stage6);
+
         player.defaultLocation();
 
         Vars.setState(State.inGame);

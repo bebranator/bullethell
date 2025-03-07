@@ -2,6 +2,7 @@ package bullethell.game.stage6.spells;
 
 import bullethell.content.Bullets;
 import bullethell.core.Core;
+import bullethell.core.Vars;
 import bullethell.entity.type.Bullet;
 import bullethell.entity.type.EnemyEntity;
 import bullethell.game.GameTime;
@@ -19,7 +20,7 @@ public class DanmakuLabyrinth extends SpellCard {
 
     public DanmakuLabyrinth() {
         super("danmaku_labyrinth", 5000000, SC_NO_BONUS_BURN);
-        lifetime = 5 * 60;
+        lifetime = 2 * 60;
     }
 
     @Override
@@ -30,7 +31,8 @@ public class DanmakuLabyrinth extends SpellCard {
             drawSize = 48;
         }}, (ent) -> {
             ent.damageScale = 0;
-            ent.set(width() / 2 + ax(), height() - height() / 5 + ay());
+//            ent.set(width() / 2 + ax(), height() - height() / 5 + ay());
+            ent.set(width() / 2, height() - height() / 5);
         });
 
         summoner.updater = (e) -> {
@@ -55,6 +57,7 @@ public class DanmakuLabyrinth extends SpellCard {
         super.end();
         summoner.remove();
         summoner = null;
+        Vars.game.clearHazards();
     }
 
     void summonBullets() {
@@ -72,7 +75,7 @@ public class DanmakuLabyrinth extends SpellCard {
 //            }, Bullets.blueSmall, summoner.getX(), summoner.getY());
             aimedLinearBullet((e) -> {
                 e.setSize(8);
-                e.drawSize(12);
+                e.drawSize(40);
             }, Bullets.blueSmall, summoner.getX(), summoner.getY(), 2);
         }
     }

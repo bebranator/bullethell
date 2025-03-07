@@ -12,7 +12,7 @@ public class StageBadApple extends Stage {
     public StageBadApple() {
         try {
             waves(
-                new BossWaveBaseWait("test level \nBAD APPLE!!!"),
+//                new BossWaveBaseWait("test level \nBAD APPLE!!!"),
                 new BadAppleWave()
             );
         } catch (IOException | URISyntaxException e) {

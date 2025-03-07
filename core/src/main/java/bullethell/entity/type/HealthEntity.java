@@ -29,7 +29,6 @@ public abstract class HealthEntity extends BaseCircleHitboxEntity implements Hea
     // used for default spawning
     @Override
     public void ranOutOfHealth() {
-
     }
 
     @Override
