@@ -2,10 +2,12 @@ package bullethell.graphics;
 
 import bullethell.core.Core;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Affine2;
 import com.badlogic.gdx.math.Matrix4;
-import space.earlygrey.shapedrawer.ShapeDrawer;
+import com.badlogic.gdx.math.Vector2;
+
+import static bullethell.core.Core.gl20;
 
 public class Fill {
     public static ShapeRenderer shapes;
@@ -15,8 +17,8 @@ public class Fill {
     }
 
     public static void begin() {
-        shapes.begin();
         shapes.setAutoShapeType(true);
+        shapes.begin();
     }
     public static void alpha(float value) {
         tmp.set(shapes.getColor());
@@ -30,13 +32,24 @@ public class Fill {
         tmp.a = 1;
         shapes.setColor(tmp);
     }
+    public static void transform(Matrix4 transform) {
+        shapes.setTransformMatrix(transform);
+    }
+    public static void translate(float x, float y) {
+        shapes.translate(x, y, 0);
+    }
+    public static void transform() {
+        shapes.identity();
+    }
+    public static void scale(float x, float y) {
+        shapes.scale(x, y, 0);
+    }
     public static void end() {
         shapes.end();
     }
     public static void proj(Matrix4 matrix) {
         shapes.setProjectionMatrix(matrix);
     }
-
     public static void proj() {
         shapes.setProjectionMatrix(Core.camera.combined);
     }
@@ -46,6 +59,16 @@ public class Fill {
     public static void rect(float x, float y, float w, float h, float rotation) {
         shapes.rect(x, y, 0, 0, w, h, 1, 1, rotation);
     }
+    public static void wideLine(float x1, float y1, float x2, float y2, float width) {
+        shapes.rectLine(x1, y1, x2, y2, width);
+    }
+
+    public static void line(float x1, float y1, float x2, float y2) {
+        shapes.line(x1, y1, x2, y2);
+    }
+    public static void line(float x1, float y1, Vector2 p2) {
+        shapes.line(x1, y1, p2.x, p2.y);
+    }
 
     public static void rect(float x, float y, float ox, float oy, float w, float h, float rotation) {
         shapes.rect(x, y, ox, oy, w, h, 1, 1, rotation);
@@ -53,6 +76,9 @@ public class Fill {
 
     public static void color(Color color) {
         shapes.setColor(color);
+    }
+    public static void flush() {
+        shapes.flush();
     }
     public static void color() {
         shapes.setColor(Color.WHITE);
@@ -63,13 +89,8 @@ public class Fill {
     }
 
     public static void circleTex(float x, float y, float radius) {
-        Draw.fill(Draw.circle, x - radius / 2, y - radius / 2, radius * 2, radius * 2);
+        Draw.drawc(Draw.circle, x - radius / 2, y - radius / 2, radius * 2, radius * 2);
     }
-    /*
-      public static void fillEllipse(Batch batch, float x, float y, float width, float height) {
-        drawScaled(batch, circle50, x - width / 2.0F, y - height / 2.0F, width / 50.0F, height / 50.0F);
-      }
-     */
     public static void set(ShapeRenderer.ShapeType type) {
         shapes.set(type);
     }

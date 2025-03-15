@@ -1,18 +1,17 @@
 package bullethell.graphics;
 
 import bullethell.core.Core;
-import bullethell.module.Tex;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.scenes.scene2d.utils.ScissorStack;
 import com.badlogic.gdx.utils.Align;
 
 import static bullethell.core.Core.*;
@@ -44,7 +43,7 @@ public class Draw {
     }
 
     public static void fbo(FrameBuffer buffer) {
-        fill(buffer.getColorBufferTexture(), camera.position.x, camera.position.y, camera.viewportWidth, camera.viewportHeight);
+        drawc(buffer.getColorBufferTexture(), camera.position.x, camera.position.y, camera.viewportWidth, camera.viewportHeight);
     }
 
     public static void shader(ShaderProgram program) {
@@ -87,30 +86,32 @@ public class Draw {
         batch.setTransformMatrix(idt);
     }
 
-    public static void fill(Texture reg) {
+    public static void drawc(Texture reg) {
         batch.draw(reg, 0, 0, Core.camera.viewportWidth, Core.camera.viewportHeight);
     }
 
-    public static void fill(float x, float y, float w, float h) {
+    public static void drawc(float x, float y, float w, float h) {
         batch.draw(white, x - w * .5f, y - h * .5f, w, h);
     }
 
-    public static void fill(TextureRegion region, float x, float y, float w, float h) {
+    public static void drawc(TextureRegion region, float x, float y, float w, float h) {
         batch.draw(region, x - w, y - h, w * 2, h * 2);
     }
-    public static void fill(Texture region, float x, float y, float w, float h) {
+    public static void drawc(Texture region, float x, float y, float w, float h) {
         batch.draw(region, x - w * .5f, y - h * .5f, w, h);
     }
-
+    public static void drawc(Texture region, float x, float y, float w, float h, boolean flipX, boolean flipY) {
+        batch.draw(region, x - w / 2, y - h / 2, w, h, 0, 0, (int)w, (int)h, flipX, flipY);
+    }
     /*
     draw (TextureRegion region, float x, float y, float originX, float originY, float width,
         float height, float scaleX, float scaleY, float rotation)
      */
-    public static void fill(TextureRegion region, float x, float y, float w, float h, float rotationRadian) {
+    public static void drawc(TextureRegion region, float x, float y, float w, float h, float rotationRadian) {
         batch.draw(region, x - w * .5f, y - h * .5f, 0, 0, w, h, 1, 1, rotationRadian);
     }
 
-    public static void fill(float x, float y, float w, float h, float rotationRadian) {
+    public static void drawc(float x, float y, float w, float h, float rotationRadian) {
         batch.draw(white, x - w * .5f, y - h * .5f, 0, 0, w, h, 1, 1, rotationRadian);
     }
 
@@ -144,7 +145,6 @@ public class Draw {
         if(textMode) throw new IllegalStateException("Already running text modo!");
         textMode = true;
 
-        batch.flush();
         batch.end();
         batch.begin();
 
@@ -154,7 +154,7 @@ public class Draw {
     public static void textEnd() {
         if(!textMode) throw new IllegalStateException("Didn't drawn any of text!");
         textMode = false;
-
+        textModeCalls = 0;
         batch.end();
         batch.begin();
     }

@@ -7,36 +7,41 @@ import bullethell.core.Vars;
 import bullethell.entity.type.Bullet;
 import bullethell.graphics.Draw;
 import bullethell.graphics.Fill;
-import bullethell.utils.CPool;
 import bullethell.utils.CPools;
-import bullethell.utils.E;
 import bullethell.utils.Time;
+import bullethell.utils.Tmp;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.*;
-import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Affine2;
 import com.badlogic.gdx.math.Matrix4;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Pool;
+
+import java.nio.FloatBuffer;
 
 import static bullethell.core.Core.*;
 import static bullethell.core.Vars.*;
 
 public class Renderer implements IModule {
-    ShaderProgram blackHole;
-    Texture e, noise, libgdx;
-    private Matrix4 arenaViewport;
+    private ShaderProgram blackHole;
+    private Texture backgroundRed, noise;
     private FrameBuffer arenaBuffer;
+    private final Matrix4 arenaViewport = new Matrix4();
+    private final Vector2 bg_translation = new Vector2();
+    private final Affine2 arenaTransformation2D = new Affine2();
+    private float y;
 
     public Renderer() {
-        e = new Texture(Core.files.internal("bg_red.png"));
-        libgdx = new Texture(Core.files.internal("libgdx.png"));
+        backgroundRed = new Texture(Core.files.internal("bg_red.png"));
         noise = new Texture(Core.files.internal("noiseTexture.png"));
 
         blackHole = new ShaderProgram(Core.files.internal("shaders/default.vert.glsl"), Core.files.internal("shaders/taiseiblackhole.frag.glsl"));
 
-        e.bind(2);
+        backgroundRed.bind(2);
         noise.bind(1);
 
         blackHole.bind();
@@ -44,51 +49,47 @@ public class Renderer implements IModule {
         blackHole.setUniformi("u_texture0", 2);
         blackHole.setUniformi("u_blend_mask", 1);
         blackHole.setUniformf("u_resolution", new Vector2(Client.WIDTH, Client.HEIGHT));
-//        test.setUniformf("u_timemod", 1 / 240f);
         Core.graphics.getGL20().glActiveTexture(GL20.GL_TEXTURE0);
 
-        arenaViewport = new Matrix4();
         arenaBuffer = new FrameBuffer(Pixmap.Format.RGBA8888, (int) arena.viewport.width,
             (int) arena.viewport.height, true);
+        recalculateTransformation();
     }
-
-    final Vector2 bg_translation = new Vector2();
-    // do test shaders
     @Override
     public void render() {
-        Batch batch = Core.batch;
-        ShapeRenderer shapes = Fill.shapes;
-
         gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
         gl20.glClearColor(0, 0, 0, 1);
 
-        shapes.setProjectionMatrix(camera.combined);
-        batch.begin();
-        shapes.begin(ShapeRenderer.ShapeType.Line);
-        shapes.setAutoShapeType(true);
+        Draw.begin();
+        Fill.begin();
+        Fill.proj(camera.combined);
 
         if (menu()) drawMenuBg();
 
         if (inGame() || paused()) {
-            arenaViewport.setToScaling(Client.WIDTH / arena.viewport.width, Client.HEIGHT / arena.viewport.height, 0);
-            arenaViewport.setTranslation(-arena.viewport.x, -arena.viewport.y, 0); // normalize coordinates
             Draw.transform(arenaViewport);
 
             arenaBuffer.begin();
 
             gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
+            items.draw();
             enemyBullets.draw();
             playerBullets.draw();
             lasers.draw();
             enemies.draw();
             player.draw();
 
+//            if(Settings.debug) {
+//                Fill.transform(arenaViewport);
+//                drawGameDebug();
+//                Fill.transform();
+//            }
+
             Draw.flush();
             Draw.transform();
 
             arenaBuffer.end(viewport.getScreenX(), viewport.getScreenY(),
                 viewport.getScreenWidth(), viewport.getScreenHeight());
-
 
             Draw.draw(arenaBuffer.getColorBufferTexture(), arena.viewport.x, arena.viewport.y,
                 arena.viewport.width, arena.viewport.height, false, true);
@@ -102,8 +103,8 @@ public class Renderer implements IModule {
         }
 
         if(Settings.debug) drawDebug();
-        shapes.end();
-        batch.end();
+        Draw.end();
+        Fill.end();
     }
 
     void drawMenuBg() {
@@ -113,7 +114,7 @@ public class Renderer implements IModule {
         Draw.shader(blackHole);
         blackHole.setUniformf("R", 40);
         blackHole.setUniformf("u_bg_trans", bg_translation);
-        Draw.fill(Tex.tblack);
+        Draw.drawc(Tex.tblack);
         Draw.shader();
     }
     Pool<Bullet> bulletPool = CPools.get(Bullet.class, Bullet::new);
@@ -123,24 +124,59 @@ public class Renderer implements IModule {
         text("stage: " + game.level, 20, 20);
         text("state: " + Vars.state(), 20, 40);
         text("pcoord: " + player.position(), 20, 60);
-        text("BulletPool: " + bulletPool.peak + "; " + Bullet.bulletCounter, 20, 80);
-        if(game.level != null && game.level.current() != null) {
+        text("BulletPool: " + bulletPool.getFree() + "; " + Bullet.bulletCounter, 20, 80);
+        if(game.level != null) {
             text(game.level.debug(), 20, Client.HEIGHT, Align.left | Align.top);
 
-            text("attack: " + game.level.current(), 20, Client.HEIGHT - 100);
-            text("attack debug: " + game.level.current().debug(), 20, Client.HEIGHT - 200, Align.left | Align.top);
+            if(game.level.current() != null) {
+                text("attack: " + game.level.current(), 20, Client.HEIGHT - 100);
+                text("attack debug: " + game.level.current().debug(), 20, Client.HEIGHT - 200, Align.left | Align.top);
+            }
         }
         Draw.textEnd();
     }
-    void text(String text, float x, float y) {
-        Draw.text(Fonts.kelly12, text, x, y, 0, Align.left);
-    }
-    void text(String text, float x, float y, int align) {
-        Draw.text(Fonts.kelly12, text, x, y, 0, align);
+    void drawGameDebug() {
+//        Fill.transform();
+//        Fill.scale(.5f, .5f);
+//        Fill.translate(Client.WIDTH / 2, Client.HEIGHT / 2);
+        Fill.color(Color.GREEN);
+        Fill.filled();
+        Fill.circle(player.getX(), player.getY(), player.getSize());
+        //        Fill.translate(-arena.viewport.x, -arena.viewport.y);
+        Fill.line();
+        enemies.forEach(e -> {
+            Fill.rect(e.getX(), e.getY(), e.getSize(), e.getSize());
+            Fill.line(e.getX(), e.getY(), Tmp.v21.set(e.params().velocity).add(e.getX(), e.getY()));
+        });
+        enemyBullets.forEach(e -> {
+            Fill.circle(e.getX(), e.getY(), e.getSize());
+            Fill.line(e.getX(), e.getY(), Tmp.v21.set(e.params().velocity).add(e.getX(), e.getY()));
+        });
+        Fill.flush();
+//        Fill.transform();
+
+//        Fill.translate(arena.viewport.x, arena.viewport.y);
     }
     public void resizeBuffer(int w, int h) {
         arenaBuffer.dispose();
 
         arenaBuffer = new FrameBuffer(Pixmap.Format.RGBA8888, w, h, true);
+        recalculateTransformation();
+    }
+    protected void recalculateTransformation() {
+        arenaTransformation2D.idt();
+        Rectangle viewport = arena.viewport;
+        // tf FIXME
+        // get rid of viewport's coordinates
+//        arenaTransformation2D.translate(-viewport.x - player.getSize() * 4, -viewport.y - player.getSize());
+        arenaTransformation2D.scale(Client.WIDTH / viewport.width, Client.HEIGHT / viewport.height);
+        arenaViewport.set(arenaTransformation2D);
+    }
+
+    void text(String text, float x, float y) {
+        Draw.text(Fonts.kelly12, text, x, y, 0, Align.left);
+    }
+    void text(String text, float x, float y, int align) {
+        Draw.text(Fonts.kelly12, text, x, y, 0, align);
     }
 }

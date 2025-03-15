@@ -49,6 +49,7 @@ public class Mover {
             }
         }
         params.velocity.set(p.velocity);
+        params.difference.set(p.velocity).sub(origVelocity);
 
         return origVelocity;
     }

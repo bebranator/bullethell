@@ -3,11 +3,8 @@ package bullethell.type;
 import bullethell.core.Core;
 import bullethell.entity.type.Player;
 import bullethell.graphics.Draw;
-import bullethell.module.Fonts;
-import bullethell.module.Tex;
 import bullethell.utils.Interval;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 
 public class PlayerType {
@@ -83,9 +80,9 @@ public class PlayerType {
         else movement = Math.min(movement, movementSpritesAmount - 1);
 
         Draw.color();
-        Draw.fill(texByAxis(axis), player.getX(), player.getY(), player.drawSize(), player.drawSize());
+        Draw.drawc(texByAxis(axis), player.getX(), player.getY(), player.drawSize(), player.drawSize());
 
-        Draw.fill(Core.atlas.findRegion("blue-small"), player.getX(), player.getY(), player.getSize(), player.getSize());
+        Draw.drawc(Core.atlas.findRegion("blue-small"), player.getX(), player.getY(), player.getSize(), player.getSize());
 
 //        Draw.color();
 //        Draw.fill(Core.atlas.findRegion("blue-small"), player.getX(), player.getY(), player.getSize(), player.getSize());

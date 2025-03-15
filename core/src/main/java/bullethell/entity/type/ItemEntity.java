@@ -1,5 +1,6 @@
 package bullethell.entity.type;
 
+import bullethell.core.Vars;
 import bullethell.entity.EntityGroup;
 import bullethell.entity.trait.Arenac;
 import bullethell.entity.trait.Timec;
@@ -34,7 +35,7 @@ public class ItemEntity extends BaseCircleHitboxEntity implements Timec, Pool.Po
 
     @Override
     public EntityGroup targetGroup() {
-        return null;
+        return Vars.items;
     }
 
     @Override

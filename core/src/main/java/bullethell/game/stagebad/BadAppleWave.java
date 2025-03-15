@@ -56,8 +56,8 @@ public class BadAppleWave extends Attack {
 
         for(int h = 0; h < height; h++) {
             for(int w = 0; w < width; w++) {
-                Bullet bul = bullets.get(h * 64 + w);
-                bul.enabled = page.bullets[h][w];
+                Bullet bul = bullets.get((h * this.width) + w);
+                bul.enabled = page.bullets[47 - h][w];
             }
         }
     }
@@ -103,6 +103,7 @@ public class BadAppleWave extends Attack {
 
     @Override
     public void end() {
+        setPage(pages.get(0));
         bullets.forEach(Bullet::remove);
         bullets.clear();
         currentFrame = 0;
@@ -122,19 +123,27 @@ public class BadAppleWave extends Attack {
 
         for(int h = 0; h < height; h++) {
             for(int w = 0; w < width; w++) {
+                int finalW = w;
+                int finalH = h;
                 bullets.add(
                     Bullet.spawn((e) -> {
                         e.lifetime = -1;
                         e.setSize(r / 2);
                         e.drawSize(r / 2);
                         e.enabled = false;
-                    }, Bullets.blueSmall, r + w * r + r / 2, (height * r) - h * r + r / 2 - r)
+                        e.type = Bullets.blueSmall;
+
+                        e.set(
+                            r * finalW + r / 2, finalH * r + r / 2
+                        );
+                    })
                 );
             }
         }
+        setPage(pages.get(0));
 
 //        Vars.arena.viewport.set(0, 0, ow + 1, oh);
 //        Vars.arena.world.set(0, 0, ow, oh);
-        Vars.arena.set(0, 0, ow, oh);
+        Vars.arena.set(0, 0, ow + 1, oh);
     }
 }

@@ -11,6 +11,8 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.profiling.GLErrorListener;
+import com.badlogic.gdx.graphics.profiling.GLProfiler;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import static bullethell.core.Core.*;
@@ -18,7 +20,8 @@ import static bullethell.core.Core.*;
 public final class Client extends AbstractCore {
     /** Default application size. */
     public static final int WIDTH = 1200, HEIGHT = 900;
-    public static final String TITLE = "The Void";
+    public static final String TITLE = "gaming";
+    public static GLProfiler profiler;
 
     @Override
     public void setup() {
@@ -36,6 +39,7 @@ public final class Client extends AbstractCore {
         cinput = new CInput();
         camera.position.set(WIDTH * .5f, HEIGHT * .5f, 0);
 
+        profiler = new GLProfiler(graphics);
         atlas = new TextureAtlas("sprites.atlas");
 
         // content
@@ -67,8 +71,8 @@ public final class Client extends AbstractCore {
 
     @Override
     public void render() {
-            super.render();
-            cinput.process();
+        super.render();
+        cinput.process();
     }
 
     @Override

@@ -8,24 +8,11 @@ public class BossWaves extends Attack {
     private CArray<Attack> attacks;
     private CArray<Attack> timedOut;
     private int index = 0;
-    private Attack previous = null, current = null;
+    private Attack previous = null, current = null, next;
 
     public BossWaves(Attack... attacks) {
         this.attacks = new CArray<>(attacks);
         this.timedOut = new CArray<>();
-    }
-
-    public void setAttackIndex(int index) {
-        previous = current;
-        current = attacks.getOrNull(index);
-
-        if(previous != null) {
-            timedOut.add(previous);
-            previous.end();
-        }
-        // no more attacks
-        if(current == null) return;
-        current.begin();
     }
 
     @Override
@@ -34,22 +21,28 @@ public class BossWaves extends Attack {
         current = attacks.getOrNull(0);
         for(Attack atk : timedOut) atk.reset();
         timedOut.clear();
+        index = 0;
     }
 
     @Override
     public void begin() {
-        setAttackIndex(0);
+        current = attacks.getOrNull(0);
+        current.begin();
     }
 
     @Override
     protected void update() {
-        // todo: cast spell
         if(current == null) return;
 
         current.superUpdate();
 
         if(current.isEnd()) {
-            setAttackIndex(++index);
+            current.end();
+
+            previous = current;
+            current = attacks.getOrNull(++index);
+
+            if(current != null) current.begin();
         }
     }
 
@@ -60,6 +53,7 @@ public class BossWaves extends Attack {
 
     @Override
     public String debug() {
-        return current == null ? "" : current.debug();
+        return "BOSSWAVES:" + "\nindex: " + index + "\nnext_coming" + (next = attacks.getOrNull(index + 1))
+            + "\ncurrent attack debug:\n" + (current == null ? "" : current.debug());
     }
 }
