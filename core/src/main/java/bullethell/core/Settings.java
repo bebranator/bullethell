@@ -3,7 +3,7 @@ package bullethell.core;
 import com.badlogic.gdx.math.MathUtils;
 
 public class Settings {
-    public static float soundVolume = 0;
+    public static float soundVolume = 1;
     public static float musicVolume = 1;
 
     public static boolean debug = true;

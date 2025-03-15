@@ -24,7 +24,6 @@ public class GameState {
     public GameState() {
         Events.on(Ev.PlayerDeathEvent.class, (e) -> {
             if(bossSpell == null) return;
-//            Core.app.exit();
 
             spellState.died = true;
             if(!bossSpell.hasTags(SpellCard.SC_NO_DEATH_BONUS_LOSS)) {
@@ -61,7 +60,6 @@ public class GameState {
     }
 
     void bossSpellEnd(SpellCardEndInfo info) {
-        // no bonus for you!
         if(bossSpell.hasTags(SpellCard.SC_NO_TIMEOUT_BONUS) && info.spellTimeout) {
             Vars.ui.spellBonus(0);
             return;
@@ -70,7 +68,6 @@ public class GameState {
         GameStats.depositScore(spellState.bonus);
     }
 
-    // null if no spell card now
     public void bossSpell(SpellCard bossSpell) {
         if(bossSpell == null) {
             Vars.ui.hideSpellUi();

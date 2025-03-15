@@ -8,6 +8,7 @@ import bullethell.entity.type.Bullet;
 import bullethell.game.Attack;
 import bullethell.game.GameTime;
 import bullethell.graphics.Shortcuts;
+import bullethell.log.Log;
 import com.badlogic.gdx.utils.Array;
 
 import java.io.*;
@@ -109,6 +110,7 @@ public class BadAppleWave extends Attack {
         currentFrame = 0;
         currentFrameFloat = 0;
         Vars.arena.defaults();
+        Log.info("ENDED");
     }
 
     @Override
@@ -145,5 +147,10 @@ public class BadAppleWave extends Attack {
 //        Vars.arena.viewport.set(0, 0, ow + 1, oh);
 //        Vars.arena.world.set(0, 0, ow, oh);
         Vars.arena.set(0, 0, ow + 1, oh);
+    }
+
+    @Override
+    public String debug() {
+        return "frame: " + currentFrame + "\n";
     }
 }

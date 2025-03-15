@@ -1,10 +1,9 @@
 package bullethell.module;
 
-import bullethell.content.Sounds;
+import bullethell.assets.Sounds;
 import bullethell.core.Events;
 import bullethell.core.Settings;
 import bullethell.game.Ev;
-import bullethell.game.State;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 

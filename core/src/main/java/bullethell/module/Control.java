@@ -1,5 +1,7 @@
 package bullethell.module;
 
+import bullethell.assets.Assets;
+import bullethell.content.PlayerTypes;
 import bullethell.core.Core;
 import bullethell.core.Vars;
 import bullethell.game.GameStats;
@@ -24,8 +26,17 @@ public class Control implements IModule {
     public void render() {
         Time.update();
 
-        if(inGame()) {
-            if(!paused()) {
+        boolean t = Assets.update();
+        if(!t) {
+            return;
+        }
+        if(!Assets.loaded) {
+            Assets.postInit();
+            Assets.loaded = true;
+        }
+
+        if (inGame()) {
+            if (!paused()) {
                 updateGame();
                 GameTime.update();
             }
@@ -104,6 +115,7 @@ public class Control implements IModule {
 //    Stage stage6 = new Stage6();
     // switch state to gaming
     public void game() {
+        player.type(PlayerTypes.seija);
         ui.menuFragment.setMenu(null);
         GameStats.reset();
         playStage(stage6);

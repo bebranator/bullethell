@@ -47,7 +47,7 @@ public class Stage {
     }
 
     public void end() {
-        reset();
+        current.end();
     }
 
     protected void boss(BossType type, Attack... attacks) {

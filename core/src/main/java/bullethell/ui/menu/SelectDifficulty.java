@@ -1,6 +1,5 @@
 package bullethell.ui.menu;
 
-import bullethell.content.Sounds;
 import bullethell.core.Client;
 import bullethell.core.Core;
 import bullethell.core.Vars;
@@ -8,8 +7,6 @@ import bullethell.game.Difficulty;
 import bullethell.graphics.g2d.CWidgetGroup;
 import bullethell.module.Styles;
 import bullethell.utils.UpDownEnterListener;
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Align;

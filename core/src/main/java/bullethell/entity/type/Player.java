@@ -1,13 +1,12 @@
 package bullethell.entity.type;
 
 import bullethell.content.PlayerTypes;
-import bullethell.content.Sounds;
+import bullethell.assets.Sounds;
 import bullethell.core.Events;
 import bullethell.entity.Collisions;
 import bullethell.entity.EntityGroup;
 import bullethell.game.Ev;
 import bullethell.game.GameStats;
-import bullethell.movement.MovementParams;
 import bullethell.movement.Mover;
 import bullethell.type.PlayerType;
 import bullethell.utils.Interval;

@@ -1,5 +1,6 @@
 package bullethell.module;
 
+import bullethell.assets.Assets;
 import bullethell.core.Client;
 import bullethell.core.Core;
 import bullethell.core.Settings;
@@ -33,14 +34,22 @@ public class Renderer implements IModule {
     private final Matrix4 arenaViewport = new Matrix4();
     private final Vector2 bg_translation = new Vector2();
     private final Affine2 arenaTransformation2D = new Affine2();
-    private float y;
 
     public Renderer() {
-        backgroundRed = new Texture(Core.files.internal("bg_red.png"));
-        noise = new Texture(Core.files.internal("noiseTexture.png"));
+        backgroundRed = new Texture(Core.files.internal("sprites/bg_red.png"));
+        noise = new Texture(Core.files.internal("sprites/noiseTexture.png"));
 
-        blackHole = new ShaderProgram(Core.files.internal("shaders/default.vert.glsl"), Core.files.internal("shaders/taiseiblackhole.frag.glsl"));
+        Assets.shader("shaders/default.vert", "shaders/black_hole.frag");
+        Assets.loaded(this::init);
+        arenaBuffer = new FrameBuffer(Pixmap.Format.RGBA8888, (int) arena.viewport.width,
+            (int) arena.viewport.height, true);
+        recalculateTransformation();
+    }
 
+    void init() {
+//        blackHole = new ShaderProgram(Core.files.internal("shaders/default.vert.glsl"), Core.files.internal("shaders/taiseiblackhole.frag.glsl"));
+//
+        blackHole = Assets.shader("shaders/black_hole.frag");
         backgroundRed.bind(2);
         noise.bind(1);
 
@@ -50,11 +59,8 @@ public class Renderer implements IModule {
         blackHole.setUniformi("u_blend_mask", 1);
         blackHole.setUniformf("u_resolution", new Vector2(Client.WIDTH, Client.HEIGHT));
         Core.graphics.getGL20().glActiveTexture(GL20.GL_TEXTURE0);
-
-        arenaBuffer = new FrameBuffer(Pixmap.Format.RGBA8888, (int) arena.viewport.width,
-            (int) arena.viewport.height, true);
-        recalculateTransformation();
     }
+
     @Override
     public void render() {
         gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -64,47 +70,53 @@ public class Renderer implements IModule {
         Fill.begin();
         Fill.proj(camera.combined);
 
-        if (menu()) drawMenuBg();
+        if(!Assets.loaded) {
+            drawLoading();
+        }
+        else {
+            if (menu()) drawMenuBg();
 
-        if (inGame() || paused()) {
-            Draw.transform(arenaViewport);
+            if (inGame() || paused()) {
+                Draw.transform(arenaViewport);
 
-            arenaBuffer.begin();
+                arenaBuffer.begin();
 
-            gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
-            items.draw();
-            enemyBullets.draw();
-            playerBullets.draw();
-            lasers.draw();
-            enemies.draw();
-            player.draw();
+                gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
+                items.draw();
+                enemyBullets.draw();
+                playerBullets.draw();
+                lasers.draw();
+                enemies.draw();
+                player.draw();
 
-//            if(Settings.debug) {
-//                Fill.transform(arenaViewport);
-//                drawGameDebug();
-//                Fill.transform();
-//            }
+                Draw.flush();
+                Draw.transform();
 
-            Draw.flush();
-            Draw.transform();
+                arenaBuffer.end(viewport.getScreenX(), viewport.getScreenY(),
+                    viewport.getScreenWidth(), viewport.getScreenHeight());
 
-            arenaBuffer.end(viewport.getScreenX(), viewport.getScreenY(),
-                viewport.getScreenWidth(), viewport.getScreenHeight());
+                Draw.draw(arenaBuffer.getColorBufferTexture(), arena.viewport.x, arena.viewport.y,
+                    arena.viewport.width, arena.viewport.height, false, true);
 
-            Draw.draw(arenaBuffer.getColorBufferTexture(), arena.viewport.x, arena.viewport.y,
-                arena.viewport.width, arena.viewport.height, false, true);
+                Draw.color();
+                Fill.line();
+                Fill.rect(arena.viewport.x, arena.viewport.y, arena.viewport.width, arena.viewport.height);
 
-            Draw.color();
-            Fill.line();
-            Fill.rect(arena.viewport.x, arena.viewport.y, arena.viewport.width, arena.viewport.height);
-
-            Draw.color();
-            game.levelDraw();
+                Draw.color();
+                game.levelDraw();
+            }
+            if(Settings.debug) drawDebug();
         }
 
-        if(Settings.debug) drawDebug();
         Draw.end();
         Fill.end();
+    }
+
+    void drawLoading() {
+        float prog = Assets.progress;
+        Fill.filled();
+        Fill.color(Color.RED);
+        Fill.rect(200, 200, 800 * prog, 200);
     }
 
     void drawMenuBg() {

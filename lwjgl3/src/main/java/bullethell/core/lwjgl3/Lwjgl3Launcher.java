@@ -39,7 +39,7 @@ public class Lwjgl3Launcher {
         configuration.setTitle(Client.TITLE);
         configuration.useVsync(true);
 //        configuration.setForegroundFPS(Lwjgl3ApplicationConfiguration.getDisplayMode().refreshRate + 1);
-        configuration.setForegroundFPS(61);
+        configuration.setForegroundFPS(Client.FPS);
         configuration.enableGLDebugOutput(true, System.out);
         configuration.setMaximized(true);
         configuration.setResizable(true);

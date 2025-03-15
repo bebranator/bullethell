@@ -1,5 +1,6 @@
 package bullethell.graphics;
 
+import bullethell.assets.Assets;
 import bullethell.core.Core;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -18,8 +19,8 @@ import static bullethell.core.Core.*;
 
 public class Draw {
     public static int textModeCalls = 0;
-    public static TextureRegion white = Core.atlas.findRegion("pixel"),
-        circle = Core.atlas.findRegion("circle50");
+    public static TextureRegion white = Assets.findRegion("white"),
+        circle = Assets.findRegion("circle50");
     private static boolean textMode = false;
     private static Matrix4 idt = new Matrix4();
 

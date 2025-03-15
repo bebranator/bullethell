@@ -1,6 +1,5 @@
 package bullethell.ui.menu;
 
-import bullethell.content.Sounds;
 import bullethell.core.Client;
 import bullethell.core.Core;
 import bullethell.core.Vars;
@@ -11,7 +10,6 @@ import bullethell.utils.UpDownEnterListener;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Action;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;

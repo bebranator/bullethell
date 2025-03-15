@@ -1,9 +1,9 @@
 package bullethell.module;
 
-import bullethell.content.Sounds;
+import bullethell.assets.Assets;
+import bullethell.assets.Sounds;
 import bullethell.core.Core;
 import bullethell.core.Vars;
-import bullethell.graphics.g2d.CLabel;
 import bullethell.graphics.g2d.CStage;
 import bullethell.graphics.g2d.CWidgetGroup;
 import bullethell.type.BossType;
@@ -15,6 +15,7 @@ import bullethell.ui.dialog.LoadingDialog;
 import bullethell.ui.dialog.PauseDialog;
 import bullethell.ui.dialog.StageResultsDialog;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
 public class UI implements IModule {
     public CWidgetGroup menuGroup, uiGroup, gameGroup;
@@ -30,6 +31,18 @@ public class UI implements IModule {
 
     @Override
     public void create() {
+        Sounds.load();
+        Fonts.preInit();
+        Assets.load("sprites/sprites.atlas", TextureAtlas.class);
+        Assets.loaded(this::init);
+    }
+
+    public void init() {
+        Sounds.init();
+        Fonts.init();
+        Styles.init();
+        Tex.init();
+
         CStage stage = Core.stage;
 
         stage.table((e) -> {

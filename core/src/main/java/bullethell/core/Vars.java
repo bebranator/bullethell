@@ -1,5 +1,6 @@
 package bullethell.core;
 
+import bullethell.content.PlayerTypes;
 import bullethell.entity.Arena;
 import bullethell.entity.Entities;
 import bullethell.entity.EntityGroup;
@@ -9,6 +10,7 @@ import bullethell.game.GameState;
 import bullethell.game.State;
 import bullethell.game.dialog.DialogueManager;
 import bullethell.module.*;
+import bullethell.type.PlayerType;
 
 public class Vars {
     private static State state;
@@ -49,6 +51,9 @@ public class Vars {
         lasers = entities.getGroup(Laser.class, true);
         items = entities.getGroup(ItemEntity.class, true);
         enemies = entities.getGroup(EnemyEntity.class, true);
+    }
+
+    public static void postInit() {
         player = new Player();
         player.add();
     }

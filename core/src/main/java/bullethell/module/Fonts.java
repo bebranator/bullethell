@@ -1,5 +1,6 @@
 package bullethell.module;
 
+import bullethell.assets.Assets;
 import bullethell.core.Core;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -12,8 +13,12 @@ public class Fonts {
         // lmao why Ý was missing
     );
 
+    public static void preInit() {
+        Assets.loadFontGenerator("font/KellySlab-Regular.ttf");
+    }
+
     public static void init() {
-        FreeTypeFontGenerator kellygen = new FreeTypeFontGenerator(Core.files.internal("font/KellySlab-Regular.ttf"));
+        FreeTypeFontGenerator kellygen = Assets.getFontGenerator("font/KellySlab-Regular.ttf");
         FreeTypeFontGenerator.FreeTypeFontParameter param24 = param24();
         var param24Outline = param24();
         param24Outline.shadowColor = Color.GRAY;

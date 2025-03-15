@@ -1,7 +1,6 @@
 package bullethell.core;
 
 import bullethell.graphics.g2d.CStage;
-import bullethell.module.Asset;
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
