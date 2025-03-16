@@ -1,5 +1,6 @@
 package bullethell.game.stagebad;
 
+import bullethell.assets.Musics;
 import bullethell.content.Bullets;
 import bullethell.core.Client;
 import bullethell.core.Core;
@@ -120,7 +121,7 @@ public class BadAppleWave extends Attack {
         float oh = Client.HEIGHT; // original sizes (tw / th = ow / oh) !
         r = ow / width;
 
-        Vars.sounds.playMusic(Core.audio.newMusic(Core.files.internal("music/bad_apple_extract.mp3")), false);
+        Vars.sounds.playMusic(Musics.bad_apple, false);
         Shortcuts.arenaNotification("BGM - Bad Apple!!!");
 
         for(int h = 0; h < height; h++) {

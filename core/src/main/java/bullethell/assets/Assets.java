@@ -19,6 +19,9 @@ import com.badlogic.gdx.utils.Array;
 
 public class Assets {
     public static AssetManager asset;
+
+    public static TextureRegion white, error;
+
     public static int updateMillis = 1000 / Client.FPS;
     public static boolean loaded;
     public static float progress;
@@ -32,6 +35,8 @@ public class Assets {
     public static void postInit() {
         Log.info("Loaded!");
         Core.atlas = asset.get("sprites/sprites.atlas", TextureAtlas.class);
+
+        white = findRegion("white");
 
         runnables.forEach(Runnable::run);
     }
@@ -52,13 +57,6 @@ public class Assets {
 
         asset.load(frag, ShaderProgram.class, param);
     }
-    public static void loadFontGenerator(String name) {
-        // the fuck is this long name
-        FreeTypeFontGeneratorLoader.FreeTypeFontGeneratorParameters params;
-        params = new FreeTypeFontGeneratorLoader.FreeTypeFontGeneratorParameters();
-
-        asset.load(name, FreeTypeFontGenerator.class);
-    }
     public static <T> void load(String name, Class<T> clazz) {
         asset.load(name, clazz);
     }
@@ -68,14 +66,8 @@ public class Assets {
     public static <T> T get(String name, Class<T> clazz) {
         return asset.get(name, clazz, true);
     }
-    public static FreeTypeFontGenerator getFontGenerator(String name) {
-        return asset.get(name, FreeTypeFontGenerator.class, true);
-    }
-    public static ShaderProgram shader(String frag) {
-        return asset.get(frag, ShaderProgram.class, true);
-    }
     public static TextureRegion findRegion(String name) {
         TextureRegion reg;
-        return (reg = Core.atlas.findRegion(name)) == null ? Tex.error() : reg;
+        return (reg = Core.atlas.findRegion(name)) == null ? error : reg;
     }
 }

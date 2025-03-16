@@ -71,6 +71,7 @@ public class Player extends BaseCircleHitboxEntity {
         params().linear(x * speed(), y * speed());
 
         Mover.update(this, params());
+        type.update(this);
     }
 
     @Override

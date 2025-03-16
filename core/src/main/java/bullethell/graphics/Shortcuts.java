@@ -1,5 +1,6 @@
 package bullethell.graphics;
 
+import bullethell.assets.Assets;
 import bullethell.core.Core;
 import bullethell.func.Supp;
 import bullethell.graphics.action.LabelFontScale;
@@ -9,9 +10,11 @@ import bullethell.graphics.g2d.CTable;
 import bullethell.graphics.g2d.CWidgetGroup;
 import bullethell.module.Styles;
 import bullethell.module.Tex;
+import bullethell.utils.C;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
@@ -21,7 +24,7 @@ public class Shortcuts {
     public static void infoText(Supp<String> text) {
         CWidgetGroup infoText = new CWidgetGroup();
         CLabel label = new CLabel(text);
-        CImage image = new CImage(Tex.error());
+        CImage image = new CImage(Tex.black6);
         image.setBounds(-200, -50, 400, 100);
         label.setX(0, Align.bottom);
 

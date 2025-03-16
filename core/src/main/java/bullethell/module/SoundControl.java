@@ -18,6 +18,11 @@ public class SoundControl {
         });
     }
 
+    public void menuMusic() {
+        stopMusic();
+
+    }
+
     public void playMusic(Music music, boolean loop) {
         if(currentPlaying != null) {
             currentPlaying.stop();

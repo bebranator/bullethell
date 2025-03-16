@@ -14,8 +14,10 @@ public abstract class HealthEntity extends BaseCircleHitboxEntity implements Hea
     @Override
     public void update() {
         super.update();
-        Collisions.playerBullets(this, this::hit);
-        Collisions.player(this, this::bashPlayer);
+        if(allowCollision()) {
+            Collisions.playerBullets(this, this::hit);
+            Collisions.player(this, this::bashPlayer);
+        }
     }
 
     public void bashPlayer() {
@@ -24,6 +26,7 @@ public abstract class HealthEntity extends BaseCircleHitboxEntity implements Hea
 
     public void hit(PlayerBullet bullet) {
         takeDamage(bullet.damage);
+        bullet.remove();
     }
 
     // used for default spawning

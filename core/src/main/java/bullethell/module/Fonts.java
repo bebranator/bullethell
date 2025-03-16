@@ -1,7 +1,6 @@
 package bullethell.module;
 
 import bullethell.assets.Assets;
-import bullethell.core.Core;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
@@ -9,16 +8,14 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 public class Fonts {
     public static BitmapFont kelly24, kelly12, kelly24Outline, kelly16;
     public static final String characters = FreeTypeFontGenerator.DEFAULT_CHARS.concat(
-        "éöóêåíãøùçõúôûâàïğîëäæıÿ÷ñìèòüáşÉÖÓÊÅÍÃØÙÇÕÚÔÛÂÀÏĞÎËÄÆİß×ÑÌÈÒÜÁŞ" // ïîí
-        // lmao why İ was missing
-    );
+        "éöóêåíãøùçõúôûâàïğîëäæıÿ÷ñìèòüáşÉÖÓÊÅÍÃØÙÇÕÚÔÛÂÀÏĞÎËÄÆİß×ÑÌÈÒÜÁŞ");
 
-    public static void preInit() {
-        Assets.loadFontGenerator("font/KellySlab-Regular.ttf");
+    public static void load() {
+        Assets.load("font/KellySlab-Regular.ttf", FreeTypeFontGenerator.class);
     }
 
     public static void init() {
-        FreeTypeFontGenerator kellygen = Assets.getFontGenerator("font/KellySlab-Regular.ttf");
+        FreeTypeFontGenerator kellygen = Assets.get("font/KellySlab-Regular.ttf", FreeTypeFontGenerator.class);
         FreeTypeFontGenerator.FreeTypeFontParameter param24 = param24();
         var param24Outline = param24();
         param24Outline.shadowColor = Color.GRAY;

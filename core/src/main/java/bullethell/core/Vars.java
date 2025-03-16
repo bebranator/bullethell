@@ -31,6 +31,7 @@ public class Vars {
     public static EntityGroup<Laser> lasers;
     public static EntityGroup<ItemEntity> items;
     public static EntityGroup<EnemyEntity> enemies; // they take damage and collide with player and player's bullets
+    public static EntityGroup<EffectEntity> effects;
     // why we do other group for player lmao
     public static Player player;
 

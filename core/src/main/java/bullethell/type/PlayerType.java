@@ -1,8 +1,10 @@
 package bullethell.type;
 
 import bullethell.core.Core;
+import bullethell.core.Settings;
 import bullethell.entity.type.Player;
 import bullethell.graphics.Draw;
+import bullethell.module.Fonts;
 import bullethell.utils.Interval;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
@@ -21,6 +23,7 @@ public class PlayerType {
 
     private int axis;
     private int movement = 0;
+    private float interv = 5;
 
     public PlayerType(final String name) {
         this.name = name;
@@ -61,16 +64,14 @@ public class PlayerType {
     }
 
     public void changeAxisX(int axis) {
-        // change movement index when changing axis
         movement = 0;
         this.axis = axis;
-        if(axis != 0) v = 7;
-        else v = 15;
+//        if(axis != 0) v = 5;
+//        else v = 5;
     }
 
-    float v = 5;
-    public void draw(Player player) {
-        if(interval.get(v)) {
+    public void update(Player player) {
+        if(interval.get(interv)) {
             movement++;
         }
 
@@ -78,17 +79,18 @@ public class PlayerType {
             movement = movement % movementSpritesAmount;
         }
         else movement = Math.min(movement, movementSpritesAmount - 1);
-
+    }
+    public void draw(Player player) {
         Draw.color();
         Draw.drawc(texByAxis(axis), player.getX(), player.getY(), player.drawSize(), player.drawSize());
 
         Draw.drawc(Core.atlas.findRegion("blue-small"), player.getX(), player.getY(), player.getSize(), player.getSize());
 
-//        Draw.color();
-//        Draw.fill(Core.atlas.findRegion("blue-small"), player.getX(), player.getY(), player.getSize(), player.getSize());
-//        Draw.textMode();
-//        Draw.text(Fonts.kelly16, movement + "", player.getX(), player.getY());
-//        Draw.textEnd();
+        if(Settings.debug) {
+            Draw.textMode();
+            Draw.text(Fonts.kelly16, movement + "", player.getX(), player.getY());
+            Draw.textEnd();
+        }
     }
 
     TextureRegion texByAxis(int axis) {

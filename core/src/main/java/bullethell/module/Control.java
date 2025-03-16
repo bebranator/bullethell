@@ -60,7 +60,7 @@ public class Control implements IModule {
         playerBullets.update();
         lasers.update();
         enemies.update();
-        player.update();
+        playerGroup.update();
 
         if(dialog == null) {
             game.levelUpdate();

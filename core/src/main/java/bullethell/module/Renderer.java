@@ -41,15 +41,16 @@ public class Renderer implements IModule {
 
         Assets.shader("shaders/default.vert", "shaders/black_hole.frag");
         Assets.loaded(this::init);
-        arenaBuffer = new FrameBuffer(Pixmap.Format.RGBA8888, (int) arena.viewport.width,
-            (int) arena.viewport.height, true);
-        recalculateTransformation();
+        resizeBuffer(
+            (int) arena.viewport.width,
+            (int) arena.viewport.height
+        );
     }
 
     void init() {
 //        blackHole = new ShaderProgram(Core.files.internal("shaders/default.vert.glsl"), Core.files.internal("shaders/taiseiblackhole.frag.glsl"));
 //
-        blackHole = Assets.shader("shaders/black_hole.frag");
+        blackHole = Assets.get("shaders/black_hole.frag", ShaderProgram.class);
         backgroundRed.bind(2);
         noise.bind(1);
 
@@ -87,7 +88,7 @@ public class Renderer implements IModule {
                 playerBullets.draw();
                 lasers.draw();
                 enemies.draw();
-                player.draw();
+                playerGroup.draw();
 
                 Draw.flush();
                 Draw.transform();
@@ -113,10 +114,9 @@ public class Renderer implements IModule {
     }
 
     void drawLoading() {
-        float prog = Assets.progress;
         Fill.filled();
         Fill.color(Color.RED);
-        Fill.rect(200, 200, 800 * prog, 200);
+        Fill.rect(200, 200, 800 * Assets.progress, 200);
     }
 
     void drawMenuBg() {
@@ -165,12 +165,9 @@ public class Renderer implements IModule {
             Fill.line(e.getX(), e.getY(), Tmp.v21.set(e.params().velocity).add(e.getX(), e.getY()));
         });
         Fill.flush();
-//        Fill.transform();
-
-//        Fill.translate(arena.viewport.x, arena.viewport.y);
     }
     public void resizeBuffer(int w, int h) {
-        arenaBuffer.dispose();
+        if(arenaBuffer != null) arenaBuffer.dispose();
 
         arenaBuffer = new FrameBuffer(Pixmap.Format.RGBA8888, w, h, true);
         recalculateTransformation();
@@ -178,9 +175,6 @@ public class Renderer implements IModule {
     protected void recalculateTransformation() {
         arenaTransformation2D.idt();
         Rectangle viewport = arena.viewport;
-        // tf FIXME
-        // get rid of viewport's coordinates
-//        arenaTransformation2D.translate(-viewport.x - player.getSize() * 4, -viewport.y - player.getSize());
         arenaTransformation2D.scale(Client.WIDTH / viewport.width, Client.HEIGHT / viewport.height);
         arenaViewport.set(arenaTransformation2D);
     }

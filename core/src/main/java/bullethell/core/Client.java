@@ -10,6 +10,7 @@ import bullethell.module.*;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -78,5 +79,10 @@ public final class Client extends AbstractCore {
     public void resize(int width, int height) {
         super.resize(width, height);
         stage.getViewport().update(width, height);
+    }
+
+    @Override
+    public void resume() {
+        graphics.setSystemCursor(Cursor.SystemCursor.None);
     }
 }

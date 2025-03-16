@@ -67,6 +67,11 @@ public class EnemyEntity extends HealthEntity implements Pool.Poolable, Arenac {
         birthTime = 0;
         params().reset();
         type(null);
+
+        maxHealth = 500;
+        health = maxHealth();
+        damageScale = 1;
+        allowCollision = true;
     }
 
     public static EnemyEntity spawn(EnemyType type, Cons<EnemyEntity> spawn) {

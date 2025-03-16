@@ -1,66 +1,48 @@
 package bullethell.assets;
 
 import bullethell.core.Core;
+import bullethell.log.Log;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.IntMap;
 import com.badlogic.gdx.utils.ObjectIntMap;
 import com.badlogic.gdx.utils.ObjectMap;
+import com.github.czyzby.kiwi.util.collection.IgnoreCaseStringMap;
 
+import java.util.HashMap;
+
+// todo: make it better
 public class Sounds {
     public static Sound death, boom02, ok, boon, select, spell;
 
-    public static IntMap<Sound> idMap = new IntMap<>();
+    public static final IntMap<Sound> idMap = new IntMap<>();
+    public static final ObjectMap<String, Sound> nameMap = new ObjectMap<>();
+    private static FileHandle[] sounds;
 
     public static void load() {
-//        death = sound("pldeath");
-//        boom02 = sound("boom02");
-//        ok = sound("ok");
-//        boon = sound("boon");
-//        select = sound("select");
-//        spell = sound("spell");
-        load("pldeath",
-            "boom02",
-            "ok",
-            "boon",
-            "select",
-            "spell"
-            );
+        sounds = Core.files.internal("sound").list();
+        for(FileHandle handle : sounds) {
+            Assets.load("sound/" + handle.name(), Sound.class);
+        }
     }
 
     public static void init() {
-        init("pldeath",
-            "boom02",
-            "ok",
-            "boon",
-            "select",
-            "spell"
-            );
-        death = get();
+        Sound e;
+        for(FileHandle handle : sounds) {
+            idMap.put(i++, e = Assets.get("sound/" + handle.name(), Sound.class));
+            nameMap.put(handle.nameWithoutExtension(), e);
+        }
+        i = 0;
         boom02 = get();
-        ok = get();
         boon = get();
+        ok = get();
+        death = get();
         select = get();
         spell = get();
     }
 
-    static Sound sound(String name) {
-        return Core.audio.newSound(Core.files.internal("sound/" + name + ".wav"));
-    }
-
-    static int i;
-    static void load(String... name) {
-        for (String s : name) {
-            idMap.put(i++, null);
-            Assets.load("sound/" + s + ".wav", Sound.class);
-        }
-    }
-    static int initialized = 0;
-    static void init(String... names) {
-        for(String n : names) {
-            idMap.put(initialized++, Assets.get("sound/" + n + ".wav", Sound.class));
-        }
-        i = 0;
-    }
+    static int i = 0;
     static Sound get() {
         return idMap.get(i++);
     }

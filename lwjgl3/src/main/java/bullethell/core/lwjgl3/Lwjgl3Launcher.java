@@ -1,6 +1,7 @@
 package bullethell.core.lwjgl3;
 
 import bullethell.core.lwjgl3.dialog.SimpleDialog;
+import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import bullethell.core.Client;
@@ -45,6 +46,8 @@ public class Lwjgl3Launcher {
         configuration.setResizable(true);
         configuration.setWindowedMode(Client.WIDTH, Client.HEIGHT);
         configuration.setWindowIcon("libgdx128.png", "libgdx64.png", "libgdx32.png", "libgdx16.png");
+        configuration.setPauseWhenLostFocus(true);
+        configuration.setOpenGLEmulation(Lwjgl3ApplicationConfiguration.GLEmulation.GL20, 3, 2);
         return configuration;
     }
 }
