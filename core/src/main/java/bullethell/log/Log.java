@@ -1,7 +1,5 @@
 package bullethell.log;
 
-import bullethell.utils.PlayerUtils;
-
 // todo: write log to files
 public class Log {
     private static LogProvider logger;

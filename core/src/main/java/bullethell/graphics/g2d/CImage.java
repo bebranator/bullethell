@@ -2,6 +2,7 @@ package bullethell.graphics.g2d;
 
 import bullethell.core.Core;
 import bullethell.utils.Tmp;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -10,6 +11,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 public class CImage extends Image {
     public CImage(Drawable draw) {
         super(draw);
+    }
+    public CImage(TextureRegion region) {
+        super(region);
     }
     public void add() {
         Core.stage.add(this);

@@ -2,8 +2,6 @@ package bullethell.utils;
 
 import com.badlogic.gdx.math.*;
 
-// rectangle with ability to rotate
-// used for collision stuff
 public class CRectangle {
     // in degress
     public float rotation, x, y, w, h;

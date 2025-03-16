@@ -5,17 +5,11 @@ import bullethell.struct.CObjectMap;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
 
-// todo: obtain, return
 public class CPools {
     private static final CObjectMap<Class, Pool> typePools = new CObjectMap<>();
 
     private CPools(){
     }
-
-    /**
-     * Returns a new or existing pool for the specified type, stored in a Class to {@link Pool} map. Note that the max size is ignored for some reason.
-     * if this is not the first time this pool has been requested.
-     */
     public static <T> Pool<T> get(Class<T> type, Supp<T> supplier, int max){
         Pool<T> pool = typePools.get(type);
         if(pool == null){
@@ -24,11 +18,6 @@ public class CPools {
         }
         return pool;
     }
-
-    /**
-     * Returns a new or existing pool for the specified type, stored in a Class to {@link Pool} map. The max size of the pool used
-     * is 5000.
-     */
     public static <T> Pool<T> get(Class<T> type, Supp<T> supplier){
         return get(type, supplier, 5000);
     }

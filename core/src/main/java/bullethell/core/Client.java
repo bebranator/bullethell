@@ -2,6 +2,7 @@ package bullethell.core;
 
 import bullethell.assets.Assets;
 import bullethell.content.*;
+import bullethell.graphics.Draw;
 import bullethell.graphics.Fill;
 import bullethell.graphics.g2d.CStage;
 import bullethell.log.Log;
@@ -54,6 +55,7 @@ public final class Client extends AbstractCore {
 
         man.load("sprites/error.png", Texture.class);
         Assets.loaded(() -> {
+            Draw.init();
             Vars.postInit();
             Content.init(
                 new Bullets(),

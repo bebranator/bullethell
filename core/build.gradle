@@ -9,8 +9,8 @@ dependencies {
   api "com.github.tommyettinger:libgdx-texturepacker:$texturePackerOnlyVersion"
   api "com.github.tommyettinger:regexodus:$regExodusVersion"
   api "com.rafaskoberg.gdx:typing-label:$typingLabelVersion"
-  api "games.rednblack.miniaudio:miniaudio:$miniaudioVersion"
-  api "space.earlygrey:shapedrawer:$shapeDrawerVersion"
+//  api "games.rednblack.miniaudio:miniaudio:$miniaudioVersion"
+//  api "space.earlygrey:shapedrawer:$shapeDrawerVersion"
 
   if(enableGraalNative == 'true') {
     implementation "io.github.berstanio:gdx-svmhelper-annotations:$graalHelperVersion"

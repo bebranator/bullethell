@@ -19,12 +19,16 @@ import static bullethell.core.Core.*;
 
 public class Draw {
     public static int textModeCalls = 0;
-    public static TextureRegion white = Assets.findRegion("white"),
-        circle = Assets.findRegion("circle50");
+    public static TextureRegion white, circle;
     private static boolean textMode = false;
     private static Matrix4 idt = new Matrix4();
 
     private static final float[] vertices = new float[6 * 4];
+
+    public static void init() {
+        white = Assets.findRegion("white");
+        circle = Assets.findRegion("circle50");
+    }
 
     public static void batch(Batch nextBatch){
         batch.flush();

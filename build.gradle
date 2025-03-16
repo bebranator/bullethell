@@ -8,9 +8,9 @@ buildscript {
     maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
     maven { url 'https://s01.oss.sonatype.org/content/repositories/snapshots/' }
   }
-  dependencies {
-    classpath "com.badlogicgames.gdx:gdx-tools:$gdxVersion"
-  }
+//  dependencies {
+//    classpath "com.badlogicgames.gdx:gdx-tools:$gdxVersion"
+//  }
 }
 
 allprojects {

@@ -21,7 +21,7 @@ public class Shortcuts {
     public static void infoText(Supp<String> text) {
         CWidgetGroup infoText = new CWidgetGroup();
         CLabel label = new CLabel(text);
-        CImage image = new CImage(Tex.black6);
+        CImage image = new CImage(Tex.error());
         image.setBounds(-200, -50, 400, 100);
         label.setX(0, Align.bottom);
 

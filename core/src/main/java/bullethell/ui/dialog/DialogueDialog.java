@@ -4,6 +4,7 @@ import bullethell.core.Core;
 import bullethell.graphics.Draw;
 import bullethell.graphics.g2d.CTable;
 import bullethell.module.Tex;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
@@ -20,7 +21,8 @@ public class DialogueDialog extends CDialog {
         hidden(this::hidden);
         shouldPause = true;
 
-        dialogueBg = new Image(Tex.white);
+        dialogueBg = new Image(Core.atlas.findRegion("white"));
+        dialogueBg.setColor(Color.BLACK);
         dialogueBg.setBounds(0, 0, 720, 200);
         dialogueBg.setScale(1, .3f);
         add(dialogueBg);

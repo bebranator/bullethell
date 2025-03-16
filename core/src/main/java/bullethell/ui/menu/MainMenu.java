@@ -3,6 +3,7 @@ package bullethell.ui.menu;
 import bullethell.core.Client;
 import bullethell.core.Core;
 import bullethell.core.Vars;
+import bullethell.graphics.Shortcuts;
 import bullethell.graphics.action.LabelFontScale;
 import bullethell.graphics.g2d.CLabel;
 import bullethell.graphics.g2d.CWidgetGroup;
@@ -118,7 +119,8 @@ public class MainMenu extends MenuDialog {
         Core.app.exit();
     }
     void debug_SelectStage() {
-        setMenu(Vars.ui.menuFragment.selectDifficulty);
+//        setMenu(Vars.ui.menuFragment.selectDifficulty);
+        Shortcuts.infoText(() -> "NO");
     }
     void up() {
         if(--index < 0) index = Math.max(options.size - 1, 0);

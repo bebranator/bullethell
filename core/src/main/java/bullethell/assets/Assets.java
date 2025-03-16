@@ -27,7 +27,6 @@ public class Assets {
     public static void init() {
         asset = new AssetManager(new InternalFileHandleResolver(), true);
         asset.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(Core.files::internal));
-        Core.atlas = new TextureAtlas();
     }
 
     public static void postInit() {
@@ -77,6 +76,6 @@ public class Assets {
     }
     public static TextureRegion findRegion(String name) {
         TextureRegion reg;
-        return (reg = Core.atlas.findRegion(name)) == null ? Tex.whiteRegion : reg;
+        return (reg = Core.atlas.findRegion(name)) == null ? Tex.error() : reg;
     }
 }

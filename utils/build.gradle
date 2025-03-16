@@ -1,0 +1,20 @@
+plugins {
+  id 'application'
+  id 'java'
+}
+
+mainClassName = 'bullethell.tools.Entry'
+application.setMainClass(mainClassName)
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+  implementation project(":core")
+  implementation "com.badlogicgames.gdx:gdx-tools:$gdxVersion"
+}
+
+//run {
+//  workingDir = rootProject.file('assets').path
+//}

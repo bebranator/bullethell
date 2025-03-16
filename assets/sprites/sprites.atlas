@@ -1,32 +1,111 @@
+
 sprites.png
-size:1024,128
+size: 1024, 128
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
 blue-small
-bounds:2,2,16,16
+  rotate: false
+  xy: 2, 2
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
 blue-tall
-bounds:824,68,16,16
+  rotate: false
+  xy: 824, 68
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
 circle50
-bounds:772,68,50,50
+  rotate: false
+  xy: 772, 68
+  size: 50, 50
+  orig: 50, 50
+  offset: 0, 0
+  index: -1
 easy
-bounds:624,84,80,34
+  rotate: false
+  xy: 624, 84
+  size: 80, 34
+  orig: 80, 34
+  offset: 0, 0
+  index: -1
 hard
-bounds:518,84,104,34
+  rotate: false
+  xy: 518, 84
+  size: 104, 34
+  orig: 104, 34
+  offset: 0, 0
+  index: -1
 lunatic
-bounds:420,36,88,32
+  rotate: false
+  xy: 420, 36
+  size: 88, 32
+  orig: 88, 32
+  offset: 0, 0
+  index: -1
 normal
-bounds:260,34,158,34
-pixel
-bounds:518,81,1,1
+  rotate: false
+  xy: 260, 34
+  size: 158, 34
+  orig: 158, 34
+  offset: 0, 0
+  index: -1
 poweritem
-bounds:706,54,64,64
+  rotate: false
+  xy: 706, 54
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
 poweritem-small
-bounds:824,86,32,32
+  rotate: false
+  xy: 824, 86
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
 red-big-transparent
-bounds:858,93,25,25
+  rotate: false
+  xy: 858, 93
+  size: 25, 25
+  orig: 25, 25
+  offset: 0, 0
+  index: -1
 seija-idle
-bounds:2,70,256,48
+  rotate: false
+  xy: 2, 70
+  size: 256, 48
+  orig: 256, 48
+  offset: 0, 0
+  index: -1
 seija-left
-bounds:2,20,256,48
+  rotate: false
+  xy: 2, 20
+  size: 256, 48
+  orig: 256, 48
+  offset: 0, 0
+  index: -1
 seija-right
-bounds:260,70,256,48
+  rotate: false
+  xy: 260, 70
+  size: 256, 48
+  orig: 256, 48
+  offset: 0, 0
+  index: -1
+white
+  rotate: false
+  xy: 518, 81
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
 yellow-small
-bounds:260,24,8,8
+  rotate: false
+  xy: 260, 24
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: -1

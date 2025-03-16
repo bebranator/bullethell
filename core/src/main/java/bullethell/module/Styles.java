@@ -1,8 +1,14 @@
 package bullethell.module;
 
+import bullethell.assets.Assets;
+import bullethell.core.Core;
+import bullethell.log.Log;
+import bullethell.utils.C;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
+import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 public class Styles {
     public static Label.LabelStyle kellyLabel24, kellyLabel24Outline, kellyLabel12, kellyLabel16;
@@ -31,9 +37,8 @@ public class Styles {
         defWindow = new Window.WindowStyle() {{
             titleFont = Fonts.kelly24;
             titleFontColor = Color.WHITE;
-            background = Tex.black6;
+            background = new TextureRegionDrawable(Assets.findRegion("white")).tint(C.black6);
         }};
-
 
         defLabel = kellyLabel24;
     }

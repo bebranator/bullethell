@@ -126,7 +126,7 @@ public class Renderer implements IModule {
         Draw.shader(blackHole);
         blackHole.setUniformf("R", 40);
         blackHole.setUniformf("u_bg_trans", bg_translation);
-        Draw.drawc(Tex.tblack);
+        Draw.drawc(backgroundRed);
         Draw.shader();
     }
     Pool<Bullet> bulletPool = CPools.get(Bullet.class, Bullet::new);

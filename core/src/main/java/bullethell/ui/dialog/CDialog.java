@@ -1,5 +1,6 @@
 package bullethell.ui.dialog;
 
+import bullethell.assets.Assets;
 import bullethell.core.Core;
 import bullethell.func.Cons;
 import bullethell.game.State;
@@ -67,7 +68,7 @@ public class CDialog extends Dialog {
 
         Table title = getTitleTable();
         title.row();
-        Image img = new Image(Core.atlas.findRegion("pixel"));
+        Image img = new Image(Assets.findRegion("white"));
         img.setColor(Color.LIGHT_GRAY);
         title.add(img).growX().height(3f).pad(4f);
 
