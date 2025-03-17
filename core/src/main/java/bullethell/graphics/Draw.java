@@ -108,10 +108,6 @@ public class Draw {
     public static void drawc(Texture region, float x, float y, float w, float h, boolean flipX, boolean flipY) {
         batch.draw(region, x - w / 2, y - h / 2, w, h, 0, 0, (int)w, (int)h, flipX, flipY);
     }
-    /*
-    draw (TextureRegion region, float x, float y, float originX, float originY, float width,
-        float height, float scaleX, float scaleY, float rotation)
-     */
     public static void drawc(TextureRegion region, float x, float y, float w, float h, float rotationRadian) {
         batch.draw(region, x - w * .5f, y - h * .5f, 0, 0, w, h, 1, 1, rotationRadian);
     }
@@ -119,15 +115,8 @@ public class Draw {
     public static void drawc(float x, float y, float w, float h, float rotationRadian) {
         batch.draw(white, x - w * .5f, y - h * .5f, 0, 0, w, h, 1, 1, rotationRadian);
     }
-
-    // todo: fix circle draw
-    /*
-    public void draw (TextureRegion region, float x, float y, float originX, float originY, float width, float height,
-		float scaleX, float scaleY, float rotation)
-     */
     public static void draw(TextureRegion t, float x, float y, float originX, float originY, float width, float height,
         float scaleX, float scaleY, float rotation) {
-//        batch.draw();
         batch.draw(t, x, y, originX, originY, width, height, scaleX, scaleY, rotation);
     }
 
@@ -145,7 +134,6 @@ public class Draw {
         batch.draw(white, x, y, width, height);
     }
 
-    // trying solution
     public static void textMode() {
         if(textMode) throw new IllegalStateException("Already running text modo!");
         textMode = true;
@@ -166,34 +154,21 @@ public class Draw {
 
     public static void text(BitmapFont font, String text, float x, float y) {
         font.draw(batch, text, x, y, 0f, Align.center, false);
-//        font.draw()
     }
     public static void text(BitmapFont font, String text, float x, float y, float targetWidth, int align) {
         font.draw(batch, text, x, y, targetWidth, align, false);
     }
 
-    static final Rectangle scissors = new Rectangle(), bounds = new Rectangle();
-
-
-    public static void pushScissors(float x, float y, float w, float h) {
-        float rat = (float) graphics.getWidth() / graphics.getHeight();
-//        ScissorStack.calculateScissors(camera, batch.getProjectionMatrix(), bounds.set(x, y, w, h), scissors);
-//        if(!ScissorStack.pushScissors(scissors)) app.exit();
-        gl20.glScissor((int) (x * rat), (int) (y * rat), (int) (w * rat), (int) (h * rat));
-        gl20.glEnable(GL20.GL_SCISSOR_TEST);
-    }
-
-    public static void popScissors() {
-//        ScissorStack.popScissors();
-        gl20.glDisable(GL20.GL_SCISSOR_TEST);
-    }
-
-    public static void quad(TextureRegion region, float x1, float y1, float c1, float x2, float y2, float c2, float x3, float y3, float c3, float x4, float y4, float c4){
+    public static void quad(TextureRegion region,
+                            float x1, float y1, float c1,
+                            float x2, float y2, float c2,
+                            float x3, float y3, float c3,
+                            float x4, float y4, float c4) {
         float mcolor = Core.batch.getPackedColor();
         float u = region.getU();
-        float v = region.getV2();
+        float v = region.getV();
         float u2 = region.getU2();
-        float v2 = region.getV();
+        float v2 = region.getV2();
         vertices[0] = x1;
         vertices[1] = y1;
         vertices[2] = c1;

@@ -1,6 +1,27 @@
-right now focus on:
+# TODO LIST
+idk game
 
-spell card system
-boss (only 1 and its okuu)
+### 
+- [ ] Rework Draw/Fill utilities
+- [ ] Enemies
+  - [ ] Enemy logic
+  - [ ] Something like path system
+- [ ] Bosses
+  - [ ] Boss UI
+  - [ ] Boss logic
+- [ ] Spells
+  - [ ] Spell UI
+  - [ ] Player's spells
+- [ ] Textures
+  - [ ] Character portraits
+  - [ ] Character textures
+  - [ ] Backgrounds
+  - [ ] Spell backgrounds
+  - [ ] Enemy textures
+  - [ ] UI elements
+  - [ ] get more fonts
+- [ ] Effects
+  - [ ] Implement effect entity
 
-some render stuff
+### COMPLETED
+- [ ] enemy logic (partially)

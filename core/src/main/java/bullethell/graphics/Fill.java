@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import static bullethell.core.Core.gl20;
 
+// used for drawing shapes
 public class Fill {
     public static ShapeRenderer shapes;
     public static Color tmp = new Color();
