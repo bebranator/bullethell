@@ -64,7 +64,6 @@ public final class Client extends AbstractCore {
             Draw.init();
             Vars.postInit();
             locale = man.get("lang/messages", I18NBundle.class);
-            Log.info(locale.get("character.bazarov.description"));
             Content.init(
                 new Bullets(),
                 new PlayerTypes()
