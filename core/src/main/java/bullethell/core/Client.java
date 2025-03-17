@@ -10,6 +10,7 @@ import bullethell.module.*;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.I18NBundleLoader;
 import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -17,7 +18,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.profiling.GLErrorListener;
 import com.badlogic.gdx.graphics.profiling.GLProfiler;
+import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+
+import java.util.Locale;
 
 import static bullethell.core.Core.*;
 
@@ -55,9 +59,12 @@ public final class Client extends AbstractCore {
         AssetManager man = Assets.asset;
 
         man.load("sprites/error.png", Texture.class);
+        man.load("lang/messages", I18NBundle.class);
         Assets.loaded(() -> {
             Draw.init();
             Vars.postInit();
+            locale = man.get("lang/messages", I18NBundle.class);
+            Log.info(locale.get("character.bazarov.description"));
             Content.init(
                 new Bullets(),
                 new PlayerTypes()

@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class Core {
@@ -17,6 +18,8 @@ public class Core {
     public static GL20 gl20;
     public static Audio audio;
     public static Viewport viewport;
+
+    public static I18NBundle locale;
     // cirno input
     public static CInput cinput;
     public static Application app;
